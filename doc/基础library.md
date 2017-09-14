@@ -17,14 +17,26 @@
 
 - BaseFragment
 - BaseMVPFragment 
-	- 泛型:BasePresenter
+	- 泛型:P extends BasePresenter
 	- 继承:BaseFragment
 	- 实现:BaseView
 
-## 2.presenter
+## 3.presenter
 
 - BasePresenter (接口)
 	- 泛型:V extends View
 - BaseView 
 	- void showErrorMsg(String msg);
 	- void showErrorView(String msg);
+
+-----------
+
+MVP简单使用如下:
+
+CenterFragmentContract里面有presenter和view的接口
+
+public class CenterFragment extends BaseMvpFragment<CenterFragmentContract.Presenter>
+        implements CenterFragmentContract.View
+
+--------------
+## 4.widget
