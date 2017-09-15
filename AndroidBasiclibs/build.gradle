@@ -1,15 +1,17 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "26.0.1"
+
     defaultConfig {
-        applicationId "com.xfhy.daily"
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -26,5 +28,10 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     testCompile 'junit:junit:4.12'
-    compile project(':AndroidBasiclibs')
+
+    compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
+
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
+    // If you want pre-written Activities and Fragments you can subclass as providers
+    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
 }
