@@ -6,7 +6,20 @@ package com.xfhy.androidbasiclibs.basekit.view;
  * description：View公共接口
  */
 public interface BaseView {
-    void showErrorMsg(String msg);
 
-    void showErrorView(String msg);
+    /**
+     * 显示正在加载的布局
+     */
+    void onLoading();
+
+    /**
+     * 关闭正在加载
+     */
+    void closeLoading();
+
+    /**
+     * 显示错误信息
+     * @param msg 错误信息
+     */
+    void showErrorMsg(String msg);
 }
