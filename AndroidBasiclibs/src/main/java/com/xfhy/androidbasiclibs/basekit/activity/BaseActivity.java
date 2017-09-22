@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.xfhy.androidbasiclibs.common.AppManager;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -22,10 +23,11 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(getContentViewResId());
+
         mContext = this;
         mUnbinder = ButterKnife.bind(this);
+        AppManager.getInstance().addActivity(this);
 
         initView();
         initIntentData();
@@ -66,6 +68,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        AppManager.getInstance().finishActivity(this);
     }
 
 }
