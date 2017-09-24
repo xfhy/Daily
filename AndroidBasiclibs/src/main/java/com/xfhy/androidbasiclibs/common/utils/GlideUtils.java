@@ -17,7 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 public class GlideUtils {
 
-    /**
+    /*
      * Glide特点
      * 使用简单
      * 可配置度高，自适应程度高
