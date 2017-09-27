@@ -12,7 +12,9 @@ import java.util.List;
 public class LatestDailyListBean {
 
 
-    /**
+    /*
+     *
+     * 下面是json数据
      * date : 20170926
      * stories : [{"images":["https://pic1.zhimg.com/v2-6e35c40eae40c3b6ae0c3d0570961388.jpg"],
      * "type":0,"id":9632928,"ga_prefix":"092621","title":"在中东，电影起到了它应该起到的作用"},
@@ -64,9 +66,19 @@ public class LatestDailyListBean {
      * "id":9630951,"ga_prefix":"092614","title":"「不主动追求你，也不明确拒绝你」，这就是现代人的爱情"}]
      */
 
+    /**
+     * 日期   eg:20170927
+     */
     private String date;
+    /**
+     * 当日日报
+     */
     private List<StoriesBean> stories;
 
+    /**
+     * 界面顶部 ViewPager 滚动显示的显示内容（子项格式同上）
+     * （请注意区分此处的 `image` 属性与 `stories` 中的 `images` 属性）
+     */
     @JSONField(name = "top_stories")
     private List<TopStoriesBean> topStories;
 
@@ -95,7 +107,7 @@ public class LatestDailyListBean {
     }
 
     public static class StoriesBean {
-        /**
+        /*
          * images : ["https://pic1.zhimg.com/v2-6e35c40eae40c3b6ae0c3d0570961388.jpg"]
          * type : 0
          * id : 9632928
@@ -103,11 +115,28 @@ public class LatestDailyListBean {
          * title : 在中东，电影起到了它应该起到的作用
          */
 
+        /**
+         * 作用未知
+         */
         private int type;
+        /**
+         * `url` 与 `share_url` 中最后的数字（应为内容的 id）
+         */
         private int id;
+        /**
+         * 供 Google Analytics 使用
+         */
         @JSONField(name = "ga_prefix")
         private String gaPrefix;
+        /**
+         * 新闻标题
+         */
         private String title;
+        /**
+         * 图像地址（官方 API 使用数组形式。
+         * 目前暂未有使用多张图片的情形出现，
+         * 曾见无 `images` 属性的情况，请在使用中注意 ）
+         */
         private List<String> images;
 
         public int getType() {
@@ -142,6 +171,11 @@ public class LatestDailyListBean {
             this.title = title;
         }
 
+        /**
+         * 曾见无 `images` 属性的情况，请在使用中注意
+         *
+         * @return 图片地址集合
+         */
         public List<String> getImages() {
             return images;
         }
@@ -149,10 +183,21 @@ public class LatestDailyListBean {
         public void setImages(List<String> images) {
             this.images = images;
         }
+
+        @Override
+        public String toString() {
+            return "StoriesBean{" +
+                    "type=" + type +
+                    ", id=" + id +
+                    ", gaPrefix='" + gaPrefix + '\'' +
+                    ", title='" + title + '\'' +
+                    ", images=" + images +
+                    '}';
+        }
     }
 
     public static class TopStoriesBean {
-        /**
+        /*
          * image : https://pic3.zhimg.com/v2-e885c8acf8ca274cda11dd8ce7760d26.jpg
          * type : 0
          * id : 9632942
@@ -160,11 +205,23 @@ public class LatestDailyListBean {
          * title : 「黄河变清了要发生大洪水」，这个标题党过分了
          */
 
+        /**
+         * 图片地址
+         */
         private String image;
         private int type;
+        /**
+         * `url` 与 `share_url` 中最后的数字（应为内容的 id）
+         */
         private int id;
+        /**
+         * 供 Google Analytics 使用
+         */
         @JSONField(name = "ga_prefix")
         private String gaPrefix;
+        /**
+         * 标题
+         */
         private String title;
 
         public String getImage() {
@@ -206,5 +263,25 @@ public class LatestDailyListBean {
         public void setTitle(String title) {
             this.title = title;
         }
+
+        @Override
+        public String toString() {
+            return "TopStoriesBean{" +
+                    "image='" + image + '\'' +
+                    ", type=" + type +
+                    ", id=" + id +
+                    ", gaPrefix='" + gaPrefix + '\'' +
+                    ", title='" + title + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "LatestDailyListBean{" +
+                "date='" + date + '\'' +
+                ", stories=" + stories +
+                ", topStories=" + topStories +
+                '}';
     }
 }
