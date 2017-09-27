@@ -42,8 +42,9 @@ public class RetrofitHelper {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(OkHttpUtils.getOkHttpClient())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(FastJsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())  //适配器,
+                // 用于将Call对象转为RxJava的观察者
+                .addConverterFactory(FastJsonConverterFactory.create())  //转换器,  用于将
                 .build();
 
         //获取对应的Call对象  创建由服务接口定义的API端点的实现。  有了实现就可以进行网络访问了

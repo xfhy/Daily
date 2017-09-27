@@ -213,7 +213,7 @@
 
 
 ### 6. 新闻额外信息
-* URL: `https://news-at.zhihu.com/api/4/story-extra/#{id}`  
+* URL: `https://news-at.zhihu.com/api/4/story-extra/{id}`  
 * 输入新闻的ID，获取对应新闻的额外信息，如评论数量，所获的『赞』的数量。
 * 响应实例：
 

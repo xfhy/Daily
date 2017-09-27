@@ -17,7 +17,7 @@ public class ToastUtil {
      * @param message 提示的文字
      */
     public static void showMessage(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -24,7 +24,7 @@ public class DevicesUtils {
     public static boolean isNetworkConnected(Context context) {
         if (context != null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+                    .getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
             if (activeNetworkInfo != null) {
                 return activeNetworkInfo.isAvailable();
@@ -44,7 +44,8 @@ public class DevicesUtils {
     public static DisplayMetrics getDevicesSize(Context context) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         if (context != null) {
-            WindowManager windowManager = (WindowManager) context.getSystemService(Context
+            WindowManager windowManager = (WindowManager) context.getApplicationContext()
+                    .getSystemService(Context
                     .WINDOW_SERVICE);
             Display defaultDisplay = windowManager.getDefaultDisplay();
             defaultDisplay.getMetrics(displayMetrics);
