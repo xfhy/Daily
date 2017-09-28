@@ -1,4 +1,4 @@
-package com.xfhy.androidbasiclibs.common.utils;
+package com.xfhy.androidbasiclibs.common.util;
 
 import com.orhanobut.logger.Logger;
 

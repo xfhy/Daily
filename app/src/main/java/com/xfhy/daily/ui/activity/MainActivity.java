@@ -1,11 +1,11 @@
-package com.xfhy.daily;
+package com.xfhy.daily.ui.activity;
 
 import com.xfhy.androidbasiclibs.basekit.activity.BaseActivity;
-import com.xfhy.androidbasiclibs.common.utils.DevicesUtils;
-import com.xfhy.androidbasiclibs.common.utils.LogUtils;
-import com.xfhy.androidbasiclibs.common.utils.ToastUtil;
+import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
+import com.xfhy.androidbasiclibs.common.util.LogUtils;
+import com.xfhy.androidbasiclibs.common.util.ToastUtil;
+import com.xfhy.daily.R;
 import com.xfhy.daily.network.RetrofitHelper;
-import com.xfhy.daily.network.entity.zhihu.ColumnDailyDetailsBean;
 import com.xfhy.daily.network.entity.zhihu.HotDailyBean;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

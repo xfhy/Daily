@@ -2,7 +2,7 @@ package com.xfhy.daily.network;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xfhy.androidbasiclibs.common.converter.FastJsonConverterFactory;
-import com.xfhy.androidbasiclibs.common.utils.OkHttpUtils;
+import com.xfhy.androidbasiclibs.common.util.OkHttpUtils;
 import com.xfhy.daily.network.api.ZhiHuService;
 
 import retrofit2.Retrofit;
@@ -26,6 +26,9 @@ public class RetrofitHelper {
         return helper;
     }
 
+    /**
+     * 获取知乎的Service实例
+     */
     public ZhiHuService getZhiHuApi() {
         return createApi(ZhiHuService.class, ApiConstants.ZHIHU_BASE_URL);
     }

@@ -1,4 +1,4 @@
-package com.xfhy.androidbasiclibs.common.utils;
+package com.xfhy.androidbasiclibs.common.util;
 
 import android.content.Context;
 import android.widget.Toast;
