@@ -5,10 +5,8 @@ import com.xfhy.androidbasiclibs.common.utils.DevicesUtils;
 import com.xfhy.androidbasiclibs.common.utils.LogUtils;
 import com.xfhy.androidbasiclibs.common.utils.ToastUtil;
 import com.xfhy.daily.network.RetrofitHelper;
-import com.xfhy.daily.network.entity.zhihu.DailyContentBean;
-import com.xfhy.daily.network.entity.zhihu.DailyExtraInfoBean;
-import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
-import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
+import com.xfhy.daily.network.entity.zhihu.ColumnDailyDetailsBean;
+import com.xfhy.daily.network.entity.zhihu.HotDailyBean;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -39,13 +37,13 @@ public class MainActivity extends BaseActivity {
     protected void initData() {
         RetrofitHelper retrofitHelper = RetrofitHelper.getInstance();
         if (DevicesUtils.isNetworkConnected(this)) {
-            retrofitHelper.getZhiHuApi().getPastNews("20170901").compose(this
-                    .<PastNewsBean>bindToLifecycle())
+            retrofitHelper.getZhiHuApi().getHotDailyList()
+                    .compose(this.<HotDailyBean>bindToLifecycle())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<PastNewsBean>() {
+                    .subscribe(new Consumer<HotDailyBean>() {
                         @Override
-                        public void accept(PastNewsBean s) throws Exception {
+                        public void accept(HotDailyBean s) throws Exception {
                             LogUtils.e(s.toString());
                         }
                     }, new Consumer<Throwable>() {

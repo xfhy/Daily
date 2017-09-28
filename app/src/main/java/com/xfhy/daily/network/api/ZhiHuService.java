@@ -1,9 +1,15 @@
 package com.xfhy.daily.network.api;
 
+import com.xfhy.daily.network.entity.zhihu.ColumnDailyBean;
+import com.xfhy.daily.network.entity.zhihu.ColumnDailyDetailsBean;
+import com.xfhy.daily.network.entity.zhihu.DailyCommentBean;
 import com.xfhy.daily.network.entity.zhihu.DailyContentBean;
 import com.xfhy.daily.network.entity.zhihu.DailyExtraInfoBean;
+import com.xfhy.daily.network.entity.zhihu.HotDailyBean;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
 import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
+import com.xfhy.daily.network.entity.zhihu.ThemeDailyDetailsBean;
+import com.xfhy.daily.network.entity.zhihu.TopicDailyListBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
@@ -67,16 +73,70 @@ public interface ZhiHuService {
 
     //日报的长评论  https://news-at.zhihu.com/api/4/story/8997528/long-comments
 
+    /**
+     * 获取日报长评论
+     *
+     * @param id 日报id
+     * @return 返回日报长评论
+     */
+    @GET("story/{id}/long-comments")
+    Flowable<DailyCommentBean> getDailyLongComments(@Path("id") String id);
+
     //日报的短评论   https://news-at.zhihu.com/api/4/story/4232852/short-comments
+
+    /**
+     * 获取日报短评论
+     *
+     * @param id 日报id
+     * @return 返回日报短评论
+     */
+    @GET("story/{id}/short-comments")
+    Flowable<DailyCommentBean> getDailyShortComments(@Path("id") String id);;
 
     //主题日报列表查看   https://news-at.zhihu.com/api/4/themes
 
-    //主题日报详情   https://news-at.zhihu.com/api/4/theme/11
+    /**
+     * 获取主题日报列表
+     */
+    @GET("themes")
+    Flowable<TopicDailyListBean> getTopicDailyList();
+
+    //主题日报详情   https://news-at.zhihu.com/api/4/theme/11]
+
+    /**
+     * 获取主题日报详情
+     *
+     * @param number 主题日报编号
+     * @return 返回主题日报详情
+     */
+    @GET("theme/{number}")
+    Flowable<ThemeDailyDetailsBean> getThemeDailyDetails(@Path("number") String number);
 
     //专栏日报   https://news-at.zhihu.com/api/4/sections
 
-    //专栏日报详情  https://news-at.zhihu.com/api/4/section/{id}
+    /**
+     * 获取专栏日报列表
+     */
+    @GET("sections")
+    Flowable<ColumnDailyBean> getColumnDailyList();
+
+    //专栏日报详情  也是一个列表  https://news-at.zhihu.com/api/4/section/1
+
+    /**
+     * 获取专栏日报详情列表
+     *
+     * @param id 专栏编号
+     * @return 获取专栏日报详情列表
+     */
+    @GET("section/{id}")
+    Flowable<ColumnDailyDetailsBean> getColumnDailyDetailsList(@Path("id") String id);
 
     //热门日报 https://news-at.zhihu.com/api/4/news/hot
+
+    /**
+     * 获取热门日报文章列表
+     */
+    @GET("news/hot")
+    Flowable<HotDailyBean> getHotDailyList();
 
 }
