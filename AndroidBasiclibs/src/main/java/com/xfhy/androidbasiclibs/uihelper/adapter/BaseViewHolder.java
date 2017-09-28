@@ -23,8 +23,10 @@ import android.widget.TextView;
  */
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
-    SparseArray<View> mItemViews;
-    View mView;
+    //子布局中的控件
+    private SparseArray<View> mItemViews;
+    //子布局
+    private View mView;
 
     //初始化ViewHolder
     public BaseViewHolder(View itemView) {
