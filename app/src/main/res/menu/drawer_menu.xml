@@ -1,22 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--侧滑菜单-->
     <item android:title="@string/drawer_menu_read">
         <menu>
-            <item android:title="@string/drawer_menu_zhihu"/>
-            <item android:title="@string/drawer_menu_wechat"/>
-            <item android:title="@string/drawer_menu_joke"/>
-            <item android:title="@string/drawer_menu_gank"/>
-            <item android:title="@string/drawer_menu_girl"/>
+            <item
+                android:id="@+id/nav_menu_zhihu"
+                android:checkable="true"
+                android:checked="true"
+                android:icon="@drawable/drawer_zhihu"
+                android:title="@string/drawer_menu_zhihu"/>
+            <item
+                android:id="@+id/nav_menu_wechat"
+                android:checkable="true"
+                android:icon="@drawable/drawer_wechat"
+                android:title="@string/drawer_menu_wechat"/>
+            <item
+                android:id="@+id/nav_menu_joke"
+                android:checkable="true"
+                android:icon="@drawable/drawer_joke"
+                android:title="@string/drawer_menu_joke"/>
+            <item
+                android:id="@+id/nav_menu_gank"
+                android:checkable="true"
+                android:icon="@drawable/drawer_gank"
+                android:title="@string/drawer_menu_gank"/>
+            <item
+                android:id="@+id/nav_menu_girl"
+                android:checkable="true"
+                android:icon="@drawable/drawer_girl"
+                android:title="@string/drawer_menu_girl"/>
         </menu>
     </item>
 
     <item android:title="@string/drawer_menu_options">
         <menu>
-            <item android:title="@string/drawer_menu_collection"/>
-            <item android:title="@string/drawer_menu_setting"/>
-            <item android:title="@string/drawer_menu_about"/>
+            <item
+                android:id="@+id/nav_menu_like"
+                android:checkable="true"
+                android:icon="@drawable/drawer_like"
+                android:title="@string/drawer_menu_like"/>
+            <item
+                android:id="@+id/nav_menu_setting"
+                android:checkable="true"
+                android:icon="@drawable/drawer_setting"
+                android:title="@string/drawer_menu_setting"/>
+            <item
+                android:id="@+id/nav_menu_about"
+                android:checkable="true"
+                android:icon="@drawable/drawer_about"
+                android:title="@string/drawer_menu_about"/>
         </menu>
     </item>
+
 
 </menu>
