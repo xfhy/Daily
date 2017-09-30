@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/drawer_menu_read">
+        <menu>
+            <item android:title="@string/drawer_menu_zhihu"/>
+            <item android:title="@string/drawer_menu_wechat"/>
+            <item android:title="@string/drawer_menu_joke"/>
+            <item android:title="@string/drawer_menu_gank"/>
+            <item android:title="@string/drawer_menu_girl"/>
+        </menu>
+    </item>
+
+    <item android:title="@string/drawer_menu_options">
+        <menu>
+            <item android:title="@string/drawer_menu_collection"/>
+            <item android:title="@string/drawer_menu_setting"/>
+            <item android:title="@string/drawer_menu_about"/>
+        </menu>
+    </item>
+
+</menu>

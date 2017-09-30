@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Daily</string>
+
+    <!--首页 左侧菜单-->
+    <string name="drawer_menu_read">阅读</string>
+    <string name="drawer_menu_zhihu">知乎日报</string>
+    <string name="drawer_menu_wechat">微信精选</string>
+    <string name="drawer_menu_joke">笑话</string>
+    <string name="drawer_menu_girl">美女</string>
+    <string name="drawer_menu_gank">干货集中营</string>
+    <string name="drawer_menu_options">选项</string>
+    <string name="drawer_menu_collection">收藏</string>
+    <string name="drawer_menu_setting">设置</string>
+    <string name="drawer_menu_about">关于</string>
+
+
 </resources>
