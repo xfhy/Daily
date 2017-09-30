@@ -3,6 +3,8 @@ package com.xfhy.daily.ui.activity;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import com.xfhy.androidbasiclibs.basekit.activity.BaseActivity;
 import com.xfhy.androidbasiclibs.common.util.ToastUtil;
 import com.xfhy.daily.R;
+import com.xfhy.daily.ui.fragment.zhihu.ZhihuFragment;
 
 import butterknife.BindView;
 
@@ -24,10 +27,19 @@ import butterknife.BindView;
 public class MainActivity extends BaseActivity implements NavigationView
         .OnNavigationItemSelectedListener {
 
+    /**
+     * Toolbar  标题栏
+     */
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    /**
+     * DrawerLayout  抽屉布局
+     */
     @BindView(R.id.drawer_main)
     DrawerLayout mDrawerLayout;
+    /**
+     * NavigationView 侧滑菜单的布局
+     */
     @BindView(R.id.nv_main)
     NavigationView mNavigationView;
 
@@ -41,6 +53,20 @@ public class MainActivity extends BaseActivity implements NavigationView
                 .navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+        //默认将知乎显示出来
+        showZhihu();
+    }
+
+    /**
+     * 测试---------------------------------------------------------
+     * 默认将知乎显示出来
+     */
+    private void showZhihu() {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fl_main_content, ZhihuFragment.newInstance());
+        fragmentTransaction.commit();
     }
 
     @Override

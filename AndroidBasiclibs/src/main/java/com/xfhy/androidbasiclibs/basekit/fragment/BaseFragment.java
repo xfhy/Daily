@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.trello.rxlifecycle2.components.support.RxFragment;
+import com.xfhy.androidbasiclibs.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

@@ -5,33 +5,30 @@ import com.xfhy.androidbasiclibs.basekit.view.BaseView;
 /**
  * author feiyang
  * create at 2017/9/15 13:44
- * description：
+ * description：MVP Presenter的父接口
  */
-public abstract class BasePresenter<V extends BaseView> {
-
-    protected V mView;
+public interface BasePresenter<V extends BaseView> {
 
     /**
      * 初始化View
+     *
      * @param view 该presenter的View
      */
-    public void setView(V view){
-        this.mView = view;
-    }
+    void setView(V view);
 
     /**
      * 模拟界面的生命周期 onCreate()
      */
-    public abstract void onCreate();
+    void onCreate();
 
     /**
      * 模拟界面的生命周期 onResume()
      */
-    public abstract void onResume();
+    void onResume();
 
     /**
      * 模拟界面的生命周期 onDestroy()
      */
-    public abstract void onDestroy();
+    void onDestroy();
 
 }

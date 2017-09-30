@@ -11,12 +11,19 @@
 
     <!--主界面布局-->
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <!--标题栏-->
         <include layout="@layout/layout_toolbar"/>
-    </FrameLayout>
+
+        <!--中间的-->
+        <FrameLayout
+            android:id="@+id/fl_main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
     <!--
 	        android:layout_gravity="start"  这个属性是必须指定的,意思是让系统指定滑动菜单在左边还是右边.这里为start是指让系统根据当前语言环境自动选择.

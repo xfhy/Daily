@@ -9,4 +9,9 @@
         <item name="actionMenuTextColor">@color/colorWhite</item>
     </style>
 
+    <!--TabLayout标题大小-->
+    <style name="TabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">@dimen/font_size_18</item>
+    </style>
+
 </resources>

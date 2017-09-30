@@ -5,7 +5,7 @@ package com.xfhy.androidbasiclibs.basekit.view;
  * create at 2017/9/15 13:44
  * description：View公共接口
  */
-public interface BaseView {
+public interface BaseView<T> {
 
     /**
      * 显示正在加载的布局

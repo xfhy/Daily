@@ -9,7 +9,7 @@ import com.xfhy.androidbasiclibs.basekit.view.BaseView;
 /**
  * author feiyang
  * create at 2017/9/15 13:44
- * description：
+ * description：MVP Activity的父类
  */
 public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActivity implements
         BaseView {

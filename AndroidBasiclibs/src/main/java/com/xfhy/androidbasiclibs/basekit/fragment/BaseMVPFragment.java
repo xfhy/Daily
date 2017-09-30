@@ -10,7 +10,7 @@ import com.xfhy.androidbasiclibs.basekit.view.BaseView;
 /**
  * author feiyang
  * create at 2017/9/15 13:44
- * description：
+ * description：MVP fragment的父类
  */
 public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragment implements
         BaseView {
