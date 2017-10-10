@@ -4,7 +4,11 @@ import android.app.Application;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.xfhy.androidbasiclibs.common.db.DaoMaster;
+import com.xfhy.androidbasiclibs.common.db.DaoSession;
 import com.xfhy.androidbasiclibs.common.util.OkHttpUtils;
+
+import org.greenrobot.greendao.database.Database;
 
 /**
  * author feiyang
@@ -13,11 +17,17 @@ import com.xfhy.androidbasiclibs.common.util.OkHttpUtils;
  */
 public class NewsApplication extends Application {
 
+    /**
+     * 获取Dao对象管理者  Dao对象中存在着增删改查等API
+     */
+    private static DaoSession daoSession;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         initLibrary();
+        initDatabase();
     }
 
     /**
@@ -30,4 +40,21 @@ public class NewsApplication extends Application {
         OkHttpUtils.initOkHttp(getApplicationContext());
     }
 
+    private void initDatabase() {
+        //创建数据库news.db
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "news.db", null);
+        //获取可写数据库
+        Database db = helper.getWritableDb();
+        //获取Dao对象管理者
+        daoSession = new DaoMaster(db).newSession();
+    }
+
+    /**
+     * 获取Dao对象管理者
+     *
+     * @return DaoSession
+     */
+    public static DaoSession getDaoSession() {
+        return daoSession;
+    }
 }

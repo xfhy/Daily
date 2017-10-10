@@ -27,7 +27,7 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
 
     @Override
     public void initPresenter() {
-        mPresenter = new ZhihuDailyLatestPresenter();
+        mPresenter = new ZhihuDailyLatestPresenter(mActivity);
     }
 
     @Override
