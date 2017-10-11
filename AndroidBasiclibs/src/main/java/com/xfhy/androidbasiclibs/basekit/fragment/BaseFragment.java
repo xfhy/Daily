@@ -1,5 +1,6 @@
 package com.xfhy.androidbasiclibs.basekit.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -39,6 +40,12 @@ public abstract class BaseFragment extends RxFragment {
      */
     protected boolean isLoad = false;
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = (FragmentActivity) activity;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
@@ -46,7 +53,6 @@ public abstract class BaseFragment extends RxFragment {
         //需要返回页面布局   所有子类需要返回view
         mRootView = inflater.inflate(getLayoutResId(), container, false);
         mUnbinder = ButterKnife.bind(this, mRootView);
-        mActivity = getActivity();
 
         isInit = true;  //视图已加载
         isCanLoadData(); //初始化的时候去加载数据

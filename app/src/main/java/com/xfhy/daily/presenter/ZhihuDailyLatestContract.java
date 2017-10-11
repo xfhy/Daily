@@ -1,8 +1,12 @@
 package com.xfhy.daily.presenter;
 
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+
 import com.xfhy.androidbasiclibs.basekit.presenter.BasePresenter;
 import com.xfhy.androidbasiclibs.basekit.view.BaseView;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
+import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
 
 /**
  * author feiyang
@@ -26,15 +30,14 @@ public interface ZhihuDailyLatestContract {
 
         /**
          * 保存日报数据到数据库中
-         *
-         * @return 保存是否成功  true:成功   false:失败
          */
-        boolean saveDailyDataToDB();
+        void saveDailyDataToDB(@NonNull LatestDailyListBean latestDailyListBean);
 
         /**
-         * 刷新数据(从网络)
+         * 加载更多数据
+         * @param pastDays 这里传入RecyclerView的分组个数,代表离今天过去了多少天  至少过去了1天
          */
-        void refreshDataFromNet();
+        void loadMoreData(@IntRange(from = 1) int pastDays);
     }
 
     /**
@@ -42,17 +45,20 @@ public interface ZhihuDailyLatestContract {
      */
     interface View extends BaseView {
         /**
-         * 刷新成功  传入最新的数据  显示
+         * 获取最新的数据成功  传入最新的数据  显示
          *
          * @param latestDailyListBean 最新的数据
          */
-        void refreshSuccess(LatestDailyListBean latestDailyListBean);
+        void showLatestData(LatestDailyListBean latestDailyListBean);
 
         /**
-         * 刷新失败
+         * 显示加载成功的往期数据(当用户上拉列表时,如果把今天的日报刷完了,那么再往下拉时需要加载昨天的数据,
+         * 依次类推,不断加载前一天的数据,然后加到RecyclerView中)
          *
-         * @param error 刷新失败原因
+         * @param groupTitle   组头标题(每一天的日报是一个RecyclerView分组)
+         * @param pastNewsBean 需要加到RecyclerView末尾的数据
          */
-        void refreshError(String error);
+        void showMoreData(String groupTitle, PastNewsBean pastNewsBean);
+
     }
 }

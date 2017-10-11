@@ -27,15 +27,24 @@ public class CacheBean {
      */
     private String json;
 
-    @Generated(hash = 651543594)
+    @Generated(hash = 1089100153)
     public CacheBean(Long id, String key, String json) {
         this.id = id;
         this.key = key;
         this.json = json;
     }
 
-    @Generated(hash = 1391258017)
+    @Generated(hash = 573552170)
     public CacheBean() {
+    }
+
+    @Override
+    public String toString() {
+        return "CacheBean{" +
+                "id=" + id +
+                ", key='" + key + '\'' +
+                ", json='" + json + '\'' +
+                '}';
     }
 
     public Long getId() {
@@ -60,14 +69,5 @@ public class CacheBean {
 
     public void setJson(String json) {
         this.json = json;
-    }
-
-    @Override
-    public String toString() {
-        return "CacheBean{" +
-                "id=" + id +
-                ", key='" + key + '\'' +
-                ", json='" + json + '\'' +
-                '}';
     }
 }

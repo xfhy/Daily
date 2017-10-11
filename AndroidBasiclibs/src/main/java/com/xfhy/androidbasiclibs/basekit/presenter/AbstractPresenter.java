@@ -1,5 +1,7 @@
 package com.xfhy.androidbasiclibs.basekit.presenter;
 
+import android.content.Context;
+
 import com.xfhy.androidbasiclibs.basekit.view.BaseView;
 
 /**
@@ -10,7 +12,11 @@ import com.xfhy.androidbasiclibs.basekit.view.BaseView;
 public abstract class AbstractPresenter<V extends BaseView> implements BasePresenter<V> {
 
     protected V view;
+    protected Context mContext;
 
+    public AbstractPresenter(Context context) {
+        this.mContext = context;
+    }
 
     @Override
     public void setView(V view) {

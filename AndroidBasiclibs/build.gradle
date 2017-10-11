@@ -50,5 +50,8 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.63.android'
 
     //greendao
-    compile 'org.greenrobot:greendao:3.2.2' // add library
+    compile 'org.greenrobot:greendao:3.2.0' // add library
+
+    //无需root查看数据库
+    compile 'com.facebook.stetho:stetho:1.5.0'
 }

@@ -21,7 +21,7 @@ public class DevicesUtils {
      * @param context Context
      * @return 返回网络连接是否正常  true:正常 false:无网络连接
      */
-    public static boolean isNetworkConnected(Context context) {
+    public static boolean hasNetworkConnected(Context context) {
         if (context != null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) context
                     .getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);

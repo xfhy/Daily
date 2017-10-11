@@ -2,9 +2,11 @@ package com.xfhy.daily.ui.fragment.zhihu;
 
 import android.os.Bundle;
 
+import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseMVPFragment;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
+import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
 import com.xfhy.daily.presenter.ZhihuDailyLatestContract;
 import com.xfhy.daily.presenter.impl.ZhihuDailyLatestPresenter;
 
@@ -47,16 +49,11 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
 
     @Override
     protected void lazyLoad() {
-
+        mPresenter.reqDailyDataFromNet();
     }
 
     @Override
-    public void refreshSuccess(LatestDailyListBean latestDailyListBean) {
-
-    }
-
-    @Override
-    public void refreshError(String error) {
+    public void showLatestData(LatestDailyListBean latestDailyListBean) {
 
     }
 
@@ -73,5 +70,20 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
     @Override
     public void showErrorMsg(String msg) {
 
+    }
+
+    @Override
+    public void showEmptyView() {
+
+    }
+
+    @Override
+    public void showMoreData(String groupTitle, PastNewsBean pastNewsBean) {
+
+    }
+
+    @Override
+    public LifecycleTransformer<LatestDailyListBean> bindLifecycle() {
+        return bindToLifecycle();
     }
 }

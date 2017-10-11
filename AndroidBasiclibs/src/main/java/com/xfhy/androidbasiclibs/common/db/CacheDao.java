@@ -1,6 +1,13 @@
 package com.xfhy.androidbasiclibs.common.db;
 
+import android.database.Cursor;
+
 import com.xfhy.androidbasiclibs.NewsApplication;
+
+import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
+import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.List;
 
@@ -42,13 +49,22 @@ public class CacheDao {
      * 查询指定key的缓存
      *
      * @param key 缓存的key  唯一标识
-     * @return 返回查询到的key的缓存集合  一般来说,这里是返回1个,当然,可能数据库里面没有该key对应的缓存
+     * @return 返回查询到的key的缓存集合
+     * 注意:这里返回可能为空,当未查询到该key所对应的元组   GreenDao要抛出异常  此时返回null
+     * 查询成功,这里是返回1个,当然,可能数据库里面没有该key对应的缓存
      */
     public static List<CacheBean> queryCacheByKey(String key) {
         //CacheEntityDao是自动生成的里面是一些数据库操作
         //然后这里的Properties.Key也是自动生成的,意思是表里面的一个字段
-        return NewsApplication.getDaoSession().queryBuilder(CacheBean.class).where(CacheEntityDao
-                .Properties.Key.eq(key)).list();
+        try {
+            return NewsApplication.getDaoSession().getCacheBeanDao()
+                    .queryBuilder().where(CacheBeanDao
+                            .Properties.Key.eq(key)).list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     /**

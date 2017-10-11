@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements NavigationView
         请求网络的demo   以后需要写在presenter里面的
 
         RetrofitHelper retrofitHelper = RetrofitHelper.getInstance();
-        if (DevicesUtils.isNetworkConnected(this)) {
+        if (DevicesUtils.hasNetworkConnected(this)) {
             retrofitHelper.getZhiHuApi().getHotDailyList()
                     .compose(this.<HotDailyBean>bindToLifecycle())
                     .subscribeOn(Schedulers.io())

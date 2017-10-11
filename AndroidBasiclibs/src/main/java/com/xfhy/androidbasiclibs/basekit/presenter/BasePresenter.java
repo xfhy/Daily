@@ -10,7 +10,6 @@ import com.xfhy.androidbasiclibs.basekit.view.BaseView;
 public interface BasePresenter<V extends BaseView> {
 
     /**
-     * 初始化View
      *
      * @param view 该presenter的View
      */
