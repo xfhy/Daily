@@ -54,4 +54,7 @@ dependencies {
 
     //无需root查看数据库
     compile 'com.facebook.stetho:stetho:1.5.0'
+
+    //design
+    compile 'com.android.support:design:26.0.0-alpha1'
 }

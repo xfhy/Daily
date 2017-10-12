@@ -24,7 +24,7 @@ public abstract class BaseFragment extends RxFragment {
     /**
      * 该fragment所对应的布局
      */
-    private View mRootView;
+    protected View mRootView;
     private Unbinder mUnbinder;
 
     /**

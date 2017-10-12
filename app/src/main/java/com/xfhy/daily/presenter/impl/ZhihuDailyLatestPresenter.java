@@ -1,6 +1,7 @@
 package com.xfhy.daily.presenter.impl;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.support.annotation.IntRange;
 
 import com.alibaba.fastjson.JSON;
@@ -8,13 +9,16 @@ import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
 import com.xfhy.androidbasiclibs.common.db.CacheBean;
 import com.xfhy.androidbasiclibs.common.db.CacheDao;
 import com.xfhy.androidbasiclibs.common.db.DBConstants;
+import com.xfhy.androidbasiclibs.common.util.DateUtils;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.common.util.LogUtils;
 import com.xfhy.daily.network.RetrofitHelper;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
+import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
 import com.xfhy.daily.presenter.ZhihuDailyLatestContract;
 import com.xfhy.daily.ui.fragment.zhihu.ZhihuLatestDailyFragment;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.BackpressureStrategy;
@@ -131,7 +135,7 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
 
     @Override
     public void saveDailyDataToDB(@android.support.annotation.NonNull LatestDailyListBean
-                                              latestDailyListBean) {
+                                          latestDailyListBean) {
         //缓存数据到数据库  用RxJava的IO线程去操作
         Flowable.just(latestDailyListBean)
                 .compose(mFragment.<LatestDailyListBean>bindToLifecycle())
@@ -165,10 +169,37 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
         /*
          * RecyclerView上拉时需要加载更多的数据
          * pastDays 这里传入RecyclerView的分组个数,代表离今天过去了多少天  至少过去了1天
-         * 比如:今天是2017年10月11日,那么-1天是20171010,-2是20171009
+         * 比如:今天是2017年10月11日,则显示今日热闻
+         * 那么-1天是20171010,显示为:10月10日 星期二
+         * -2是20171009,显示为:10月09日 星期一
          *
          * 1.根据格式化的日期(eg:20171010)去加载往期日报
          * 2.显示到view上
          */
+        Date pastDate = DateUtils.getPastDate(new Date(SystemClock.currentThreadTimeMillis()),
+                pastDays);
+        final String groupTitle = DateUtils.getDateFormatText(pastDate, "MM月dd日 E");
+        mRetrofitHelper.getZhiHuApi()
+                .getPastNews(DateUtils.getDateFormatText(pastDate, "yyyyMMdd"))
+                .compose(mFragment.<PastNewsBean>bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<PastNewsBean>() {
+                    @Override
+                    public void accept(PastNewsBean pastNewsBean) throws Exception {
+                        if (pastNewsBean != null) {
+                            view.showMoreData(groupTitle, pastNewsBean);
+                        } else {
+                            view.showErrorMsg("无更多数据~");
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        view.showErrorMsg("加载更多数据失败~请稍后重试");
+                        LogUtils.e(throwable.getLocalizedMessage());
+                    }
+                });
+
     }
 }
