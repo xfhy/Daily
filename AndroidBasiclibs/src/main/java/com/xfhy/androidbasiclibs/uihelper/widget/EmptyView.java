@@ -1,6 +1,7 @@
-package com.xfhy.androidbasiclibs.uihelper.weight;
+package com.xfhy.androidbasiclibs.uihelper.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -59,7 +60,7 @@ public class EmptyView extends LinearLayout implements View.OnClickListener {
      *
      * @param listener 监听器OnRetryListener
      */
-    public void setOnRetryListener(OnRetryListener listener) {
+    public void setOnRetryListener(@NonNull OnRetryListener listener) {
         this.listener = listener;
     }
 

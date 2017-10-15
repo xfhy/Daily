@@ -1,14 +1,11 @@
 package com.xfhy.daily.ui.fragment.zhihu;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseMVPFragment;
 import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
-import com.xfhy.androidbasiclibs.common.util.ToastUtil;
-import com.xfhy.androidbasiclibs.uihelper.weight.EmptyView;
+import com.xfhy.androidbasiclibs.uihelper.widget.EmptyView;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
 import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
@@ -44,9 +41,19 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
         emptyView.setOnRetryListener(new EmptyView.OnRetryListener() {
             @Override
             public void onClick() {
-                //SnackbarUtil.showBarShortTime(mRootView,"测试dada",SnackbarUtil.RED,0xffffc107);
-//                SnackbarUtil.showBarLongTime(mRootView,"测试",SnackbarUtil.ALERT);
-                SnackbarUtil.showBarLongTime(mRootView, "测试", SnackbarUtil.RED, SnackbarUtil.BLUE);
+                SnackbarUtil.showBarShortTime(mRootView, "测试dada", SnackbarUtil.RED, 0xffffc107);
+//                SnackbarUtil.showBarLongTime(mRootView,"测试",SnackbarUtil.CONFIRM);
+//                SnackbarUtil.showBarLongTime(mRootView, "测试", SnackbarUtil.ORANGE, SnackbarUtil
+// .BLUE);
+//                SnackbarUtil.showBarLongTime(mRootView,"网络不给力,请检查网络设置",SnackbarUtil.ALERT,
+// "去设置",new
+//                        View
+//                        .OnClickListener(){
+//                    @Override
+//                    public void onClick(View v) {
+//                        ToastUtil.showMessage(mActivity,"点我了...");
+//                    }
+//                });
             }
         });
 

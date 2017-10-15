@@ -7,6 +7,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -70,6 +71,10 @@ public class SnackbarUtil {
      * 错误类型背景颜色
      */
     public final static int RED = 0xfff44336;
+    /**
+     * action文本颜色  白色
+     */
+    public final static int WHITE = 0xffFFFFFF;
 
     /**
      * 消息类型   替代Java中的枚举类型
@@ -132,7 +137,7 @@ public class SnackbarUtil {
 
     /**
      * 显示Snackbar,时长:短时间(1570ms)，可选预设类型
-     * {@link android.support.design.widget.SnackbarManager.SHORT_DURATION_MS}
+     * android.support.design.widget.SnackbarManager.SHORT_DURATION_MS
      *
      * @param view    The view to find a parent from.
      * @param message 需要显示的消息
@@ -146,8 +151,24 @@ public class SnackbarUtil {
     }
 
     /**
+     * 显示Snackbar,时长:短时间(1570ms)，可选预设类型
+     * android.support.design.widget.SnackbarManager.SHORT_DURATION_MS
+     *
+     * @param view    The view to find a parent from.
+     * @param message 需要显示的消息
+     * @param type    需要显示的消息类型 SnackbarUtil INFO,CONFIRM,WARNING,ALERT
+     */
+    public static void showBarShortTime(@NonNull View view, @NonNull String message, @MessageType
+            int type, @Nullable CharSequence text, @NonNull View.OnClickListener listener) {
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT).setAction(text,
+                listener).setActionTextColor(WHITE);
+        switchType(snackbar, type);
+        snackbar.show();
+    }
+
+    /**
      * 显示Snackbar,时长:长时间(2750ms)，可选预设类型
-     * {@link android.support.design.widget.SnackbarManager.LONG_DURATION_MS}
+     * android.support.design.widget.SnackbarManager.LONG_DURATION_MS
      *
      * @param view    The view to find a parent from.
      * @param message 需要显示的消息
@@ -156,6 +177,22 @@ public class SnackbarUtil {
     public static void showBarLongTime(@NonNull View view, @NonNull String message, @MessageType
             int type) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
+        switchType(snackbar, type);
+        snackbar.show();
+    }
+
+    /**
+     * 显示Snackbar,时长:长时间(2750ms)，可选预设类型
+     * android.support.design.widget.SnackbarManager.LONG_DURATION_MS
+     *
+     * @param view    The view to find a parent from.
+     * @param message 需要显示的消息
+     * @param type    需要显示的消息类型 SnackbarUtil INFO,CONFIRM,WARNING,ALERT
+     */
+    public static void showBarLongTime(@NonNull View view, @NonNull String message, @MessageType
+            int type, @Nullable CharSequence text, @NonNull View.OnClickListener listener) {
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG).setAction(text,
+                listener).setActionTextColor(WHITE);
         switchType(snackbar, type);
         snackbar.show();
     }

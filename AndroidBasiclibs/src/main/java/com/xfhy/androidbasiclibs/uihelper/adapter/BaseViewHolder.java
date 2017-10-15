@@ -2,16 +2,16 @@ package com.xfhy.androidbasiclibs.uihelper.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.ColorLong;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.FloatRange;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.SparseArray;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -59,7 +59,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      *
      * @param viewId 子控件在strings.xml中的文本
      * @param resId  返回子控件
-     * @return
+     * @return BaseViewHolder
      */
     public BaseViewHolder setText(@IdRes int viewId, @StringRes int resId) {
         TextView textView = (TextView) getView(viewId);
@@ -74,7 +74,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      *
      * @param viewId 子控件中的文本
      * @param text   返回子控件
-     * @return
+     * @return BaseViewHolder
      */
     public BaseViewHolder setText(@IdRes int viewId, String text) {
         TextView textView = (TextView) getView(viewId);
@@ -89,9 +89,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 通过SpannableStringBuilder给TextView设置文本
      *
-     * @param viewId
-     * @param text
-     * @return
+     * @param viewId View的id
+     * @param text   文本
+     * @return BaseViewHolder
      */
     public BaseViewHolder setText(@IdRes int viewId, SpannableStringBuilder text) {
         TextView textView = (TextView) getView(viewId);
@@ -106,9 +106,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 通过drawable文件夹中的资源设置图片
      *
-     * @param viewId
-     * @param resId
-     * @return
+     * @param viewId view的id
+     * @param resId  文本
+     * @return BaseViewHolder
      */
     public BaseViewHolder setImageResource(@IdRes int viewId, @DrawableRes int resId) {
         ImageView imageView = (ImageView) getView(viewId);
@@ -119,11 +119,11 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 通过Bitmap设置图片
      *
-     * @param viewId
-     * @param bitmap
-     * @return
+     * @param viewId view Id
+     * @param bitmap Bitmap
+     * @return BaseViewHolder
      */
-    public BaseViewHolder setImageBitmap(@IdRes int viewId, Bitmap bitmap) {
+    public BaseViewHolder setImageBitmap(@IdRes int viewId, @NonNull Bitmap bitmap) {
         ImageView imageView = (ImageView) getView(viewId);
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
@@ -134,11 +134,11 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 通过Drawable设置图片
      *
-     * @param viewId
-     * @param drawable
-     * @return
+     * @param viewId View的id
+     * @param drawable Drawable
+     * @return BaseViewHolder
      */
-    public BaseViewHolder setImageDrawable(@IdRes int viewId, Drawable drawable) {
+    public BaseViewHolder setImageDrawable(@IdRes int viewId, @NonNull Drawable drawable) {
         ImageView imageView = (ImageView) getView(viewId);
         if (drawable != null) {
             imageView.setImageDrawable(drawable);
@@ -149,9 +149,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 通过一串数字设置背景色
      *
-     * @param viewId
-     * @param color
-     * @return
+     * @param viewId View的id
+     * @param color 颜色值 16进制
+     * @return BaseViewHolder
      */
     public BaseViewHolder setBackgroundColor(@IdRes int viewId, @ColorLong int color) {
         View view = getView(viewId);
@@ -162,9 +162,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 通过drawable文件夹设置背景图
      *
-     * @param viewId
-     * @param backgroundRes
-     * @return
+     * @param viewId View的id
+     * @param backgroundRes Resource
+     * @return BaseViewHolder
      */
     public BaseViewHolder setBackgroundResource(@IdRes int viewId, @DrawableRes int backgroundRes) {
         View view = getView(viewId);
@@ -176,9 +176,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 通过Drawable设置背景图
      *
-     * @param viewId
-     * @param drawable
-     * @return
+     * @param viewId View的id
+     * @param drawable Drawable
+     * @return BaseViewHolder
      */
     public BaseViewHolder setBackgroundDrawable(@IdRes int viewId, Drawable drawable) {
         View view = getView(viewId);
@@ -191,9 +191,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 通过一串数字设置文字颜色
      *
-     * @param viewId
-     * @param textColor
-     * @return
+     * @param viewId View的id
+     * @param textColor 颜色值 16进制
+     * @return BaseViewHolder
      */
     public BaseViewHolder setTextColor(@IdRes int viewId, @ColorLong int textColor) {
         TextView textView = (TextView) getView(viewId);
@@ -204,30 +204,22 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 通过float设置透明度
      *
-     * @param viewId
-     * @param value
-     * @return
+     * @param viewId View的id
+     * @param value 透明度  范围:[0.0,1.0]
+     * @return BaseViewHolder
      */
-    public BaseViewHolder setAlpha(@IdRes int viewId, float value) {
-        if (value >= 0 && value <= 255) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                getView(viewId).setAlpha(value);
-            } else {
-                AlphaAnimation alpha = new AlphaAnimation(value, value);
-                alpha.setDuration(0);
-                alpha.setFillAfter(true);
-                getView(viewId).startAnimation(alpha);
-            }
-        }
+    public BaseViewHolder setAlpha(@IdRes int viewId, @FloatRange(from = 0.0, to = 1.0) float
+            value) {
+        getView(viewId).setAlpha(value);
         return this;
     }
 
     /**
      * 通过boolean类型设置是否显示
      *
-     * @param viewId
-     * @param visible
-     * @return
+     * @param viewId View的id
+     * @param visible 是否可见 true:可见;  false:不可见,Gone
+     * @return BaseViewHolder
      */
     public BaseViewHolder setVisible(@IdRes int viewId, boolean visible) {
         View view = getView(viewId);
@@ -238,9 +230,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 缓存子控件上界面的数据
      *
-     * @param viewId
-     * @param tag
-     * @return
+     * @param viewId View的id
+     * @param tag 需要缓存的数据
+     * @return BaseViewHolder
      */
     public BaseViewHolder setTag(@IdRes int viewId, Object tag) {
         View view = getView(viewId);
@@ -251,10 +243,10 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 设置某一位置子控件的数据
      *
-     * @param viewId
-     * @param key
-     * @param tag
-     * @return
+     * @param viewId View的id
+     * @param key 数据标识
+     * @param tag 数据
+     * @return BaseViewHolder
      */
     public BaseViewHolder setTag(@IdRes int viewId, int key, Object tag) {
         View view = getView(viewId);
@@ -265,9 +257,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 设置子控件是否选中
      *
-     * @param viewId
-     * @param checked
-     * @return
+     * @param viewId  View的id
+     * @param checked true:选中   false:未选中
+     * @return BaseViewHolder
      */
     public BaseViewHolder setChecked(@IdRes int viewId, boolean checked) {
         Checkable checkable = (Checkable) getView(viewId);
@@ -278,11 +270,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 设置子控件的点击事件
      *
-     * @param viewId
-     * @param listener
-     * @return
+     * @param viewId View的id
+     * @param listener OnClickListener监听器
+     * @return BaseViewHolder
      */
-    public BaseViewHolder setOnClickListener(@IdRes int viewId, View.OnClickListener listener) {
+    public BaseViewHolder setOnClickListener(@IdRes int viewId, @NonNull View.OnClickListener
+            listener) {
         View view = getView(viewId);
         if (listener != null) {
             view.setOnClickListener(listener);
@@ -293,11 +286,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 设置子控件的触摸事件
      *
-     * @param viewId
-     * @param listener
-     * @return
+     * @param viewId View的id
+     * @param listener OnTouchListener
+     * @return BaseViewHolder
      */
-    public BaseViewHolder setOnTouchListener(@IdRes int viewId, View.OnTouchListener listener) {
+    public BaseViewHolder setOnTouchListener(@IdRes int viewId, @NonNull View.OnTouchListener
+            listener) {
         View view = getView(viewId);
         if (listener != null) {
             view.setOnTouchListener(listener);
@@ -308,11 +302,13 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 设置子控件的长按事件
      *
-     * @param viewId
-     * @param listener
-     * @return
+     * @param viewId View的id
+     * @param listener OnLongClickListener
+     * @return BaseViewHolder
      */
-    public BaseViewHolder setOnLongClickListener(int viewId, View.OnLongClickListener listener) {
+    public BaseViewHolder setOnLongClickListener(@IdRes int viewId, @NonNull View
+            .OnLongClickListener
+            listener) {
         View view = getView(viewId);
         if (listener != null) {
             view.setOnLongClickListener(listener);

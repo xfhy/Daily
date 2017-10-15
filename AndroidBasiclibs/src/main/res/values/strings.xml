@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Daily</string>
     <string name="empty_view_retry">重试</string>
+    <string name="empty_view_nodata">数据不小心走丢了~</string>
 </resources>
