@@ -3,6 +3,9 @@ package com.xfhy.androidbasiclibs.uihelper.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.xfhy.androidbasiclibs.uihelper.adapter.loadmore.LoadMoreView;
+import com.xfhy.androidbasiclibs.uihelper.adapter.loadmore.SimpleLoadMoreView;
+
 /**
  * author xingyun
  * create at 2017/9/28 18:20
@@ -14,6 +17,8 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     private boolean mNextLoadEnable = false;
     private boolean mLoadMoreEnable = false;
     private boolean mLoading = false;
+    //设置简单的加载更多布局
+    private LoadMoreView mLoadMoreView = new SimpleLoadMoreView();
     //请求加载更多的事件
     private RequestLoadMoreListener mRequestLoadMoreListener;
     private boolean mEnableLoadMoreEndClick = false;

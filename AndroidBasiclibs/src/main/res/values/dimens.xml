@@ -59,6 +59,7 @@
     <dimen name="app_bar_height">55dp</dimen>
 
     <!--字体大小-->
+    <dimen name="sp_14">14sp</dimen>
 
     <!--广告-->
     <dimen name="font_size_9">9sp</dimen>

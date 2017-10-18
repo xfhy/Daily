@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_40">
+
+    <LinearLayout
+        android:id="@+id/load_more_loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/loading_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_marginRight="@dimen/dimen_4"/>
+
+        <TextView
+            android:id="@+id/loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_4"
+            android:text="@string/quick_adapter_loading_text"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/sp_14"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/loading_more_fail_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/loading_fail_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/quick_adapter_loading_fail_text"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/loading_more_end_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/loading_end_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/quick_adapter_loading_end_text"
+            android:textColor="@android:color/darker_gray"/>
+
+    </FrameLayout>
+
+</FrameLayout>

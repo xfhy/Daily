@@ -2,4 +2,7 @@
     <string name="app_name">Daily</string>
     <string name="empty_view_retry">重试</string>
     <string name="empty_view_nodata">数据不小心走丢了~</string>
+    <string name="quick_adapter_loading_text">飞扬正在加载……</string>
+    <string name="quick_adapter_loading_fail_text">飞扬无能，加载失败 -_-:</string>
+    <string name="quick_adapter_loading_end_text">主人，没有数据了……</string>
 </resources>
