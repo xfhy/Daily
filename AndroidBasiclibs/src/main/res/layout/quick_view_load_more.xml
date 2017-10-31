@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimen_40">
 
@@ -22,41 +23,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_4"
-            android:text="@string/quick_adapter_loading_text"
+            android:text="@string/loading"
             android:textColor="@android:color/black"
             android:textSize="@dimen/sp_14"/>
-
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/loading_more_fail_view"
+        android:id="@+id/load_more_load_fail_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
 
+
         <TextView
-            android:id="@+id/loading_fail_text"
+            android:id="@+id/tv_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/quick_adapter_loading_fail_text"/>
+            android:text="@string/load_failed"/>
 
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/loading_more_end_view"
+        android:id="@+id/load_more_load_end_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/loading_end_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/quick_adapter_loading_end_text"
+            android:text="@string/load_end"
             android:textColor="@android:color/darker_gray"/>
-
     </FrameLayout>
-
 </FrameLayout>

@@ -1,16 +1,17 @@
 package com.xfhy.daily.ui.fragment.zhihu;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseMVPFragment;
-import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
-import com.xfhy.androidbasiclibs.uihelper.widget.EmptyView;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
 import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
 import com.xfhy.daily.presenter.ZhihuDailyLatestContract;
 import com.xfhy.daily.presenter.impl.ZhihuDailyLatestPresenter;
+
+import butterknife.BindView;
 
 /**
  * author feiyang
@@ -19,6 +20,9 @@ import com.xfhy.daily.presenter.impl.ZhihuDailyLatestPresenter;
  */
 public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPresenter>
         implements ZhihuDailyLatestContract.View {
+
+    @BindView(R.id.rv_latest_daily_list)
+    RecyclerView rvLatestDailyList;
 
     public static ZhihuLatestDailyFragment newInstance() {
 
@@ -36,7 +40,7 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
 
     @Override
     protected void initViewEvent() {
-        /*-------------测试-----------------*/
+        /*-------------测试-----------------
         EmptyView emptyView = mRootView.findViewById(R.id.ev_empty_view);
         emptyView.setOnRetryListener(new EmptyView.OnRetryListener() {
             @Override
@@ -55,7 +59,7 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
 //                    }
 //                });
             }
-        });
+        });*/
 
 
         //SnackbarUtil.showBarShortTime(mRootView,"测试",SnackbarUtil.INFO);

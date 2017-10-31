@@ -1,20 +1,18 @@
 package com.xfhy.androidbasiclibs.uihelper.adapter.loadmore;
 
+
 import com.xfhy.androidbasiclibs.R;
 
 /**
- * Created by Leezp on 2017/10/18 0018.
+ * author xingyun
+ * create at 2017/9/26 16:54
+ * description：简单的加载更多
  */
-
-public class SimpleLoadMoreView extends LoadMoreView {
-    @Override
-    protected int getLoadEndViewId() {
-        return R.id.loading_more_end_view;
-    }
+public final class SimpleLoadMoreView extends LoadMoreView {
 
     @Override
-    protected int getLoadFailViewId() {
-        return R.id.loading_more_fail_view;
+    public int getLayoutId() {
+        return R.layout.quick_view_load_more;
     }
 
     @Override
@@ -23,7 +21,12 @@ public class SimpleLoadMoreView extends LoadMoreView {
     }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.quick_view_load_more;
+    protected int getLoadFailViewId() {
+        return R.id.load_more_load_fail_view;
+    }
+
+    @Override
+    protected int getLoadEndViewId() {
+        return R.id.load_more_load_end_view;
     }
 }

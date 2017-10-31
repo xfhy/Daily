@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!--知乎 最新日报布局-->
-    <!--<android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_latest_daily_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>-->
-
-    <!--测试..........-->
-    <com.xfhy.androidbasiclibs.uihelper.widget.EmptyView
-        android:id="@+id/ev_empty_view"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 
 </android.support.design.widget.CoordinatorLayout>

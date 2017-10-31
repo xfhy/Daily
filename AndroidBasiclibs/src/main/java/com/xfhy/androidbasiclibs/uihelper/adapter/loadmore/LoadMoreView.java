@@ -5,53 +5,44 @@ import android.support.annotation.LayoutRes;
 
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseViewHolder;
 
-/**
- * Created by Leezp on 2017/10/18 0018.
- */
 
+/**
+ * author xingyun
+ * create at 2017/9/26 16:54
+ * description：加载更多布局
+ */
 public abstract class LoadMoreView {
 
-    /**
-     * 加载更多视图的四种状态
-     * 1. 默认
-     * 2. 加载
-     * 3. 失败
-     * 4. 加载已到最底部
-     */
     public static final int STATUS_DEFAULT = 1;
+    /**
+     * 加载中
+     */
     public static final int STATUS_LOADING = 2;
+    /**
+     * 加载失败
+     */
     public static final int STATUS_FAIL = 3;
+    /**
+     * 加载结束  没有更多数据
+     */
     public static final int STATUS_END = 4;
 
-    //加载视图默认状态
+    /**
+     * 当前加载更多的状态
+     */
     private int mLoadMoreStatus = STATUS_DEFAULT;
-    //加载已到最底部视图是否显示
     private boolean mLoadMoreEndGone = false;
 
-    /**
-     * 获取当前加载更多视图的状态
-     *
-     * @return
-     */
-    public int getmLoadMoreStatus() {
+    public void setLoadMoreStatus(int loadMoreStatus) {
+        this.mLoadMoreStatus = loadMoreStatus;
+    }
+
+    public int getLoadMoreStatus() {
         return mLoadMoreStatus;
     }
 
-    /**
-     * 设置当前加载更多视图的状态
-     *
-     * @param mLoadMoreStatus
-     */
-    public void setmLoadMoreStatus(int mLoadMoreStatus) {
-        this.mLoadMoreStatus = mLoadMoreStatus;
-    }
-
-    /**
-     * 通过调用这个方法实现显示加载更多布局
-     *
-     * @param holder
-     */
     public void convert(BaseViewHolder holder) {
+        //根据不同的状态
         switch (mLoadMoreStatus) {
             case STATUS_LOADING:
                 visibleLoading(holder, true);
@@ -76,11 +67,14 @@ public abstract class LoadMoreView {
         }
     }
 
-    /**
-     * 设置加载到数据最底部时，是否显示
-     * @param holder
-     * @param visible
-     */
+    private void visibleLoading(BaseViewHolder holder, boolean visible) {
+        holder.setVisible(getLoadingViewId(), visible);
+    }
+
+    private void visibleLoadFail(BaseViewHolder holder, boolean visible) {
+        holder.setVisible(getLoadFailViewId(), visible);
+    }
+
     private void visibleLoadEnd(BaseViewHolder holder, boolean visible) {
         final int loadEndViewId = getLoadEndViewId();
         if (loadEndViewId != 0) {
@@ -89,78 +83,64 @@ public abstract class LoadMoreView {
     }
 
     /**
-     * 获取加载到数据最底部的视图id
-     * @return
+     * 设置标志  有无更多数据
+     * @param loadMoreEndGone true:无更多数据
      */
-    protected abstract @IdRes int getLoadEndViewId();
-
-
-    /**
-     * 设置加载失败的视图是否显示
-     * @param holder
-     * @param visible
-     */
-    private void visibleLoadFail(BaseViewHolder holder, boolean visible) {
-        holder.setVisible(getLoadFailViewId(), visible);
+    public final void setLoadMoreEndGone(boolean loadMoreEndGone) {
+        this.mLoadMoreEndGone = loadMoreEndGone;
     }
 
-    /**
-     * 获取加载失败的视图id
-     * @return
-     */
-    protected abstract @IdRes int getLoadFailViewId();
-
-    /**
-     * 设置正在加载的视图是否显示
-     * @param holder
-     * @param visible
-     */
-    private void visibleLoading(BaseViewHolder holder, boolean visible) {
-        holder.setVisible(getLoadingViewId(), visible);
-    }
-
-    /**
-     * 获取正在加载的视图id
-     * @return
-     */
-    protected abstract @IdRes int getLoadingViewId();
-
-    /**
-     * 获取加载更多的布局
-     * @return
-     */
-    public abstract @LayoutRes int getLayoutId();
-
-    /**
-     * 返回加载更多到最底部视图是否显示
-     *
-     * Deprecated是指方法已过时或者不建议重写该方法
-     *
-     * @return
-     */
-    @Deprecated
-    public boolean ismLoadMoreEndGone() {
-        return mLoadMoreEndGone;
-    }
-
-    /**
-     * 设置加载更多到最底部视图的值
-     *
-     * @param mLoadMoreEndGone
-     */
-    public void setmLoadMoreEndGone(boolean mLoadMoreEndGone) {
-        this.mLoadMoreEndGone = mLoadMoreEndGone;
-    }
-
-    /**
-     * 返回加载更多到最底部视图是否显示
-     *
-     * @return
-     */
-    public final boolean ismLoadEndMoreGone() {
+    public final boolean isLoadEndMoreGone() {
         if (getLoadEndViewId() == 0) {
             return true;
         }
         return mLoadMoreEndGone;
     }
+
+    /**
+     * No more data is hidden
+     *
+     * @return true for no more data hidden load more
+     * @deprecated Use {@link BaseQuickAdapter#loadMoreEnd(boolean)} instead.
+     */
+    @Deprecated
+    public boolean isLoadEndGone() {
+        return mLoadMoreEndGone;
+    }
+
+    /**
+     * load more layout
+     *
+     * @return
+     */
+    public abstract
+    @LayoutRes
+    int getLayoutId();
+
+    /**
+     * loading view
+     *
+     * @return
+     */
+    protected abstract
+    @IdRes
+    int getLoadingViewId();
+
+    /**
+     * load fail view
+     *
+     * @return
+     */
+    protected abstract
+    @IdRes
+    int getLoadFailViewId();
+
+    /**
+     * load end view, you can return 0
+     *
+     * @return
+     */
+    protected abstract
+    @IdRes
+    int getLoadEndViewId();
 }

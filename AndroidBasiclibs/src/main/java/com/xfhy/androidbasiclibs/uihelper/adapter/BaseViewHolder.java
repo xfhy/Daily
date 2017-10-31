@@ -308,7 +308,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      */
     public BaseViewHolder setOnLongClickListener(@IdRes int viewId, @NonNull View
             .OnLongClickListener
-            listener) {
+        listener) {
         View view = getView(viewId);
         if (listener != null) {
             view.setOnLongClickListener(listener);

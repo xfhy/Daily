@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * author feiyang
  * create at 2017/9/30 17:18
- * description：
+ * description：知乎首页顶部分页
  */
 public class ZhihuTabAdapter extends FragmentPagerAdapter {
 
