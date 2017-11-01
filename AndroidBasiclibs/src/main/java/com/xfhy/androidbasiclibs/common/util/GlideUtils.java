@@ -1,6 +1,7 @@
 package com.xfhy.androidbasiclibs.common.util;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -182,6 +183,13 @@ public class GlideUtils {
                         .diskCacheStrategy(DiskCacheStrategy.ALL)) // 缓存策略是:所有的都缓存:内存缓存和磁盘缓存
                 .transition(DrawableTransitionOptions.withCrossFade(IMAGE_LOAD_DURATION)) //动画
                 .into(mImageView);
+    }
+
+    /**
+     * 加载Gif图片
+     */
+    public static void loadGif(Context context, int drawable, ImageView imageView){
+        Glide.with(context).load(drawable).into(imageView);
     }
 
 }

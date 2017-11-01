@@ -1,8 +1,11 @@
 package com.xfhy.androidbasiclibs.common.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
@@ -21,13 +24,15 @@ public class DevicesUtils {
      * @param context Context
      * @return 返回网络连接是否正常  true:正常 false:无网络连接
      */
-    public static boolean hasNetworkConnected(Context context) {
+    public static boolean hasNetworkConnected(@NonNull Context context) {
         if (context != null) {
             ConnectivityManager connectivityManager = (ConnectivityManager) context
                     .getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            if (activeNetworkInfo != null) {
-                return activeNetworkInfo.isAvailable();
+            if (connectivityManager != null) {
+                NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                if (activeNetworkInfo != null) {
+                    return activeNetworkInfo.isAvailable();
+                }
             }
         }
         return false;
@@ -41,7 +46,7 @@ public class DevicesUtils {
      * displayMetrics.heightPixels是高度(单位是像素)
      * displayMetrics.heightPixels是宽度(单位是像素)
      */
-    public static DisplayMetrics getDevicesSize(Context context) {
+    public static DisplayMetrics getDevicesSize(@NonNull Context context) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         if (context != null) {
             WindowManager windowManager = (WindowManager) context.getApplicationContext()
@@ -51,6 +56,17 @@ public class DevicesUtils {
             defaultDisplay.getMetrics(displayMetrics);
         }
         return displayMetrics;
+    }
+
+    /**
+     * 跳转到设置界面
+     * @param context Context
+     */
+    public static void goSetting(@NonNull Context context){
+        if (context != null) {
+            Intent intent = new Intent(Settings.ACTION_SETTINGS);
+            context.startActivity(intent);
+        }
     }
 
 }

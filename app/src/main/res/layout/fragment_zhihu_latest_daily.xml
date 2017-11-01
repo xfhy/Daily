@@ -5,9 +5,14 @@
     android:layout_height="match_parent">
 
     <!--知乎 最新日报布局-->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_latest_daily_list"
+    <com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout
+        android:id="@+id/sl_state_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_latest_daily_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout>
 
 </android.support.design.widget.CoordinatorLayout>

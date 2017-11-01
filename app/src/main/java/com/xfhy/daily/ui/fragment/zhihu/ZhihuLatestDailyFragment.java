@@ -2,9 +2,12 @@ package com.xfhy.daily.ui.fragment.zhihu;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseMVPFragment;
+import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
+import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
 import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
@@ -21,6 +24,8 @@ import butterknife.BindView;
 public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPresenter>
         implements ZhihuDailyLatestContract.View {
 
+    @BindView(R.id.sl_state_view)
+    StatefulLayout mStateView;
     @BindView(R.id.rv_latest_daily_list)
     RecyclerView rvLatestDailyList;
 
@@ -65,6 +70,13 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
         //SnackbarUtil.showBarShortTime(mRootView,"测试",SnackbarUtil.INFO);
         //SnackbarUtil.showBarShortTime(mRootView,"测试",SnackbarUtil.INFO);
         //SnackbarUtil.showBarShortTime(mRootView,"测试",SnackbarUtil.INFO);
+        mStateView.showOffline(R.string.stfOfflineMessage, R.string.stfButtonSetting, new View
+                .OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DevicesUtils.goSetting(mActivity);
+            }
+        });
     }
 
     @Override
