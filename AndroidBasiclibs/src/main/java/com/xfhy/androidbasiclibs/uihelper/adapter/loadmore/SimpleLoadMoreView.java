@@ -4,7 +4,7 @@ package com.xfhy.androidbasiclibs.uihelper.adapter.loadmore;
 import com.xfhy.androidbasiclibs.R;
 
 /**
- * author xingyun
+ * @author xingyun
  * create at 2017/9/26 16:54
  * description：简单的加载更多
  */
