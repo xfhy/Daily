@@ -61,7 +61,7 @@ public class PastNewsBean {
     /**
      * 对应日期的日报
      */
-    private List<StoriesBean> stories;
+    private List<LatestDailyListBean.StoriesBean> stories;
 
     public String getDate() {
         return date;
@@ -71,97 +71,12 @@ public class PastNewsBean {
         this.date = date;
     }
 
-    public List<StoriesBean> getStories() {
+    public List<LatestDailyListBean.StoriesBean> getStories() {
         return stories;
     }
 
-    public void setStories(List<StoriesBean> stories) {
+    public void setStories(List<LatestDailyListBean.StoriesBean> stories) {
         this.stories = stories;
-    }
-
-    public static class StoriesBean {
-        /*
-         * images : ["https://pic3.zhimg.com/v2-c0b7c8183ac78ac0fb602ddbe7b98f5e.jpg"]
-         * type : 0
-         * id : 9621716
-         * ga_prefix : 091822
-         * title : 小事 · 一个县城大爷的「互联网」风暴
-         */
-
-        /**
-         * 作用未知
-         */
-        private int type;
-        /**
-         * `url` 与 `share_url` 中最后的数字（应为内容的 id）
-         */
-        private int id;
-        /**
-         * 供 Google Analytics 使用
-         */
-        @JSONField(name = "ga_prefix")
-        private String gaPrefix;
-        /**
-         * 新闻标题
-         */
-        private String title;
-        /**
-         * 图像地址（官方 API 使用数组形式。
-         * 目前暂未有使用多张图片的情形出现，
-         * 曾见无 `images` 属性的情况，请在使用中注意 ）
-         */
-        private List<String> images;
-
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getGaPrefix() {
-            return gaPrefix;
-        }
-
-        public void setGaPrefix(String gaPrefix) {
-            this.gaPrefix = gaPrefix;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public List<String> getImages() {
-            return images;
-        }
-
-        public void setImages(List<String> images) {
-            this.images = images;
-        }
-
-        @Override
-        public String toString() {
-            return "StoriesBean{" +
-                    "type=" + type +
-                    ", id=" + id +
-                    ", gaPrefix='" + gaPrefix + '\'' +
-                    ", title='" + title + '\'' +
-                    ", images=" + images +
-                    '}';
-        }
     }
 
     @Override

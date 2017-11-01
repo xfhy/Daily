@@ -3,7 +3,6 @@ package com.xfhy.androidbasiclibs.uihelper.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.AnimRes;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
@@ -224,10 +223,12 @@ public class StatefulLayout
     }
 
     public void showEmpty(@StringRes int textResId, @StringRes int btnTextResId) {
-        showCustom(new CustomStateOptions()
+        CustomStateOptions image = new CustomStateOptions()
                 .message(getStringRes(textResId))
                 .buttonText(getStringRes(btnTextResId))
-                .image(R.drawable.stf_ic_empty));
+                .image(R.drawable.stf_ic_empty);
+        image.getButtonText();
+        showCustom(image);
     }
 
     // error //

@@ -15,6 +15,8 @@
     <string name="navigation_drawer_open">菜单打开</string>
     <string name="navigation_drawer_close">菜单关闭</string>
     <string name="app_intro">A pure reading App for you</string>
+    <string name="test">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</string>
+    <string name="devices_offline">未连接网络</string>
 
 
 </resources>

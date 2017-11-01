@@ -36,4 +36,14 @@ public interface BaseView<T> {
      */
     void showEmptyView();
 
+    /**
+     * 显示未联网布局
+     */
+    void showOffline();
+
+    /**
+     * 显示内容区域
+     */
+    void showContent();
+
 }

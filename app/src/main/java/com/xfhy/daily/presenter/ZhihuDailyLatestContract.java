@@ -18,6 +18,12 @@ public interface ZhihuDailyLatestContract {
      * 知乎 日报 板块的 presenter
      */
     interface Presenter extends BasePresenter<View> {
+
+        /**
+         * 刷新数据
+         */
+        void onRefresh();
+
         /**
          * 从网络请求日报数据
          */
@@ -58,7 +64,12 @@ public interface ZhihuDailyLatestContract {
          * @param groupTitle   组头标题(每一天的日报是一个RecyclerView分组)
          * @param pastNewsBean 需要加到RecyclerView末尾的数据
          */
-        void showMoreData(String groupTitle, PastNewsBean pastNewsBean);
+        void loadMoreSuccess(String groupTitle, PastNewsBean pastNewsBean);
+
+        /**
+         * 加载更多失败
+         */
+        void loadMoreFailed();
 
     }
 }

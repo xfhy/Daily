@@ -9,9 +9,12 @@ import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
 import com.xfhy.androidbasiclibs.common.db.CacheBean;
 import com.xfhy.androidbasiclibs.common.db.CacheDao;
 import com.xfhy.androidbasiclibs.common.db.DBConstants;
+import com.xfhy.androidbasiclibs.common.util.Constants;
 import com.xfhy.androidbasiclibs.common.util.DateUtils;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.common.util.LogUtils;
+import com.xfhy.androidbasiclibs.common.util.StringUtils;
+import com.xfhy.daily.R;
 import com.xfhy.daily.network.RetrofitHelper;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
 import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
@@ -45,6 +48,11 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
      * 该presenter的fragment
      */
     private ZhihuLatestDailyFragment mFragment;
+    /**
+     * 当前界面的显示的数据
+     */
+    private LatestDailyListBean mData = null;
+    private int step;
 
     public ZhihuDailyLatestPresenter(Context context) {
         super(context);
@@ -58,7 +66,18 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
     }
 
     @Override
+    public void onRefresh() {
+        if (step == Constants.STATE_LOAD_MORE || step == Constants.STATE_LOADING) {
+            return;
+        }
+        step = Constants.STATE_REFRESH;
+        reqDailyDataFromNet();
+    }
+
+    @Override
     public void reqDailyDataFromNet() {
+        step = Constants.STATE_LOADING;
+        view.onLoading();
         //判断当前是否有网络   再决定走网络还是数据库缓存
         if (DevicesUtils.hasNetworkConnected(mContext)) {
             //从网络获取最新数据
@@ -70,9 +89,15 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                     .subscribe(new Consumer<LatestDailyListBean>() {
                         @Override
                         public void accept(LatestDailyListBean s) throws Exception {
+                            mData = s;
                             LogUtils.e(s.toString());
                             //显示最新数据
                             view.showLatestData(s);
+
+                            //显示内容区域
+                            view.showContent();
+                            step = Constants.STATE_NORMAL;
+
                             //保存网络数据到数据库
                             saveDailyDataToDB(s);
                         }
@@ -81,6 +106,7 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                         public void accept(Throwable throwable) throws Exception {
                             view.showErrorMsg("sorry,请求网络数据失败~");
                             view.showEmptyView();
+                            step = Constants.STATE_NO_DATA;
                             LogUtils.e("从网络加载最新数据失败,原因:" + throwable.getLocalizedMessage());
                         }
                     });
@@ -102,6 +128,9 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                 if (cacheBeen != null && cacheBeen.size() > 0 && cacheBeen.get(0) != null) {
                     CacheBean cacheBean = cacheBeen.get(0);
                     e.onNext(cacheBean);
+                } else {
+                    e.onError(new Exception(StringUtils.getStringByResId(mContext, R.string
+                            .devices_offline)));
                 }
             }
         }, BackpressureStrategy.BUFFER)
@@ -113,12 +142,14 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                     public void accept(CacheBean cacheBean) throws Exception {
                         LogUtils.e(cacheBean.toString());
                         //解析json数据
-                        LatestDailyListBean latestDailyListBean = JSON.parseObject(cacheBean
+                        mData = JSON.parseObject(cacheBean
                                 .getJson(), LatestDailyListBean.class);
                         //判断数据是否为空
-                        if (latestDailyListBean != null) {
+                        if (mData != null) {
+                            view.showContent();
                             //刷新界面
-                            view.showLatestData(latestDailyListBean);
+                            view.showLatestData(mData);
+                            step = Constants.STATE_NORMAL;
                         } else {
                             //无数据   显示空布局
                             view.showEmptyView();
@@ -127,8 +158,16 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        LogUtils.e(throwable.getLocalizedMessage());
-                        view.showErrorMsg("请求网络数据失败~");
+                        String localizedMessage = throwable.getLocalizedMessage();
+                        LogUtils.e(localizedMessage);
+
+                        if (StringUtils.getStringByResId(mContext, R.string.devices_offline)
+                                .equals(localizedMessage)) {
+                            view.showOffline();
+                            step = Constants.STATE_ERROR;
+                        } else {
+                            view.showErrorMsg(localizedMessage);
+                        }
                     }
                 });
     }
@@ -176,7 +215,12 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
          * 1.根据格式化的日期(eg:20171010)去加载往期日报
          * 2.显示到view上
          */
-        Date pastDate = DateUtils.getPastDate(new Date(SystemClock.currentThreadTimeMillis()),
+
+        if (step == Constants.STATE_REFRESH) {
+            return;
+        }
+
+        Date pastDate = DateUtils.getPastDate(new Date(System.currentTimeMillis()),
                 pastDays);
         final String groupTitle = DateUtils.getDateFormatText(pastDate, "MM月dd日 E");
         mRetrofitHelper.getZhiHuApi()
@@ -188,16 +232,18 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                     @Override
                     public void accept(PastNewsBean pastNewsBean) throws Exception {
                         if (pastNewsBean != null) {
-                            view.showMoreData(groupTitle, pastNewsBean);
+                            view.loadMoreSuccess(groupTitle, pastNewsBean);
                         } else {
                             view.showErrorMsg("无更多数据~");
                         }
+                        step = Constants.STATE_NORMAL;
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         view.showErrorMsg("加载更多数据失败~请稍后重试");
                         LogUtils.e(throwable.getLocalizedMessage());
+                        step = Constants.STATE_NORMAL;
                     }
                 });
 

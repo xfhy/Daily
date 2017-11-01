@@ -1,20 +1,34 @@
 package com.xfhy.daily.ui.fragment.zhihu;
 
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseMVPFragment;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
+import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
+import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
 import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
 import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
 import com.xfhy.daily.presenter.ZhihuDailyLatestContract;
 import com.xfhy.daily.presenter.impl.ZhihuDailyLatestPresenter;
+import com.xfhy.daily.ui.adapter.ZhihuLatestDailyAdapter;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * author feiyang
@@ -22,12 +36,18 @@ import butterknife.BindView;
  * description：知乎最新日报fragment
  */
 public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPresenter>
-        implements ZhihuDailyLatestContract.View {
+        implements ZhihuDailyLatestContract.View, SwipeRefreshLayout.OnRefreshListener,
+        BaseQuickAdapter.RequestLoadMoreListener {
 
     @BindView(R.id.sl_state_view)
     StatefulLayout mStateView;
+    @BindView(R.id.srl_refresh_layout)
+    SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_latest_daily_list)
-    RecyclerView rvLatestDailyList;
+    RecyclerView mDailyRecyclerView;
+    private ZhihuLatestDailyAdapter mDailyAdapter;
+
+    private int testDays = 1;
 
     public static ZhihuLatestDailyFragment newInstance() {
 
@@ -45,38 +65,7 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
 
     @Override
     protected void initViewEvent() {
-        /*-------------测试-----------------
-        EmptyView emptyView = mRootView.findViewById(R.id.ev_empty_view);
-        emptyView.setOnRetryListener(new EmptyView.OnRetryListener() {
-            @Override
-            public void onClick() {
-                SnackbarUtil.showBarShortTime(mRootView, "测试dada", SnackbarUtil.RED, 0xffffc107);
-//                SnackbarUtil.showBarLongTime(mRootView,"测试",SnackbarUtil.CONFIRM);
-//                SnackbarUtil.showBarLongTime(mRootView, "测试", SnackbarUtil.ORANGE, SnackbarUtil
-// .BLUE);
-//                SnackbarUtil.showBarLongTime(mRootView,"网络不给力,请检查网络设置",SnackbarUtil.ALERT,
-// "去设置",new
-//                        View
-//                        .OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        ToastUtil.showMessage(mActivity,"点我了...");
-//                    }
-//                });
-            }
-        });*/
-
-
-        //SnackbarUtil.showBarShortTime(mRootView,"测试",SnackbarUtil.INFO);
-        //SnackbarUtil.showBarShortTime(mRootView,"测试",SnackbarUtil.INFO);
-        //SnackbarUtil.showBarShortTime(mRootView,"测试",SnackbarUtil.INFO);
-        mStateView.showOffline(R.string.stfOfflineMessage, R.string.stfButtonSetting, new View
-                .OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DevicesUtils.goSetting(mActivity);
-            }
-        });
+        mRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -87,6 +76,19 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
     @Override
     protected void initView() {
 
+        mRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+
+        mDailyAdapter = new ZhihuLatestDailyAdapter(mActivity,
+                null);
+        mDailyAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_TOP);
+        mDailyAdapter.isFirstOnly(false);
+        mDailyAdapter.setEnableLoadMore(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        mDailyRecyclerView.setLayoutManager(linearLayoutManager);
+        mDailyRecyclerView.setAdapter(mDailyAdapter);
+        mDailyAdapter.setOnLoadMoreListener(this, mDailyRecyclerView);
+        //mDailyAdapter.bindToRecyclerView(mDailyRecyclerView);
+        mDailyAdapter.disableLoadMoreIfNotFullPage();
     }
 
     @Override
@@ -96,36 +98,88 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
 
     @Override
     public void showLatestData(LatestDailyListBean latestDailyListBean) {
-
+        if (latestDailyListBean == null) {
+            mStateView.showEmpty(R.string.stfEmptyMessage, R.string.stfButtonRetry);
+            return;
+        }
+        mDailyAdapter.setNewData(latestDailyListBean.getStories());
     }
 
     @Override
     public void onLoading() {
-
+        mStateView.showLoading();
     }
 
     @Override
     public void closeLoading() {
+        mStateView.showContent();
+    }
 
+    @Override
+    public void showContent() {
+        closeRefresh();
+        mStateView.showContent();
     }
 
     @Override
     public void showErrorMsg(String msg) {
-
+        closeRefresh();
+        SnackbarUtil.showBarLongTime(mDailyRecyclerView, msg, SnackbarUtil.ALERT);
     }
 
     @Override
     public void showEmptyView() {
-
+        closeRefresh();
+        mStateView.showEmpty(R.string.stfEmptyMessage, R.string.stfButtonRetry);
     }
 
     @Override
-    public void showMoreData(String groupTitle, PastNewsBean pastNewsBean) {
+    public void showOffline() {
+        closeRefresh();
+        mStateView.showOffline(R.string.stfOfflineMessage, R.string.stfButtonSetting, new View
+                .OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //未联网  跳转到设置界面
+                DevicesUtils.goSetting(mActivity);
+            }
+        });
+    }
 
+    @Override
+    public void loadMoreSuccess(String groupTitle, PastNewsBean pastNewsBean) {
+        mDailyAdapter.loadMoreComplete();
+        if (pastNewsBean == null) {
+            return;
+        }
+        mDailyAdapter.addData(pastNewsBean.getStories());
+    }
+
+    @Override
+    public void loadMoreFailed() {
+        mDailyAdapter.loadMoreFail();
     }
 
     @Override
     public LifecycleTransformer<LatestDailyListBean> bindLifecycle() {
         return bindToLifecycle();
     }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.reqDailyDataFromNet();
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        mPresenter.loadMoreData(testDays++);
+    }
+
+    /**
+     * 停止刷新
+     */
+    private void closeRefresh() {
+        mRefreshLayout.setRefreshing(false);
+    }
+
 }
