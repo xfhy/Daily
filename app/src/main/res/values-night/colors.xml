@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#222222</color>
+    <color name="colorPrimaryDark">#222222</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!--侧滑菜单header 字体颜色-->
+    <color name="drawer_header_text">#BEBEBE</color>
+    <!--fragment背景-->
+    <color name="fragment_background">#343434</color>
+    <color name="color_translucent_white">#88FFFFFF</color>
+
+    <!--item-->
+    <color name="color_header">#BEBEBE</color>
+    <color name="color_item_content">#F3F3F3</color>
+    <color name="color_item_bg">#404040</color>
+</resources>

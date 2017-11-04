@@ -1,12 +1,14 @@
 package com.xfhy.daily;
 
 import android.app.Application;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.xfhy.androidbasiclibs.common.db.DaoMaster;
 import com.xfhy.androidbasiclibs.common.db.DaoSession;
 import com.xfhy.androidbasiclibs.common.util.OkHttpUtils;
+import com.xfhy.androidbasiclibs.common.util.UserInfoTools;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -26,6 +28,7 @@ public class NewsApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        initNightMode();
         initLibrary();
         initDatabase();
     }
@@ -57,4 +60,15 @@ public class NewsApplication extends Application {
     public static DaoSession getDaoSession() {
         return daoSession;
     }
+
+    /**
+     * 初始化夜间模式
+     */
+    private void initNightMode() {
+        // 判断
+        boolean nightMode = UserInfoTools.isNightMode(this);
+        AppCompatDelegate.setDefaultNightMode(nightMode ?
+                AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
 }

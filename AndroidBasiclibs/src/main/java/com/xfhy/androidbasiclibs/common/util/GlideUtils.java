@@ -1,7 +1,6 @@
 package com.xfhy.androidbasiclibs.common.util;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -9,6 +8,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.xfhy.androidbasiclibs.R;
 
 /**
  * Created by xfhy on 2017/9/24 21:27.
@@ -180,7 +180,8 @@ public class GlideUtils {
                 .load(path)
                 .apply(requestOptions
                         //.error(R.drawable.error)   // 加载失败图片   暂时没设置,还没有素材
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)) // 缓存策略是:所有的都缓存:内存缓存和磁盘缓存
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.image_loading)) // 缓存策略是:所有的都缓存:内存缓存和磁盘缓存
                 .transition(DrawableTransitionOptions.withCrossFade(IMAGE_LOAD_DURATION)) //动画
                 .into(mImageView);
     }

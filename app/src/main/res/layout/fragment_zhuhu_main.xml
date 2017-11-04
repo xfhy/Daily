@@ -13,9 +13,9 @@
         android:id="@+id/tl_zhihu"
         android:layout_width="match_parent"
         app:tabTextColor="@color/color_translucent_white"
-        app:tabSelectedTextColor="@color/colorWhite"
+        app:tabSelectedTextColor="@color/white"
         app:tabBackground="@color/colorPrimary"
-        app:tabIndicatorColor="@color/colorWhite"
+        app:tabIndicatorColor="@color/white"
         app:tabTextAppearance="@style/TabLayoutTextAppearance"
         android:layout_height="wrap_content"/>
 

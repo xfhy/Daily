@@ -16,4 +16,7 @@ public class Constants {
     public static final int STATE_NO_DATA = 0x000015;
     public static final int STATE_NORMAL = 0x000016;
 
+    /*-----------------存储在SharedPreferences文件中的键----------------------*/
+    public static final String IS_NIGHT_MODE = "is_night_mode";
+
 }

@@ -16,7 +16,7 @@
         android:layout_marginStart="@dimen/dimen_20"
         android:layout_marginBottom="@dimen/dimen_30"
         android:text="@string/app_intro"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/white"
         android:textSize="25sp"/>
 
 </FrameLayout>
