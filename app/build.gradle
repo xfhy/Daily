@@ -1,21 +1,35 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply from: './DailyGradle/ApiConfig.gradle'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.0"
-    defaultConfig {
-        applicationId "com.xfhy.daily"
-        minSdkVersion 17
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion //基于哪个构建工具版本进行构建的
+
+    defaultConfig {  //默认配置,如果没有其他的配置覆盖,就会使用这里的
+        applicationId "com.xfhy.daily"  //配置包名
+        minSdkVersion rootProject.ext.minSdkVersion    //最小能支持的系统版本号
+        targetSdkVersion rootProject.ext.targetSdkVersion  //最佳支持的系统版本号
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    //定制生成的apk文件名
+    applicationVariants.all { variant ->
+        if (variant.buildType.name.equals('release')) {
+            variant.outputs.each { output ->
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                    def fileName = "gradle4android_v${defaultConfig.versionName}_${variant.flavorName}.apk"
+                    output.outputFile = new File(outputFile.parent, fileName)
+                }
+            }
         }
     }
 }
@@ -26,7 +40,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':AndroidBasiclibs')
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    compile rootProject.ext.appcompatV7
     compile 'com.jakewharton:butterknife:8.8.1'
 
 

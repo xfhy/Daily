@@ -1,0 +1,6 @@
+android {
+    applicationVariants.all {
+        //可以在这里配置好url,然后在代码中就可以直接用了,可配置
+        buildConfigField "String", "ZHIHU_BASE_URL", '"https://news-at.zhihu.com/api/4/"'
+    }
+}

@@ -1,5 +1,16 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+def androidSupportVersion = '26.0.0-alpha1'
+ext {
+    compileSdkVersion = 26 //基于哪个SDK编译的,这里是API LEVEL
+    buildToolsVersion = "26.0.0" //基于哪个构建工具版本进行构建的
+    minSdkVersion = 17  //最小能支持的系统版本号
+    targetSdkVersion = 26  //最佳支持的系统版本号
+    appcompatV7 = "com.android.support:appcompat-v7:$androidSupportVersion"
+    versionCode = 1 //版本号
+    versionName = "1.0" //版本名称
+}
+
 buildscript {
     repositories {
         jcenter()

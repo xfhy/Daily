@@ -4,7 +4,6 @@ import android.app.Application;
 import android.os.Build;
 import android.webkit.WebView;
 
-import com.facebook.stetho.Stetho;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.xfhy.androidbasiclibs.common.db.DaoMaster;
@@ -31,7 +30,6 @@ public class NewsApplication extends Application {
 
         initLibrary();
         initDatabase();
-        Stetho.initializeWithDefaults(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
