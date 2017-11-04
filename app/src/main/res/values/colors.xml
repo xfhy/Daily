@@ -10,4 +10,5 @@
     <!--fragment背景-->
     <color name="fragment_background">#EEEEEE</color>
     <color name="color_translucent_white">#88FFFFFF</color>
+    <color name="color_header">#6F6F6F</color>
 </resources>

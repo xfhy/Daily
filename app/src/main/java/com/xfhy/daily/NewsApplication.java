@@ -1,8 +1,6 @@
-package com.xfhy.androidbasiclibs;
+package com.xfhy.daily;
 
 import android.app.Application;
-import android.os.Build;
-import android.webkit.WebView;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -30,9 +28,6 @@ public class NewsApplication extends Application {
 
         initLibrary();
         initDatabase();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
     }
 
     /**

@@ -21,6 +21,12 @@ public class SectionEntity<T> implements Serializable{
      */
     public String header;
 
+    public SectionEntity() {
+        this.isHeader = false;
+        this.header = null;
+        this.t = null;
+    }
+
     /**
      * @param isHeader true:是分组header false:不是
      */

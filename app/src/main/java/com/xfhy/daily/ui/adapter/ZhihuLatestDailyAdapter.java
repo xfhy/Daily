@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.xfhy.androidbasiclibs.common.util.GlideUtils;
+import com.xfhy.androidbasiclibs.uihelper.adapter.BaseMultiItemQuickAdapter;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
+import com.xfhy.androidbasiclibs.uihelper.adapter.BaseSectionQuickAdapter;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseViewHolder;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
@@ -18,14 +20,20 @@ import java.util.List;
  * @time create at 2017/11/1 16:40
  * @description 知乎最新日报列表adapter
  */
-public class ZhihuLatestDailyAdapter extends BaseQuickAdapter<LatestDailyListBean.StoriesBean,
+public class ZhihuLatestDailyAdapter extends BaseSectionQuickAdapter<LatestDailyListBean
+        .StoriesBean,
         BaseViewHolder> {
     private Context context;
 
     public ZhihuLatestDailyAdapter(@NonNull Context context, @Nullable List<LatestDailyListBean
             .StoriesBean> data) {
-        super(R.layout.item_zhihu_latest_daily, data);
+        super(R.layout.item_zhihu_latest_daily, R.layout.header_zhihu_latest_daily, data);
         this.context = context;
+    }
+
+    @Override
+    protected void convertHead(BaseViewHolder helper, LatestDailyListBean.StoriesBean item) {
+        helper.setText(R.id.tv_latest_header_title, item.header);
     }
 
     @Override

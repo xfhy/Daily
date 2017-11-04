@@ -37,7 +37,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPresenter>
         implements ZhihuDailyLatestContract.View, SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener {
+        BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
 
     @BindView(R.id.sl_state_view)
     StatefulLayout mStateView;
@@ -75,20 +75,25 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
 
     @Override
     protected void initView() {
-
+        //下拉刷新颜色
         mRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
         mDailyAdapter = new ZhihuLatestDailyAdapter(mActivity,
                 null);
-        mDailyAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_TOP);
+        // 开启RecyclerView动画
+        mDailyAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+        // 循环播放动画
         mDailyAdapter.isFirstOnly(false);
+        // 可加载更多
         mDailyAdapter.setEnableLoadMore(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         mDailyRecyclerView.setLayoutManager(linearLayoutManager);
         mDailyRecyclerView.setAdapter(mDailyAdapter);
+        //设置加载更多监听器
         mDailyAdapter.setOnLoadMoreListener(this, mDailyRecyclerView);
-        //mDailyAdapter.bindToRecyclerView(mDailyRecyclerView);
+        // 当未满一屏幕时不刷新
         mDailyAdapter.disableLoadMoreIfNotFullPage();
+        mDailyAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -182,4 +187,8 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
         mRefreshLayout.setRefreshing(false);
     }
 
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+    }
 }

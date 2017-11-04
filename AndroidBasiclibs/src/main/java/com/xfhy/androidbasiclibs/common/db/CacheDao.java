@@ -1,14 +1,5 @@
 package com.xfhy.androidbasiclibs.common.db;
 
-import android.database.Cursor;
-
-import com.xfhy.androidbasiclibs.NewsApplication;
-
-import org.greenrobot.greendao.DaoException;
-import org.greenrobot.greendao.query.Query;
-import org.greenrobot.greendao.query.QueryBuilder;
-import org.greenrobot.greendao.query.WhereCondition;
-
 import java.util.List;
 
 /**
@@ -23,8 +14,8 @@ public class CacheDao {
      *
      * @param cacheBean CacheBean数据
      */
-    public static void insertCache(CacheBean cacheBean) {
-        NewsApplication.getDaoSession().insertOrReplace(cacheBean);
+    public static void insertCache(DaoSession daoSession, CacheBean cacheBean) {
+        daoSession.insertOrReplace(cacheBean);
     }
 
     /**
@@ -32,8 +23,8 @@ public class CacheDao {
      *
      * @param cacheBean CacheBean
      */
-    public static void deleteCache(CacheBean cacheBean) {
-        NewsApplication.getDaoSession().delete(cacheBean);
+    public static void deleteCache(DaoSession daoSession, CacheBean cacheBean) {
+        daoSession.delete(cacheBean);
     }
 
     /**
@@ -41,8 +32,8 @@ public class CacheDao {
      *
      * @param cacheBean CacheBean
      */
-    public static void updateCache(CacheBean cacheBean) {
-        NewsApplication.getDaoSession().update(cacheBean);
+    public static void updateCache(DaoSession daoSession, CacheBean cacheBean) {
+        daoSession.update(cacheBean);
     }
 
     /**
@@ -53,11 +44,11 @@ public class CacheDao {
      * 注意:这里返回可能为空,当未查询到该key所对应的元组   GreenDao要抛出异常  此时返回null
      * 查询成功,这里是返回1个,当然,可能数据库里面没有该key对应的缓存
      */
-    public static List<CacheBean> queryCacheByKey(String key) {
+    public static List<CacheBean> queryCacheByKey(DaoSession daoSession, String key) {
         //CacheEntityDao是自动生成的里面是一些数据库操作
         //然后这里的Properties.Key也是自动生成的,意思是表里面的一个字段
         try {
-            return NewsApplication.getDaoSession().getCacheBeanDao()
+            return daoSession.getCacheBeanDao()
                     .queryBuilder().where(CacheBeanDao
                             .Properties.Key.eq(key)).list();
         } catch (Exception e) {
@@ -72,8 +63,8 @@ public class CacheDao {
      *
      * @return 缓存集合
      */
-    public static List<CacheBean> queryAllCache() {
-        return NewsApplication.getDaoSession().loadAll(CacheBean.class);
+    public static List<CacheBean> queryAllCache(DaoSession daoSession) {
+        return daoSession.loadAll(CacheBean.class);
     }
 
 }

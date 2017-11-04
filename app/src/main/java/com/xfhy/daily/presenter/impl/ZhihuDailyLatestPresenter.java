@@ -14,6 +14,7 @@ import com.xfhy.androidbasiclibs.common.util.DateUtils;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.common.util.LogUtils;
 import com.xfhy.androidbasiclibs.common.util.StringUtils;
+import com.xfhy.daily.NewsApplication;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.RetrofitHelper;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
@@ -90,9 +91,14 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                         @Override
                         public void accept(LatestDailyListBean s) throws Exception {
                             mData = s;
-                            LogUtils.e(s.toString());
+                            LogUtils.e(mData.toString());
                             //显示最新数据
-                            view.showLatestData(s);
+                            view.showLatestData(mData);
+
+                            LatestDailyListBean.StoriesBean header = new LatestDailyListBean
+                                    .StoriesBean(true);
+                            header.header = "今日热闻";
+                            mData.getStories().add(0, header);
 
                             //显示内容区域
                             view.showContent();
@@ -123,7 +129,8 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
         Flowable.create(new FlowableOnSubscribe<CacheBean>() {
             @Override
             public void subscribe(@NonNull FlowableEmitter<CacheBean> e) throws Exception {
-                List<CacheBean> cacheBeen = CacheDao.queryCacheByKey(DBConstants
+                List<CacheBean> cacheBeen = CacheDao.queryCacheByKey(NewsApplication
+                        .getDaoSession(), DBConstants
                         .ZHIHU_LATEST_DAILY_KEY);
                 if (cacheBeen != null && cacheBeen.size() > 0 && cacheBeen.get(0) != null) {
                     CacheBean cacheBean = cacheBeen.get(0);
@@ -147,6 +154,12 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                         //判断数据是否为空
                         if (mData != null) {
                             view.showContent();
+
+                            LatestDailyListBean.StoriesBean header = new LatestDailyListBean
+                                    .StoriesBean(true);
+                            header.header = "今日热闻";
+                            mData.getStories().add(0, header);
+
                             //刷新界面
                             view.showLatestData(mData);
                             step = Constants.STATE_NORMAL;
@@ -187,7 +200,7 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                         CacheBean cacheBean = new CacheBean();
                         cacheBean.setKey(DBConstants.ZHIHU_LATEST_DAILY_KEY);
                         cacheBean.setJson(JSON.toJSONString(latestDailyListBean));
-                        CacheDao.insertCache(cacheBean);
+                        CacheDao.insertCache(NewsApplication.getDaoSession(), cacheBean);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -232,6 +245,12 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                     @Override
                     public void accept(PastNewsBean pastNewsBean) throws Exception {
                         if (pastNewsBean != null) {
+
+                            LatestDailyListBean.StoriesBean header = new LatestDailyListBean
+                                    .StoriesBean(true);
+                            header.header = groupTitle;
+                            mData.getStories().add(header);
+
                             view.loadMoreSuccess(groupTitle, pastNewsBean);
                         } else {
                             view.showErrorMsg("无更多数据~");

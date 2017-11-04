@@ -1,6 +1,7 @@
 package com.xfhy.daily.network.entity.zhihu;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.xfhy.androidbasiclibs.uihelper.adapter.entity.SectionEntity;
 
 import java.util.List;
 
@@ -106,7 +107,7 @@ public class LatestDailyListBean {
         this.topStories = topStories;
     }
 
-    public static class StoriesBean {
+    public static class StoriesBean extends SectionEntity {
         /*
          * images : ["https://pic1.zhimg.com/v2-6e35c40eae40c3b6ae0c3d0570961388.jpg"]
          * type : 0
@@ -138,6 +139,13 @@ public class LatestDailyListBean {
          * 曾见无 `images` 属性的情况，请在使用中注意 ）
          */
         private List<String> images;
+
+        public StoriesBean() {
+        }
+
+        public StoriesBean(boolean isHeader) {
+            super(isHeader);
+        }
 
         public int getType() {
             return type;

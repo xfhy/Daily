@@ -8,12 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionMenuTextColor">@color/colorWhite</item>
 
-        <!--沉浸式状态栏-->
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-
         <!--ActionBarDrawerToggle设置颜色-->
         <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
+    <!--启动页主题-->
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
 </resources>
