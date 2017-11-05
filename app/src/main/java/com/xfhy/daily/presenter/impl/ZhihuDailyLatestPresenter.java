@@ -3,6 +3,7 @@ package com.xfhy.daily.presenter.impl;
 import android.content.Context;
 import android.os.SystemClock;
 import android.support.annotation.IntRange;
+import android.support.annotation.Nullable;
 
 import com.alibaba.fastjson.JSON;
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
@@ -267,4 +268,11 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                 });
 
     }
+
+    @Nullable
+    public LatestDailyListBean getData() {
+        return mData;
+    }
+
+
 }

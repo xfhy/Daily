@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatDelegate;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.squareup.leakcanary.LeakCanary;
 import com.xfhy.androidbasiclibs.common.db.DaoMaster;
 import com.xfhy.androidbasiclibs.common.db.DaoSession;
 import com.xfhy.androidbasiclibs.common.util.OkHttpUtils;
@@ -31,6 +32,7 @@ public class NewsApplication extends Application {
         initNightMode();
         initLibrary();
         initDatabase();
+
     }
 
     /**
@@ -41,8 +43,25 @@ public class NewsApplication extends Application {
         Logger.addLogAdapter(new AndroidLogAdapter());
         //初始化OKHttp
         OkHttpUtils.initOkHttp(getApplicationContext());
+        initLeakCanary();
     }
 
+    /**
+     * 检测内存泄露
+     */
+    private void initLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+        // Normal app init code...
+    }
+
+    /**
+     * 数据库
+     */
     private void initDatabase() {
         //创建数据库news.db
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "news.db", null);

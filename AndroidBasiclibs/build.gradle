@@ -56,4 +56,8 @@ dependencies {
 
     //CardView
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
+
+    //leakcanary
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }

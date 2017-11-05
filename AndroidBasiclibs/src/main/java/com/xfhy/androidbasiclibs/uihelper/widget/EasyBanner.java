@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.xfhy.androidbasiclibs.R;
 import com.xfhy.androidbasiclibs.common.util.DensityUtil;
+import com.xfhy.androidbasiclibs.common.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +50,6 @@ import java.util.List;
  */
 
 public class EasyBanner extends FrameLayout implements ViewPager.OnPageChangeListener {
-    private static final String TAG = "EasyBanner";
     /**
      * 每个广告条目的图片地址
      */
@@ -80,7 +81,7 @@ public class EasyBanner extends FrameLayout implements ViewPager.OnPageChangeLis
     /**
      * 底部小圆点默认大小
      */
-    private final static float POINT_DEFAULT_SIZE = 10f;
+    private final static float POINT_DEFAULT_SIZE = 5f;
     /**
      * 切换广告的时长  单位：ms
      */
@@ -98,6 +99,7 @@ public class EasyBanner extends FrameLayout implements ViewPager.OnPageChangeLis
      * 图片加载器
      */
     private ImageLoader imageLoader;
+    private boolean stop;
 
     public EasyBanner(@NonNull Context context) {
         super(context);
@@ -156,6 +158,11 @@ public class EasyBanner extends FrameLayout implements ViewPager.OnPageChangeLis
      * 初始化数据
      */
     private void initData() {
+
+        if (mPointLayout.getChildCount() > 0) {
+            mPointLayout.removeAllViews();
+        }
+
         imageViewList = new ArrayList<>();
         View pointView;
 
@@ -255,10 +262,12 @@ public class EasyBanner extends FrameLayout implements ViewPager.OnPageChangeLis
             if (!isTouched) {
                 //ViewPager设置为下一项
                 mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-                Log.e(TAG, "run: 自动滑动  isTouched:" + isTouched);
             }
-            //继续延迟切换广告
-            mHandler.postDelayed(delayRunnable, BANNER_SWITCH_DELAY_MILLIS);
+            if (!stop) {
+                //继续延迟切换广告
+                mHandler.postDelayed(delayRunnable, BANNER_SWITCH_DELAY_MILLIS);
+                LogUtils.e("继续切换广告");
+            }
         }
     };
 
@@ -362,6 +371,30 @@ public class EasyBanner extends FrameLayout implements ViewPager.OnPageChangeLis
          * @param url       图片地址
          */
         void loadImage(ImageView imageView, String url);
+    }
+
+    public void setImageUrlList(List<String> imageUrlList) {
+        this.imageUrlList = imageUrlList;
+    }
+
+    public void setContentList(List<String> contentList) {
+        this.contentList = contentList;
+    }
+
+    /**
+     * 停止轮播
+     */
+    public void stop() {
+        stop = true;
+    }
+
+    /**
+     * 继续开始轮播
+     */
+    public void start() {
+        stop = false;
+        //延时
+        mHandler.postDelayed(delayRunnable, BANNER_SWITCH_DELAY_MILLIS);
     }
 
 }

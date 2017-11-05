@@ -6,13 +6,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseMVPFragment;
+import com.xfhy.androidbasiclibs.common.util.DensityUtil;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
+import com.xfhy.androidbasiclibs.common.util.GlideUtils;
 import com.xfhy.androidbasiclibs.common.util.LogUtils;
 import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
+import com.xfhy.androidbasiclibs.uihelper.widget.EasyBanner;
 import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
@@ -21,6 +26,8 @@ import com.xfhy.daily.presenter.ZhihuDailyLatestContract;
 import com.xfhy.daily.presenter.impl.ZhihuDailyLatestPresenter;
 import com.xfhy.daily.ui.adapter.ZhihuLatestDailyAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -38,7 +45,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPresenter>
         implements ZhihuDailyLatestContract.View, SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
+        BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener,
+        EasyBanner.OnItemClickListener {
 
     @BindView(R.id.sl_state_view)
     StatefulLayout mStateView;
@@ -46,9 +54,20 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_latest_daily_list)
     RecyclerView mDailyRecyclerView;
-    private ZhihuLatestDailyAdapter mDailyAdapter;
 
-    private int testDays = 1;
+    private ZhihuLatestDailyAdapter mDailyAdapter;
+    /**
+     * 过去的天数
+     */
+    private int pastDays = 1;
+    /**
+     * 顶部轮播图
+     */
+    private EasyBanner mBanner;
+    /**
+     * banner所占高度
+     */
+    private static final int BANNER_HEIGHT = 200;
 
     public static ZhihuLatestDailyFragment newInstance() {
 
@@ -94,7 +113,30 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
         mDailyAdapter.setOnLoadMoreListener(this, mDailyRecyclerView);
         // 当未满一屏幕时不刷新
         mDailyAdapter.disableLoadMoreIfNotFullPage();
+        // 设置RecyclerView的item监听
         mDailyAdapter.setOnItemClickListener(this);
+        initBanner();
+    }
+
+    /**
+     * 初始化banner
+     */
+    private void initBanner() {
+        // 动态生成banner
+        mBanner = new EasyBanner(mActivity);
+        // 设置banner的大小
+        LinearLayout.LayoutParams bannerLayoutParams = new LinearLayout.LayoutParams(LinearLayout
+                .LayoutParams.MATCH_PARENT, DensityUtil.dip2px(mActivity, BANNER_HEIGHT));
+        mBanner.setLayoutParams(bannerLayoutParams);
+        //设置banner图片加载器
+        mBanner.setImageLoader(new EasyBanner.ImageLoader() {
+            @Override
+            public void loadImage(ImageView imageView, String url) {
+                GlideUtils.loadConsumImage(mActivity, url, imageView);
+            }
+        });
+        // 设置bannerItem监听事件
+        mBanner.setOnItemClickListener(this);
     }
 
     @Override
@@ -109,7 +151,30 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
             mStateView.showEmpty(R.string.stfEmptyMessage, R.string.stfButtonRetry);
             return;
         }
+
+        //提取数据源中的image地址和title
+        List<LatestDailyListBean.TopStoriesBean> topStories = latestDailyListBean.getTopStories();
+        List<String> topImageUrls = new ArrayList<>();
+        List<String> topContentData = new ArrayList<>();
+        for (LatestDailyListBean.TopStoriesBean topStory : topStories) {
+            topImageUrls.add(topStory.getImage());
+            topContentData.add(topStory.getTitle());
+        }
+
+        mDailyAdapter.removeAllHeaderView();
+
+        //临时的办法:将之前的banner清除掉,再重新new一个
+        mBanner.stop();
+        mBanner = null;
+        initBanner();
+
+        //设置banner图片url和图片标题
+        mBanner.initBanner(topImageUrls, topContentData);
+        // 添加banner
+        mDailyAdapter.addHeaderView(mBanner);
+
         mDailyAdapter.setNewData(latestDailyListBean.getStories());
+
     }
 
     @Override
@@ -181,7 +246,7 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
 
     @Override
     public void onLoadMoreRequested() {
-        mPresenter.loadMoreData(testDays++);
+        mPresenter.loadMoreData(pastDays++);
     }
 
     /**
@@ -191,8 +256,31 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
         mRefreshLayout.setRefreshing(false);
     }
 
+    // RecyclerView的item点击事件
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        SnackbarUtil.showBarShortTime(mStateView, "position:" + position, SnackbarUtil.INFO);
+    }
 
+    // mBanner的点击事件
+    @Override
+    public void onItemClick(int position, String title) {
+        SnackbarUtil.showBarShortTime(mStateView, "position:" + position, SnackbarUtil.INFO);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mBanner != null) {
+            mBanner.stop();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && mBanner != null) {
+            mBanner.start();
+        }
     }
 }
