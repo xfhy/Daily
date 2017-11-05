@@ -65,7 +65,7 @@ public class NewsApplication extends Application {
      * 初始化夜间模式
      */
     private void initNightMode() {
-        // 判断
+        // 判断用户之前是否开启夜间模式
         boolean nightMode = UserInfoTools.isNightMode(this);
         AppCompatDelegate.setDefaultNightMode(nightMode ?
                 AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);

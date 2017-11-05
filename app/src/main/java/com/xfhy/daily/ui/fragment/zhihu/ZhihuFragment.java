@@ -29,6 +29,7 @@ public class ZhihuFragment extends BaseFragment {
     TabLayout mTabLayout;
     @BindView(R.id.vp_module_zhihu)
     ViewPager mViewPager;
+    private static final int PAGE_COUNT = 4;
 
     public static ZhihuFragment newInstance() {
 
@@ -51,9 +52,11 @@ public class ZhihuFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        ZhihuTabAdapter zhihuTabAdapter = new ZhihuTabAdapter(mActivity.getSupportFragmentManager
+        ZhihuTabAdapter zhihuTabAdapter = new ZhihuTabAdapter(getChildFragmentManager
                 (), getTestData());
         mViewPager.setAdapter(zhihuTabAdapter);
+        // 设置默认的缓存个数
+        mViewPager.setOffscreenPageLimit(PAGE_COUNT);
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -62,7 +65,7 @@ public class ZhihuFragment extends BaseFragment {
      */
     private List<Fragment> getTestData() {
         List<Fragment> fragmentList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < PAGE_COUNT; i++) {
             ZhihuLatestDailyFragment zhihuLatestDailyFragment = ZhihuLatestDailyFragment
                     .newInstance();
             fragmentList.add(zhihuLatestDailyFragment);
@@ -70,9 +73,8 @@ public class ZhihuFragment extends BaseFragment {
         return fragmentList;
     }
 
-
     @Override
     protected void lazyLoad() {
-
+        super.lazyLoad();
     }
 }

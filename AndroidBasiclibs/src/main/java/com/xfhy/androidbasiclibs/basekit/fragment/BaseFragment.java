@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.trello.rxlifecycle2.components.support.RxFragment;
-import com.xfhy.androidbasiclibs.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -52,6 +51,12 @@ public abstract class BaseFragment extends RxFragment {
             Bundle savedInstanceState) {
         //需要返回页面布局   所有子类需要返回view
         mRootView = inflater.inflate(getLayoutResId(), container, false);
+        return mRootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, mRootView);
 
         isInit = true;  //视图已加载
@@ -60,7 +65,6 @@ public abstract class BaseFragment extends RxFragment {
         initView();
         initViewEvent();
         initData();
-        return mRootView;
     }
 
     /**
@@ -119,6 +123,14 @@ public abstract class BaseFragment extends RxFragment {
     }
 
     /**
+     * 当视图初始化并且对用户可见的时候去真正的加载数据
+     * 在加载完数据之后需要把isLoad置true
+     */
+    protected void lazyLoad() {
+        isLoad = true;
+    }
+
+    /**
      * 设置布局的id
      *
      * @return 返回子类布局id
@@ -129,11 +141,6 @@ public abstract class BaseFragment extends RxFragment {
      * 初始化View
      */
     protected abstract void initView();
-
-    /**
-     * 当视图初始化并且对用户可见的时候去真正的加载数据  在加载完数据之后需要把isLoad置true
-     */
-    protected abstract void lazyLoad();
 
     /**
      * 当视图已经对用户不可见并且加载过数据,如果需要在切换到其他页面时停止加载,则可以重写该方法

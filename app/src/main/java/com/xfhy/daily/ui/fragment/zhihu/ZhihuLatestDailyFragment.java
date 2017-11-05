@@ -10,6 +10,7 @@ import android.view.View;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseMVPFragment;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
+import com.xfhy.androidbasiclibs.common.util.LogUtils;
 import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
 import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
@@ -98,6 +99,7 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
 
     @Override
     protected void lazyLoad() {
+        super.lazyLoad();
         mPresenter.reqDailyDataFromNet();
     }
 
@@ -112,7 +114,9 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
 
     @Override
     public void onLoading() {
-        mStateView.showLoading();
+        if (mStateView != null) {
+            mStateView.showLoading();
+        }
     }
 
     @Override
