@@ -156,11 +156,6 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                         if (mData != null) {
                             view.showContent();
 
-                            LatestDailyListBean.StoriesBean header = new LatestDailyListBean
-                                    .StoriesBean(true);
-                            header.header = "今日热闻";
-                            mData.getStories().add(0, header);
-
                             //刷新界面
                             view.showLatestData(mData);
                             step = Constants.STATE_NORMAL;
@@ -255,6 +250,7 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                             view.loadMoreSuccess(groupTitle, pastNewsBean);
                         } else {
                             view.showErrorMsg("无更多数据~");
+                            view.loadMoreFailed();
                         }
                         step = Constants.STATE_NORMAL;
                     }
@@ -262,6 +258,7 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         view.showErrorMsg("加载更多数据失败~请稍后重试");
+                        view.loadMoreFailed();
                         LogUtils.e(throwable.getLocalizedMessage());
                         step = Constants.STATE_NORMAL;
                     }

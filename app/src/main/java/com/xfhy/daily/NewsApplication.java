@@ -50,11 +50,6 @@ public class NewsApplication extends Application {
      * 检测内存泄露
      */
     private void initLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
         LeakCanary.install(this);
         // Normal app init code...
     }

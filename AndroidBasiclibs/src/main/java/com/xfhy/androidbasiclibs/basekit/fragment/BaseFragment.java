@@ -38,6 +38,11 @@ public abstract class BaseFragment extends RxFragment {
      * 数据是否已经加载
      */
     protected boolean isLoad = false;
+    /**
+     * 是否已经执行完onCreate()
+     * 子类在执行完OnCreate()时记得设置为true  如果需要用此标志
+     */
+    protected boolean isCreated = false;
 
     @Override
     public void onAttach(Activity activity) {

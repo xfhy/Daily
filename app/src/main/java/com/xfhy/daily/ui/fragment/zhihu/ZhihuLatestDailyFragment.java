@@ -2,6 +2,7 @@ package com.xfhy.daily.ui.fragment.zhihu;
 
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -76,6 +77,12 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
         ZhihuLatestDailyFragment fragment = new ZhihuLatestDailyFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isCreated = true;
     }
 
     @Override
@@ -161,17 +168,16 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
             topContentData.add(topStory.getTitle());
         }
 
-        mDailyAdapter.removeAllHeaderView();
-
-        //临时的办法:将之前的banner清除掉,再重新new一个
-        mBanner.stop();
-        mBanner = null;
-        initBanner();
-
-        //设置banner图片url和图片标题
-        mBanner.initBanner(topImageUrls, topContentData);
-        // 添加banner
-        mDailyAdapter.addHeaderView(mBanner);
+        if (mDailyAdapter.getHeaderLayoutCount() == 0) {
+            // 添加banner
+            mDailyAdapter.addHeaderView(mBanner);
+            //设置banner图片url和图片标题
+            mBanner.initBanner(topImageUrls, topContentData);
+        } else {
+            //设置banner图片url和图片标题
+            mBanner.resetData(topImageUrls, topContentData);
+        }
+        mBanner.start();
 
         mDailyAdapter.setNewData(latestDailyListBean.getStories());
 
@@ -269,18 +275,18 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        if (mBanner != null) {
-            mBanner.stop();
-        }
-    }
-
-    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && mBanner != null) {
+        if (!isCreated) {
+            return;
+        }
+        if (mBanner == null) {
+            return;
+        }
+        if (isVisibleToUser) {
             mBanner.start();
+        } else {
+            mBanner.stop();
         }
     }
 }
