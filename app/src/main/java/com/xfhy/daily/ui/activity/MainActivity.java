@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.xfhy.androidbasiclibs.basekit.activity.BaseActivity;
+import com.xfhy.androidbasiclibs.basekit.fragment.BaseFragment;
 import com.xfhy.androidbasiclibs.common.util.ToastUtil;
 import com.xfhy.daily.R;
 import com.xfhy.daily.ui.fragment.zhihu.ZhihuFragment;
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivity implements NavigationView
 
     @Override
     protected void initView() {
-        setToolBar(mToolbar, getResources().getString(R.string.drawer_menu_zhihu));
+        setToolBar(getResources().getString(R.string.drawer_menu_zhihu));
 
         //导航按钮有旋转特效
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -111,13 +112,12 @@ public class MainActivity extends BaseActivity implements NavigationView
     /**
      * 设置toolbar的标题
      *
-     * @param toolbar Toolbar
      * @param title   标题
      */
-    protected void setToolBar(Toolbar toolbar, String title) {
+    protected void setToolBar(String title) {
         //setSupportActionBar之前设置标题
-        toolbar.setTitle(title);
-        setSupportActionBar(toolbar);
+        mToolbar.setTitle(title);
+        setSupportActionBar(mToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
             //让导航按钮显示出来
@@ -167,4 +167,12 @@ public class MainActivity extends BaseActivity implements NavigationView
         mDrawerLayout.closeDrawers();
         return true;
     }
+
+    public void pushFragment(BaseFragment fragment){
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 }

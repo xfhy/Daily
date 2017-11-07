@@ -1,7 +1,6 @@
 package com.xfhy.daily.presenter.impl;
 
 import android.content.Context;
-import android.os.SystemClock;
 import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 
@@ -20,7 +19,7 @@ import com.xfhy.daily.R;
 import com.xfhy.daily.network.RetrofitHelper;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
 import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
-import com.xfhy.daily.presenter.ZhihuDailyLatestContract;
+import com.xfhy.daily.presenter.ZHDailyLatestContract;
 import com.xfhy.daily.ui.fragment.zhihu.ZhihuLatestDailyFragment;
 
 import java.util.Date;
@@ -40,8 +39,8 @@ import io.reactivex.schedulers.Schedulers;
  * create at 2017/9/30 16:52
  * description：知乎最新日报的presenter
  */
-public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLatestContract.View>
-        implements ZhihuDailyLatestContract.Presenter {
+public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContract.View>
+        implements ZHDailyLatestContract.Presenter {
     /**
      * Retrofit帮助类
      */
@@ -54,15 +53,18 @@ public class ZhihuDailyLatestPresenter extends AbstractPresenter<ZhihuDailyLates
      * 当前界面的显示的数据
      */
     private LatestDailyListBean mData = null;
+    /**
+     * 当前所进行到的步骤
+     */
     private int step;
 
-    public ZhihuDailyLatestPresenter(Context context) {
+    public ZHDailyLatestPresenter(Context context) {
         super(context);
         mRetrofitHelper = RetrofitHelper.getInstance();
     }
 
     @Override
-    public void setView(ZhihuDailyLatestContract.View view) {
+    public void setView(ZHDailyLatestContract.View view) {
         super.setView(view);
         mFragment = (ZhihuLatestDailyFragment) view;
     }

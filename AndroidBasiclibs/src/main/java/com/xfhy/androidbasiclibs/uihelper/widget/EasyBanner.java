@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.xfhy.androidbasiclibs.R;
 import com.xfhy.androidbasiclibs.common.util.DensityUtil;
-import com.xfhy.androidbasiclibs.common.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;

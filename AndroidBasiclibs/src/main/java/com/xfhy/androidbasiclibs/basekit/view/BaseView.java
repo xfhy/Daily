@@ -7,7 +7,7 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
  * create at 2017/9/15 13:44
  * description：View公共接口
  */
-public interface BaseView<T> {
+public interface BaseView {
 
     /**
      * 显示正在加载的布局

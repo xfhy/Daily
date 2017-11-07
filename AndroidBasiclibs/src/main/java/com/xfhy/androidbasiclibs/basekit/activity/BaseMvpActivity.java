@@ -18,12 +18,16 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActiv
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        isMVP = true;
         super.onCreate(savedInstanceState);
 
+        initPresenter();
         if (mPresenter != null) {
             mPresenter.setView(this);
             mPresenter.onCreate();
         }
+        // 这样做的目的是为了在初始化的时候,presenter已经初始化好了
+        doOnCreate();
     }
 
     public abstract void initPresenter();

@@ -18,17 +18,33 @@ import butterknife.Unbinder;
 public abstract class BaseActivity extends RxAppCompatActivity {
 
     private Unbinder mUnbinder;
+    /**
+     * 当前Activity
+     */
     protected Context mContext;
+    /**
+     * 标记当前界面是否是MVP
+     */
+    protected boolean isMVP = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewResId());
 
-        mContext = this;
         mUnbinder = ButterKnife.bind(this);
+        mContext = this;
         AppManager.getInstance().addActivity(this);
 
+        if (!isMVP) {
+            doOnCreate();
+        }
+    }
+
+    /**
+     * 初始化
+     */
+    protected void doOnCreate() {
         initView();
         initIntentData();
         initViewEvent();

@@ -13,7 +13,7 @@ import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
  * create at 2017/9/30 14:54
  * description：知乎 日报 板块的 规范
  */
-public interface ZhihuDailyLatestContract {
+public interface ZHDailyLatestContract {
     /**
      * 知乎 日报 板块的 presenter
      */

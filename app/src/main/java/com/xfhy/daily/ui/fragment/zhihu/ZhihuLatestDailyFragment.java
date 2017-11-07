@@ -1,7 +1,7 @@
 package com.xfhy.daily.ui.fragment.zhihu;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +15,6 @@ import com.xfhy.androidbasiclibs.basekit.fragment.BaseMVPFragment;
 import com.xfhy.androidbasiclibs.common.util.DensityUtil;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.common.util.GlideUtils;
-import com.xfhy.androidbasiclibs.common.util.LogUtils;
 import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
 import com.xfhy.androidbasiclibs.uihelper.widget.EasyBanner;
@@ -23,29 +22,23 @@ import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
 import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
-import com.xfhy.daily.presenter.ZhihuDailyLatestContract;
-import com.xfhy.daily.presenter.impl.ZhihuDailyLatestPresenter;
+import com.xfhy.daily.presenter.ZHDailyLatestContract;
+import com.xfhy.daily.presenter.impl.ZHDailyLatestPresenter;
+import com.xfhy.daily.ui.activity.ZHDailyDetailsActivity;
 import com.xfhy.daily.ui.adapter.ZhihuLatestDailyAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * author feiyang
  * create at 2017/9/30 16:38
  * description：知乎最新日报fragment
  */
-public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPresenter>
-        implements ZhihuDailyLatestContract.View, SwipeRefreshLayout.OnRefreshListener,
+public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresenter>
+        implements ZHDailyLatestContract.View, SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener,
         EasyBanner.OnItemClickListener {
 
@@ -87,7 +80,7 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
 
     @Override
     public void initPresenter() {
-        mPresenter = new ZhihuDailyLatestPresenter(mActivity);
+        mPresenter = new ZHDailyLatestPresenter(mActivity);
     }
 
     @Override
@@ -266,6 +259,8 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZhihuDailyLatestPr
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         SnackbarUtil.showBarShortTime(mStateView, "position:" + position, SnackbarUtil.INFO);
+        Intent intent = new Intent(mActivity, ZHDailyDetailsActivity.class);
+        mActivity.startActivity(intent);
     }
 
     // mBanner的点击事件
