@@ -21,10 +21,12 @@ public class CollectDao {
     /**
      * 删除收藏
      *
-     * @param  collectBean collectBean
+     * @param  id  删除的时候只需要设置好该对象的id就行,
      */
-    public static void deleteCache(DaoSession daoSession,  CollectBean collectBean) {
-        daoSession.delete( collectBean);
+    public static void deleteCache(DaoSession daoSession,Long id) {
+        CollectBean collectBean = new CollectBean();
+        collectBean.setId(id);
+        daoSession.delete(collectBean);
     }
 
     /**

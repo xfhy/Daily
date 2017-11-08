@@ -1,5 +1,6 @@
 package com.xfhy.daily.ui.activity;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.MenuItem;
 
 import com.xfhy.androidbasiclibs.basekit.activity.BaseActivity;
@@ -112,7 +116,7 @@ public class MainActivity extends BaseActivity implements NavigationView
     /**
      * 设置toolbar的标题
      *
-     * @param title   标题
+     * @param title 标题
      */
     protected void setToolBar(String title) {
         //setSupportActionBar之前设置标题
@@ -168,7 +172,7 @@ public class MainActivity extends BaseActivity implements NavigationView
         return true;
     }
 
-    public void pushFragment(BaseFragment fragment){
+    public void pushFragment(BaseFragment fragment) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);

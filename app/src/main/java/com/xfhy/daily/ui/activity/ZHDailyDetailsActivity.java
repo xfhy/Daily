@@ -5,6 +5,7 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.activity.BaseMvpActivity;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.DailyContentBean;
+import com.xfhy.daily.network.entity.zhihu.DailyExtraInfoBean;
 import com.xfhy.daily.presenter.ZHDailyDetailsContract;
 import com.xfhy.daily.presenter.impl.ZHDailyDetailsPresenter;
 
@@ -25,7 +26,6 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     @Override
     protected void initData() {
         super.initData();
-        mPresenter.reqDailyContentFromNet("9655509");
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     }
 
     @Override
-    public LifecycleTransformer<DailyContentBean> bindLifecycle() {
+    public LifecycleTransformer bindLifecycle() {
         return bindToLifecycle();
     }
 

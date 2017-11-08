@@ -1,6 +1,8 @@
 package com.xfhy.daily.ui.fragment.zhihu;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -234,7 +236,7 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPrese
     }
 
     @Override
-    public LifecycleTransformer<LatestDailyListBean> bindLifecycle() {
+    public LifecycleTransformer bindLifecycle() {
         return bindToLifecycle();
     }
 
@@ -260,7 +262,12 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPrese
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         SnackbarUtil.showBarShortTime(mStateView, "position:" + position, SnackbarUtil.INFO);
         Intent intent = new Intent(mActivity, ZHDailyDetailsActivity.class);
-        mActivity.startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mActivity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation
+                    (mActivity).toBundle());
+        } else {
+            mActivity.startActivity(intent);
+        }
     }
 
     // mBanner的点击事件

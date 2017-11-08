@@ -46,10 +46,6 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
      */
     private RetrofitHelper mRetrofitHelper;
     /**
-     * 该presenter的fragment
-     */
-    private ZhihuLatestDailyFragment mFragment;
-    /**
      * 当前界面的显示的数据
      */
     private LatestDailyListBean mData = null;
@@ -66,7 +62,6 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
     @Override
     public void setView(ZHDailyLatestContract.View view) {
         super.setView(view);
-        mFragment = (ZhihuLatestDailyFragment) view;
     }
 
     @Override
@@ -87,7 +82,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
             //从网络获取最新数据
             mRetrofitHelper
                     .getZhiHuApi().getLatestDailyList()
-                    .compose(mFragment.<LatestDailyListBean>bindToLifecycle())
+                    .compose(view.bindLifecycle())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<LatestDailyListBean>() {
@@ -144,7 +139,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                 }
             }
         }, BackpressureStrategy.BUFFER)
-                .compose(mFragment.<CacheBean>bindToLifecycle())
+                .compose(view.bindLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<CacheBean>() {
@@ -188,7 +183,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                                           latestDailyListBean) {
         //缓存数据到数据库  用RxJava的IO线程去操作
         Flowable.just(latestDailyListBean)
-                .compose(mFragment.<LatestDailyListBean>bindToLifecycle())
+                .compose(view.bindLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<LatestDailyListBean>() {
@@ -236,7 +231,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
         final String groupTitle = DateUtils.getDateFormatText(pastDate, "MM月dd日 E");
         mRetrofitHelper.getZhiHuApi()
                 .getPastNews(DateUtils.getDateFormatText(pastDate, "yyyyMMdd"))
-                .compose(mFragment.<PastNewsBean>bindToLifecycle())
+                .compose(view.bindLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<PastNewsBean>() {

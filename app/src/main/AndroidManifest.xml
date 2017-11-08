@@ -27,7 +27,8 @@
             android:name=".ui.activity.SplashActivity"
             android:theme="@style/SplashTheme">
         </activity>
-        <activity android:name=".ui.activity.ZHDailyDetailsActivity">
+        <activity android:name=".ui.activity.ZHDailyDetailsActivity"
+            android:theme="@style/StatusBarTransTheme">
         </activity>
     </application>
 

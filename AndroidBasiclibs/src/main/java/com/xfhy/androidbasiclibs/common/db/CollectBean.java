@@ -19,9 +19,9 @@ public class CollectBean {
     private Long id;
 
     /**
-     * 收藏的那个对象的json数据
+     * 收藏的那个对象的唯一标识   比如知乎的是id  通过id可以唯一找到那篇文章
      */
-    private String json;
+    private String key;
 
     /**
      * 用于标识来源  比如:来源是知乎
@@ -33,16 +33,16 @@ public class CollectBean {
      */
     private String collectionDate;
 
-    @Generated(hash = 276088480)
-    public CollectBean(Long id, String json, String from, String collectionDate) {
-        this.id = id;
-        this.json = json;
-        this.from = from;
-        this.collectionDate = collectionDate;
-    }
-
     @Generated(hash = 420494524)
     public CollectBean() {
+    }
+
+    @Generated(hash = 888474839)
+    public CollectBean(Long id, String key, String from, String collectionDate) {
+        this.id = id;
+        this.key = key;
+        this.from = from;
+        this.collectionDate = collectionDate;
     }
 
     public Long getId() {
@@ -53,12 +53,12 @@ public class CollectBean {
         this.id = id;
     }
 
-    public String getJson() {
-        return json;
+    public String getKey() {
+        return key;
     }
 
-    public void setJson(String json) {
-        this.json = json;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getFrom() {
@@ -81,7 +81,7 @@ public class CollectBean {
     public String toString() {
         return "CollectBean{" +
                 "id=" + id +
-                ", json='" + json + '\'' +
+                ", key='" + key + '\'' +
                 ", from='" + from + '\'' +
                 ", collectionDate='" + collectionDate + '\'' +
                 '}';

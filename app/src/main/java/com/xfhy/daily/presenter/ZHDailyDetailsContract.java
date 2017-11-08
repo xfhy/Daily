@@ -26,8 +26,9 @@ public interface ZHDailyDetailsContract {
 
         /**
          * 收藏当前文章
+         * @param id 日报id
          */
-        void collectArticle();
+        void collectArticle(String id);
     }
 
     interface View extends BaseView {
