@@ -59,6 +59,8 @@
     <!--标题栏高度-->
     <dimen name="app_bar_height">55dp</dimen>
     <dimen name="app_bar_layout_height">250dp</dimen>
+    <!--详情页底部栏-->
+    <dimen name="details_daily_bottom">50dp</dimen>
 
     <!--字体大小-->
 

@@ -41,9 +41,23 @@ public interface ZHDailyLatestContract {
 
         /**
          * 加载更多数据
+         *
          * @param pastDays 这里传入RecyclerView的分组个数,代表离今天过去了多少天  至少过去了1天
          */
         void loadMoreData(@IntRange(from = 1) int pastDays);
+
+        /**
+         * 获取数据源
+         */
+        LatestDailyListBean getData();
+
+        /**
+         * 获取点击item的id
+         *
+         * @param position position
+         * @return 获取失败则返回0
+         */
+        int getClickItemId(int position);
     }
 
     /**

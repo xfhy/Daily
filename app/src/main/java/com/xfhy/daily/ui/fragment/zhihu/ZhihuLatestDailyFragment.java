@@ -261,13 +261,8 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPrese
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         SnackbarUtil.showBarShortTime(mStateView, "position:" + position, SnackbarUtil.INFO);
-        Intent intent = new Intent(mActivity, ZHDailyDetailsActivity.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mActivity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation
-                    (mActivity).toBundle());
-        } else {
-            mActivity.startActivity(intent);
-        }
+        ZHDailyDetailsActivity.enterZHDailyDetailsActi(mActivity, mPresenter.getClickItemId
+                (position));
     }
 
     // mBanner的点击事件

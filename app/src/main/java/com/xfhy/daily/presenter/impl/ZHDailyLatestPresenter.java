@@ -268,5 +268,14 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
         return mData;
     }
 
-
+    @Override
+    public int getClickItemId(int position) {
+        if (mData != null) {
+            List<LatestDailyListBean.StoriesBean> stories = mData.getStories();
+            if (stories != null && position < stories.size()) {
+                return stories.get(position).getId();
+            }
+        }
+        return 0;
+    }
 }

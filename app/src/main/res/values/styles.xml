@@ -27,4 +27,10 @@
     <style name="StatusBarTransTheme" parent="AppTheme">
     </style>
 
+    <!--CollapsingToolbarLayout的主题-->
+    <style name="TextAppearance.ExpandTitle"
+           parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">@dimen/font_size_26</item>
+    </style>
+
 </resources>

@@ -17,6 +17,10 @@
     <string name="app_intro">A pure reading App for you</string>
     <string name="test">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</string>
     <string name="devices_offline">未连接网络</string>
+    <string name="daily_bottom_like">点赞</string>
+    <string name="daily_bottom_comment">评论</string>
+    <string name="daily_bottom_share">分享</string>
+
 
 
 </resources>

@@ -90,11 +90,16 @@
         android:orientation="horizontal"
         android:padding="@dimen/dimen_5">
 
+        <!--
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            水波纹效果
+        -->
         <TextView
             android:id="@+id/tv_daily_like_count"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:drawableTop="@drawable/ic_daily_like"
             android:focusable="true"
@@ -107,6 +112,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:drawableTop="@drawable/ic_daily_comment"
             android:focusable="true"
@@ -119,6 +125,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:drawableTop="@drawable/ic_daily_share"
             android:focusable="true"

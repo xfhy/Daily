@@ -60,4 +60,7 @@ dependencies {
     //leakcanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    //multiline-collapsingtoolbar   多行文本
+    compile 'net.opacapp:multiline-collapsingtoolbar:1.5.0'
 }
