@@ -3,6 +3,7 @@ package com.xfhy.androidbasiclibs.common.db;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * @author feiyang
@@ -21,6 +22,7 @@ public class CollectBean {
     /**
      * 收藏的那个对象的唯一标识   比如知乎的是id  通过id可以唯一找到那篇文章
      */
+    @Unique
     private String key;
 
     /**

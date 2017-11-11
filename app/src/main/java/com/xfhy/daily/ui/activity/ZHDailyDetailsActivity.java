@@ -1,11 +1,14 @@
 package com.xfhy.daily.ui.activity;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -15,9 +18,12 @@ import android.widget.TextView;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.activity.BaseMvpActivity;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
+import com.xfhy.androidbasiclibs.common.util.GlideUtils;
+import com.xfhy.androidbasiclibs.common.util.ShareUtil;
 import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
 import com.xfhy.androidbasiclibs.common.util.ToastUtil;
 import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
+import com.xfhy.daily.NewsApplication;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.DailyContentBean;
 import com.xfhy.daily.presenter.ZHDailyDetailsContract;
@@ -77,6 +83,8 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     protected void initData() {
         super.initData();
         mPresenter.reqDailyContentFromNet(String.valueOf(dailyId));
+        mPresenter.reqDailyExtraInfoFromNet(String.valueOf(dailyId));
+        mPresenter.isCollected(String.valueOf(dailyId));
     }
 
     @Override
@@ -106,6 +114,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @Override
     public void showOffline() {
+        setToolBar(mToolbar, "...");
         mStateView.showOffline(R.string.stfOfflineMessage, R.string.stfButtonSetting, new View
                 .OnClickListener() {
             @Override
@@ -143,7 +152,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @Override
     public void goToBack() {
-
+        finish();
     }
 
     @Override
@@ -156,9 +165,11 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void setExtraInfo(int likeCount, int commentCount) {
-
+        tvDailyLikeCount.setText(String.format("%d个赞", likeCount));
+        tvDailyCommentCount.setText(String.format("%d条评论", commentCount));
     }
 
     @Override
@@ -168,12 +179,30 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @Override
     public void loadSuccess(DailyContentBean dailyContentBean) {
-
+        setToolBar(mToolbar, dailyContentBean.getTitle());
+        GlideUtils.loadConsumImage(mContext, dailyContentBean.getImage(), ivTopPicture);
+        tvImageSource.setText(dailyContentBean.getImageSource());
     }
 
     @Override
     public void loadError() {
         mStateView.showEmpty(R.string.load_failed, R.string.stfButtonRetry);
+    }
+
+    @Override
+    public void setCollectBtnSelState(boolean state) {
+        btnLikeDaily.setSelected(state);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            //这个是HomeAsUp按钮的id永远都是android.R.id.home
+            case android.R.id.home:
+                goToBack();
+                break;
+        }
+        return true;
     }
 
     /**
@@ -189,18 +218,30 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     }
 
     @OnClick(R.id.tv_daily_like_count)
-    public void likeDaily(){
-        ToastUtil.showMessage(mContext,"likeDaily");
+    public void likeDaily() {
+        ToastUtil.showMessage(mContext, "likeDaily");
     }
 
     @OnClick(R.id.tv_daily_comment_count)
-    public void seeCommentDetails(){
-        ToastUtil.showMessage(mContext,"seeCommentDetails");
+    public void seeCommentDetails() {
+        ToastUtil.showMessage(mContext, "seeCommentDetails");
     }
 
     @OnClick(R.id.tv_daily_share)
-    public void shareDaily(){
-        ToastUtil.showMessage(mContext,"shareDaily");
+    public void shareDaily() {
+        DailyContentBean data = mPresenter.getData();
+        if (data != null) {
+            ShareUtil.INSTANCE.shareUrl(this, data.getShareUrl());
+        } else {
+            SnackbarUtil.showBarShortTime(mWebView, "数据未加载成功,不能分享", SnackbarUtil.WARNING);
+        }
+
+    }
+
+    @OnClick(R.id.fabtn_like_daily)
+    public void btnLikeDaily() {
+        mPresenter.collectArticle(String.valueOf(dailyId));
+        btnLikeDaily.setSelected(!btnLikeDaily.isSelected());
     }
 
 }

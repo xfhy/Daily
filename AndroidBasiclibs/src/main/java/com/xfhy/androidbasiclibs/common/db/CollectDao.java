@@ -60,6 +60,26 @@ public class CollectDao {
     }
 
     /**
+     * 根据key进行查询  key是唯一标识
+     *
+     * @param daoSession DaoSession
+     * @param key        唯一标识
+     * @return 返回查询到的集合  可能为null
+     */
+    public static List<CollectBean> queryCacheByKey(DaoSession daoSession, String key) {
+        //CollectBeanDao是自动生成的里面是一些数据库操作
+        //然后这里的Properties.Key也是自动生成的,意思是表里面的一个字段
+        try {
+            return daoSession.getCollectBeanDao()
+                    .queryBuilder().where(CollectBeanDao.Properties.Key.eq(key)).list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
      * 查询全部收藏数据
      *
      * @return 收藏集合

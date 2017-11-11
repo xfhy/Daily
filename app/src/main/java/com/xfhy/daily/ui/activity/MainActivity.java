@@ -1,6 +1,5 @@
 package com.xfhy.daily.ui.activity;
 
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -10,9 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.transition.Explode;
-import android.transition.Fade;
-import android.transition.Slide;
 import android.view.MenuItem;
 
 import com.xfhy.androidbasiclibs.basekit.activity.BaseActivity;
@@ -49,7 +45,7 @@ public class MainActivity extends BaseActivity implements NavigationView
 
     @Override
     protected void initView() {
-        setToolBar(getResources().getString(R.string.drawer_menu_zhihu));
+        setToolBar(mToolbar, getResources().getString(R.string.drawer_menu_zhihu));
 
         //导航按钮有旋转特效
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -113,23 +109,6 @@ public class MainActivity extends BaseActivity implements NavigationView
 
     }
 
-    /**
-     * 设置toolbar的标题
-     *
-     * @param title 标题
-     */
-    protected void setToolBar(String title) {
-        //setSupportActionBar之前设置标题
-        mToolbar.setTitle(title);
-        setSupportActionBar(mToolbar);
-        ActionBar supportActionBar = getSupportActionBar();
-        if (supportActionBar != null) {
-            //让导航按钮显示出来
-            supportActionBar.setDisplayHomeAsUpEnabled(true);
-            //设置导航按钮图标
-            supportActionBar.setDisplayShowHomeEnabled(true);
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

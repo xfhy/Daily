@@ -3,6 +3,8 @@ package com.xfhy.androidbasiclibs.basekit.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.xfhy.androidbasiclibs.common.AppManager;
@@ -85,6 +87,25 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         super.onDestroy();
         mUnbinder.unbind();
         AppManager.getInstance().finishActivity(this);
+    }
+
+    /**
+     * 设置toolbar的标题
+     *
+     * @param mToolbar Toolbar
+     * @param title    标题
+     */
+    protected void setToolBar(Toolbar mToolbar, String title) {
+        //setSupportActionBar之前设置标题
+        mToolbar.setTitle(title);
+        setSupportActionBar(mToolbar);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            //让导航按钮显示出来
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            //设置导航按钮图标
+            supportActionBar.setDisplayShowHomeEnabled(true);
+        }
     }
 
 }

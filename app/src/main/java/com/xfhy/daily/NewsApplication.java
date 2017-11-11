@@ -1,6 +1,7 @@
 package com.xfhy.daily;
 
 import android.app.Application;
+import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -20,6 +21,8 @@ import org.greenrobot.greendao.database.Database;
  */
 public class NewsApplication extends Application {
 
+    private static Context context;
+
     /**
      * 获取Dao对象管理者  Dao对象中存在着增删改查等API
      */
@@ -28,6 +31,7 @@ public class NewsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
 
         initNightMode();
         initLibrary();
@@ -85,4 +89,7 @@ public class NewsApplication extends Application {
                 AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 
+    public static Context getAppContext() {
+        return context;
+    }
 }

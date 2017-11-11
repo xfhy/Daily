@@ -29,6 +29,21 @@ public interface ZHDailyDetailsContract {
          * @param id 日报id
          */
         void collectArticle(String id);
+
+        /**
+         * 判断该文章是否已经被收藏
+         *
+         * @param id id
+         * @return true:已经被收藏  false:未被收藏
+         */
+        boolean isCollected(String id);
+
+        /**
+         * 获取数据
+         *
+         * @return
+         */
+        DailyContentBean getData();
     }
 
     interface View extends BaseView {
@@ -76,6 +91,13 @@ public interface ZHDailyDetailsContract {
          * 加载失败
          */
         void loadError();
+
+        /**
+         * 控制收藏按钮的选择状态
+         *
+         * @param state true:被选择了(收藏了的)  false:未被选择
+         */
+        void setCollectBtnSelState(boolean state);
 
     }
 
