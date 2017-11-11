@@ -137,7 +137,6 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @Override
     protected void initView() {
-
     }
 
     @Override
