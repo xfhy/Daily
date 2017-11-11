@@ -119,7 +119,7 @@ public class DailyContentBean {
      * js一般都是空的,不知道里面放的什么类型的
      * 供手机端的 WebView(UIWebView) 使用
      */
-    private List<?> js;
+    private List<String> js;
     /**
      * 缩略图
      */
@@ -194,11 +194,11 @@ public class DailyContentBean {
         this.id = id;
     }
 
-    public List<?> getJs() {
+    public List<String> getJs() {
         return js;
     }
 
-    public void setJs(List<?> js) {
+    public void setJs(List<String> js) {
         this.js = js;
     }
 

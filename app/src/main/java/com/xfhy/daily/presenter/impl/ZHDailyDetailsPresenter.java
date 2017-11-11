@@ -12,9 +12,11 @@ import com.xfhy.androidbasiclibs.common.db.CollectBean;
 import com.xfhy.androidbasiclibs.common.db.CollectBeanDao;
 import com.xfhy.androidbasiclibs.common.db.CollectDao;
 import com.xfhy.androidbasiclibs.common.db.DBConstants;
+import com.xfhy.androidbasiclibs.common.util.Constants;
 import com.xfhy.androidbasiclibs.common.util.DateUtils;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.common.util.LogUtils;
+import com.xfhy.androidbasiclibs.common.util.SpUtil;
 import com.xfhy.daily.NewsApplication;
 import com.xfhy.daily.network.RetrofitHelper;
 import com.xfhy.daily.network.entity.zhihu.DailyContentBean;
@@ -71,6 +73,7 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
                             mDailyContentBean = dailyContentBean;
                             if (mDailyContentBean != null) {
                                 LogUtils.e(dailyContentBean.toString());
+                                view.showContent();
                                 view.loadSuccess(mDailyContentBean);
                             } else {
                                 view.showEmptyView();
@@ -159,5 +162,15 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
     @Override
     public DailyContentBean getData() {
         return mDailyContentBean;
+    }
+
+    @Override
+    public boolean getNoImageState() {
+        return SpUtil.getBoolan(NewsApplication.getAppContext(), Constants.IS_NO_IMAGE, false);
+    }
+
+    @Override
+    public boolean getAutoCacheState() {
+        return SpUtil.getBoolan(NewsApplication.getAppContext(), Constants.IS_AUTO_CACHE, false);
     }
 }

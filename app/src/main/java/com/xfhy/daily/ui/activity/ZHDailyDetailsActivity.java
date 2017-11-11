@@ -8,9 +8,13 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,8 +23,11 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.activity.BaseMvpActivity;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.common.util.GlideUtils;
+import com.xfhy.androidbasiclibs.common.util.HtmlUtil;
+import com.xfhy.androidbasiclibs.common.util.LogUtils;
 import com.xfhy.androidbasiclibs.common.util.ShareUtil;
 import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
+import com.xfhy.androidbasiclibs.common.util.StringUtils;
 import com.xfhy.androidbasiclibs.common.util.ToastUtil;
 import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
 import com.xfhy.daily.NewsApplication;
@@ -74,6 +81,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     protected void initIntentData() {
         super.initIntentData();
         Intent intent = getIntent();
+        //获取日报id
         if (intent != null) {
             this.dailyId = intent.getIntExtra(DAILY_ID, -1);
         }
@@ -82,8 +90,10 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     @Override
     protected void initData() {
         super.initData();
+        //从网络请求日报数据
         mPresenter.reqDailyContentFromNet(String.valueOf(dailyId));
         mPresenter.reqDailyExtraInfoFromNet(String.valueOf(dailyId));
+        //判断当前文章是否被收藏
         mPresenter.isCollected(String.valueOf(dailyId));
     }
 
@@ -115,6 +125,16 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     @Override
     public void showOffline() {
         setToolBar(mToolbar, "...");
+        SnackbarUtil.showBarLongTime(mWebView, StringUtils
+                        .getStringByResId(mContext, R.string.stfOfflineMessage), SnackbarUtil
+                        .WARNING, StringUtils.getStringByResId(mContext, R.string.stfButtonSetting),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //未联网  跳转到设置界面
+                        DevicesUtils.goSetting(mContext);
+                    }
+                });
         mStateView.showOffline(R.string.stfOfflineMessage, R.string.stfButtonSetting, new View
                 .OnClickListener() {
             @Override
@@ -135,8 +155,46 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
         mPresenter = new ZHDailyDetailsPresenter(mContext);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initView() {
+        WebSettings settings = mWebView.getSettings();
+        if (mPresenter.getNoImageState()) {
+            //设置为无图模式
+            settings.setBlockNetworkImage(true);
+        }
+        //判断用户是否设置了自动缓存
+        if (!mPresenter.getAutoCacheState()) {
+            //设置是否应该启用应用程序缓存API。 默认值是false
+            settings.setAppCacheEnabled(true);
+            //设置是否启用DOM存储API。 默认值是false。
+            settings.setDomStorageEnabled(true);
+            //设置是否启用数据库存储API。 默认值是false。
+            settings.setDatabaseEnabled(true);
+            if (DevicesUtils.hasNetworkConnected(NewsApplication.getAppContext())) {
+                //默认缓存使用模式。
+                settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+            } else {
+                //不要使用网络，从缓存中加载。
+                settings.setCacheMode(WebSettings.LOAD_CACHE_ONLY);
+            }
+        }
+        //是否启用JS
+        settings.setJavaScriptEnabled(true);
+        //设置自适应屏幕  缩小宽度以适合屏幕的内容
+        settings.setLoadWithOverviewMode(true);
+        //设置布局算法,将所有内容移动到视图宽度的一列中。
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        //设置是否允许进行缩放
+        settings.setSupportZoom(true);
+        //设置在该WebView中加载网页
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -154,16 +212,6 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
         finish();
     }
 
-    @Override
-    public void loadTopPicture(String url) {
-
-    }
-
-    @Override
-    public void setImageSource(String source) {
-
-    }
-
     @SuppressLint("DefaultLocale")
     @Override
     public void setExtraInfo(int likeCount, int commentCount) {
@@ -172,15 +220,17 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     }
 
     @Override
-    public void loadUrl(String url) {
-
-    }
-
-    @Override
     public void loadSuccess(DailyContentBean dailyContentBean) {
+        //标题
         setToolBar(mToolbar, dailyContentBean.getTitle());
+        //顶部图片
         GlideUtils.loadConsumImage(mContext, dailyContentBean.getImage(), ivTopPicture);
+        //图片来源
         tvImageSource.setText(dailyContentBean.getImageSource());
+        //加载html
+        String htmlData = HtmlUtil.INSTANCE.createHtmlData(dailyContentBean.getBody(),
+                dailyContentBean.getCss(), dailyContentBean.getJs());
+        mWebView.loadData(htmlData, HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
     }
 
     @Override
@@ -202,6 +252,32 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
                 break;
         }
         return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mWebView != null) {
+            mWebView.onPause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mWebView != null) {
+            mWebView.destroy();
+            mWebView = null;
+        }
     }
 
     /**
