@@ -20,7 +20,6 @@ import com.xfhy.daily.network.RetrofitHelper;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
 import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
 import com.xfhy.daily.presenter.ZHDailyLatestContract;
-import com.xfhy.daily.ui.fragment.zhihu.ZhihuLatestDailyFragment;
 
 import java.util.Date;
 import java.util.List;
@@ -89,7 +88,6 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                         @Override
                         public void accept(LatestDailyListBean s) throws Exception {
                             mData = s;
-                            LogUtils.e(mData.toString());
                             //显示最新数据
                             view.showLatestData(mData);
 
@@ -145,7 +143,6 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                 .subscribe(new Consumer<CacheBean>() {
                     @Override
                     public void accept(CacheBean cacheBean) throws Exception {
-                        LogUtils.e(cacheBean.toString());
                         //解析json数据
                         mData = JSON.parseObject(cacheBean
                                 .getJson(), LatestDailyListBean.class);
@@ -272,6 +269,17 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
     public int getClickItemId(int position) {
         if (mData != null) {
             List<LatestDailyListBean.StoriesBean> stories = mData.getStories();
+            if (stories != null && position < stories.size()) {
+                return stories.get(position).getId();
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public int getHeaderClickItemId(int position) {
+        if (mData != null) {
+            List<LatestDailyListBean.TopStoriesBean> stories = mData.getTopStories();
             if (stories != null && position < stories.size()) {
                 return stories.get(position).getId();
             }

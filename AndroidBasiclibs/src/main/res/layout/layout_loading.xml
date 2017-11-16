@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_loading_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!--正在加载布局-->
+    <ProgressBar
+        android:layout_width="@dimen/dimen_60"
+        android:layout_height="@dimen/dimen_60"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_size_18"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:text="@string/loading"/>
+
+</LinearLayout>

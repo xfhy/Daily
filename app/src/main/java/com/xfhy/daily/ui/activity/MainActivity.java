@@ -158,4 +158,12 @@ public class MainActivity extends BaseActivity implements NavigationView
         fragmentTransaction.commit();
     }
 
+    /**
+     * 设置标题
+     * @param title 标题
+     */
+    public void setToolBar(String title) {
+        setToolBar(mToolbar, title);
+    }
+
 }

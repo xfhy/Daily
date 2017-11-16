@@ -24,12 +24,11 @@ import com.xfhy.androidbasiclibs.basekit.activity.BaseMvpActivity;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.common.util.GlideUtils;
 import com.xfhy.androidbasiclibs.common.util.HtmlUtil;
-import com.xfhy.androidbasiclibs.common.util.LogUtils;
+import com.xfhy.androidbasiclibs.common.util.LoadDialogUtil;
 import com.xfhy.androidbasiclibs.common.util.ShareUtil;
 import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
 import com.xfhy.androidbasiclibs.common.util.StringUtils;
 import com.xfhy.androidbasiclibs.common.util.ToastUtil;
-import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
 import com.xfhy.daily.NewsApplication;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.DailyContentBean;
@@ -59,8 +58,6 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     AppBarLayout ablDailyDetails;
     @BindView(R.id.wv_daily_content)
     WebView mWebView;
-    @BindView(R.id.sl_state_content_view)
-    StatefulLayout mStateView;
     @BindView(R.id.fabtn_like_daily)
     FloatingActionButton btnLikeDaily;
     @BindView(R.id.ll_daily_bottom_view)
@@ -99,7 +96,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @Override
     public void onLoading() {
-        mStateView.showLoading();
+        LoadDialogUtil.show(mContext);
     }
 
     @Override
@@ -109,22 +106,23 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @Override
     public void closeLoading() {
-        mStateView.showContent();
+        LoadDialogUtil.dismiss();
     }
 
     @Override
     public void showErrorMsg(String msg) {
-        SnackbarUtil.showBarLongTime(mStateView, msg, SnackbarUtil.ALERT);
+        SnackbarUtil.showBarLongTime(mWebView, msg, SnackbarUtil.ALERT);
     }
 
     @Override
     public void showEmptyView() {
-        mStateView.showEmpty(R.string.load_failed, R.string.stfButtonRetry);
+        LoadDialogUtil.dismiss();
     }
 
     @Override
     public void showOffline() {
         setToolBar(mToolbar, "...");
+        LoadDialogUtil.dismiss();
         SnackbarUtil.showBarLongTime(mWebView, StringUtils
                         .getStringByResId(mContext, R.string.stfOfflineMessage), SnackbarUtil
                         .WARNING, StringUtils.getStringByResId(mContext, R.string.stfButtonSetting),
@@ -135,19 +133,11 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
                         DevicesUtils.goSetting(mContext);
                     }
                 });
-        mStateView.showOffline(R.string.stfOfflineMessage, R.string.stfButtonSetting, new View
-                .OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //未联网  跳转到设置界面
-                DevicesUtils.goSetting(mContext);
-            }
-        });
     }
 
     @Override
     public void showContent() {
-        mStateView.showContent();
+        LoadDialogUtil.dismiss();
     }
 
     @Override
@@ -235,7 +225,17 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @Override
     public void loadError() {
-        mStateView.showEmpty(R.string.load_failed, R.string.stfButtonRetry);
+        LoadDialogUtil.dismiss();
+        SnackbarUtil.showBarLongTime(mWebView, StringUtils
+                        .getStringByResId(mContext, R.string.stfErrorMessage), SnackbarUtil
+                        .WARNING, StringUtils.getStringByResId(mContext, R.string.empty_view_retry),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.reqDailyContentFromNet(String.valueOf(dailyId));
+                        mPresenter.reqDailyExtraInfoFromNet(String.valueOf(dailyId));
+                    }
+                });
     }
 
     @Override

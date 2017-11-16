@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.xfhy.androidbasiclibs.common.util.GlideUtils;
+import com.xfhy.androidbasiclibs.common.util.LogUtils;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseMultiItemQuickAdapter;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseSectionQuickAdapter;
@@ -25,6 +26,8 @@ public class ZhihuLatestDailyAdapter extends BaseSectionQuickAdapter<LatestDaily
         BaseViewHolder> {
     private Context context;
 
+    private HeaderChangeListener listener;
+
     public ZhihuLatestDailyAdapter(@NonNull Context context, @Nullable List<LatestDailyListBean
             .StoriesBean> data) {
         super(R.layout.item_zhihu_latest_daily, R.layout.header_zhihu_latest_daily, data);
@@ -34,6 +37,9 @@ public class ZhihuLatestDailyAdapter extends BaseSectionQuickAdapter<LatestDaily
     @Override
     protected void convertHead(BaseViewHolder helper, LatestDailyListBean.StoriesBean item) {
         helper.setText(R.id.tv_latest_header_title, item.header);
+        if (listener != null) {
+            listener.onHeaderChanged(item.header);
+        }
     }
 
     @Override
@@ -49,4 +55,22 @@ public class ZhihuLatestDailyAdapter extends BaseSectionQuickAdapter<LatestDaily
         }
 
     }
+
+    /**
+     * 监听header变化
+     * @param listener HeaderChangeListener
+     */
+    public void setOnHeaderChangeListener(@NonNull HeaderChangeListener listener) {
+        this.listener = listener;
+    }
+
+    public interface HeaderChangeListener {
+        /**
+         * 标题改变
+         *
+         * @param title 新标题
+         */
+        void onHeaderChanged(String title);
+    }
+
 }

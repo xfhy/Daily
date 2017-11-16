@@ -58,6 +58,13 @@ public interface ZHDailyLatestContract {
          * @return 获取失败则返回0
          */
         int getClickItemId(int position);
+
+        /**
+         * 获取点击header 的item的id
+         * @param position position
+         * @return 获取失败则返回0
+         */
+        int getHeaderClickItemId(int position);
     }
 
     /**

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
+import com.xfhy.androidbasiclibs.basekit.activity.BaseActivity;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseMVPFragment;
 import com.xfhy.androidbasiclibs.common.util.DensityUtil;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
@@ -26,6 +27,7 @@ import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
 import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
 import com.xfhy.daily.presenter.ZHDailyLatestContract;
 import com.xfhy.daily.presenter.impl.ZHDailyLatestPresenter;
+import com.xfhy.daily.ui.activity.MainActivity;
 import com.xfhy.daily.ui.activity.ZHDailyDetailsActivity;
 import com.xfhy.daily.ui.adapter.ZhihuLatestDailyAdapter;
 
@@ -42,7 +44,7 @@ import butterknife.BindView;
 public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresenter>
         implements ZHDailyLatestContract.View, SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener,
-        EasyBanner.OnItemClickListener {
+        EasyBanner.OnItemClickListener, ZhihuLatestDailyAdapter.HeaderChangeListener {
 
     @BindView(R.id.sl_state_view)
     StatefulLayout mStateView;
@@ -117,7 +119,11 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPrese
         mDailyAdapter.disableLoadMoreIfNotFullPage();
         // 设置RecyclerView的item监听
         mDailyAdapter.setOnItemClickListener(this);
+
         initBanner();
+
+        //设置标题改变的listener
+        mDailyAdapter.setOnHeaderChangeListener(this);
     }
 
     /**
@@ -260,7 +266,6 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPrese
     // RecyclerView的item点击事件
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        SnackbarUtil.showBarShortTime(mStateView, "position:" + position, SnackbarUtil.INFO);
         ZHDailyDetailsActivity.enterZHDailyDetailsActi(mActivity, mPresenter.getClickItemId
                 (position));
     }
@@ -268,7 +273,8 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPrese
     // mBanner的点击事件
     @Override
     public void onItemClick(int position, String title) {
-        SnackbarUtil.showBarShortTime(mStateView, "position:" + position, SnackbarUtil.INFO);
+        ZHDailyDetailsActivity.enterZHDailyDetailsActi(mActivity, mPresenter.getHeaderClickItemId
+                (position));
     }
 
     @Override
@@ -284,6 +290,14 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPrese
             mBanner.start();
         } else {
             mBanner.stop();
+        }
+    }
+
+    @Override
+    public void onHeaderChanged(String title) {
+        if (mActivity != null && mActivity instanceof MainActivity) {
+            MainActivity activity = (MainActivity) mActivity;
+            activity.setToolBar(title);
         }
     }
 }

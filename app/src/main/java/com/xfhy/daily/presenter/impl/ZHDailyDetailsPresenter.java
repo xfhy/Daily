@@ -72,7 +72,6 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
                         public void accept(DailyContentBean dailyContentBean) throws Exception {
                             mDailyContentBean = dailyContentBean;
                             if (mDailyContentBean != null) {
-                                LogUtils.e(dailyContentBean.toString());
                                 view.showContent();
                                 view.loadSuccess(mDailyContentBean);
                             } else {
@@ -106,7 +105,6 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
                         public void accept(DailyExtraInfoBean dailyExtraInfoBean) throws Exception {
                             mDailyExtraInfoBean = dailyExtraInfoBean;
                             if (mDailyExtraInfoBean != null) {
-                                LogUtils.e(mDailyExtraInfoBean.toString());
                                 view.setExtraInfo(mDailyExtraInfoBean.getPopularity(),
                                         mDailyExtraInfoBean.getComments());
                             } else {

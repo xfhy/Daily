@@ -85,17 +85,10 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout
-            android:id="@+id/sl_state_content_view"
+        <WebView
+            android:id="@+id/wv_daily_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <WebView
-                android:id="@+id/wv_daily_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout>
+            android:layout_height="match_parent"/>
 
     </android.support.v4.widget.NestedScrollView>
 
