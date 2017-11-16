@@ -6,12 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -56,8 +55,12 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     Toolbar mToolbar;
     @BindView(R.id.abl_daily_details)
     AppBarLayout ablDailyDetails;
+    @BindView(R.id.nsv_scroller)
+    NestedScrollView mNestedScrollView;
     @BindView(R.id.wv_daily_content)
     WebView mWebView;
+    @BindView(R.id.ll_bottom_view)
+    LinearLayout mBottomView;
     @BindView(R.id.fabtn_like_daily)
     FloatingActionButton btnLikeDaily;
     @BindView(R.id.ll_daily_bottom_view)
@@ -69,10 +72,12 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     @BindView(R.id.tv_daily_share)
     TextView tvDailyShare;
 
+    private boolean isBottomShow = true;
+
     /**
      * 当前日报文章id
      */
-    private int dailyId = -1;
+    private int mDailyId = -1;
 
     @Override
     protected void initIntentData() {
@@ -80,7 +85,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
         Intent intent = getIntent();
         //获取日报id
         if (intent != null) {
-            this.dailyId = intent.getIntExtra(DAILY_ID, -1);
+            this.mDailyId = intent.getIntExtra(DAILY_ID, -1);
         }
     }
 
@@ -88,10 +93,10 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     protected void initData() {
         super.initData();
         //从网络请求日报数据
-        mPresenter.reqDailyContentFromNet(String.valueOf(dailyId));
-        mPresenter.reqDailyExtraInfoFromNet(String.valueOf(dailyId));
+        mPresenter.reqDailyContentFromNet(String.valueOf(mDailyId));
+        mPresenter.reqDailyExtraInfoFromNet(String.valueOf(mDailyId));
         //判断当前文章是否被收藏
-        mPresenter.isCollected(String.valueOf(dailyId));
+        mPresenter.isCollected(String.valueOf(mDailyId));
     }
 
     @Override
@@ -194,7 +199,23 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @Override
     protected void initViewEvent() {
+        //为使底部栏能滑动隐藏,直接监听NestedScrollView的滑动事件  向下滑则隐藏   上滑则显示
+        mNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int
+                    oldScrollX, int oldScrollY) {
 
+                //上滑 并且 正在显示底部栏
+                if (scrollY - oldScrollY > 0 && isBottomShow) {
+                    isBottomShow = false;
+                    //将Y属性变为底部栏高度  (相当于隐藏了)
+                    mBottomView.animate().translationY(mBottomView.getHeight());
+                } else if (scrollY - oldScrollY < 0 && !isBottomShow) {
+                    isBottomShow = true;
+                    mBottomView.animate().translationY(0);
+                }
+            }
+        });
     }
 
     @Override
@@ -232,8 +253,8 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mPresenter.reqDailyContentFromNet(String.valueOf(dailyId));
-                        mPresenter.reqDailyExtraInfoFromNet(String.valueOf(dailyId));
+                        mPresenter.reqDailyContentFromNet(String.valueOf(mDailyId));
+                        mPresenter.reqDailyExtraInfoFromNet(String.valueOf(mDailyId));
                     }
                 });
     }
@@ -299,7 +320,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @OnClick(R.id.tv_daily_comment_count)
     public void seeCommentDetails() {
-        ToastUtil.showMessage(mContext, "seeCommentDetails");
+        ZHCommentActivity.enterZHCommentActi(mContext, mDailyId, mPresenter.getCommentCount());
     }
 
     @OnClick(R.id.tv_daily_share)
@@ -315,7 +336,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @OnClick(R.id.fabtn_like_daily)
     public void btnLikeDaily() {
-        mPresenter.collectArticle(String.valueOf(dailyId));
+        mPresenter.collectArticle(String.valueOf(mDailyId));
         btnLikeDaily.setSelected(!btnLikeDaily.isSelected());
     }
 

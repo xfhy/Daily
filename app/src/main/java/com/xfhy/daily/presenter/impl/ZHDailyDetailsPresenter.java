@@ -58,6 +58,7 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
         mRetrofitHelper = RetrofitHelper.getInstance();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void reqDailyContentFromNet(String id) {
         view.onLoading();
@@ -93,6 +94,7 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
 
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void reqDailyExtraInfoFromNet(String id) {
         if (DevicesUtils.hasNetworkConnected(mContext)) {
@@ -160,6 +162,14 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
     @Override
     public DailyContentBean getData() {
         return mDailyContentBean;
+    }
+
+    @Override
+    public int getCommentCount() {
+        if (mDailyExtraInfoBean != null) {
+            return mDailyExtraInfoBean.getComments();
+        }
+        return 0;
     }
 
     @Override

@@ -81,6 +81,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nsv_scroller"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -100,6 +101,7 @@
     </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
+        android:id="@+id/ll_bottom_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/details_daily_bottom"
         android:layout_gravity="bottom"

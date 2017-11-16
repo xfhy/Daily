@@ -91,7 +91,7 @@ public interface ZhiHuService {
      * @return 返回日报短评论
      */
     @GET("story/{id}/short-comments")
-    Flowable<DailyCommentBean> getDailyShortComments(@Path("id") String id);;
+    Flowable<DailyCommentBean> getDailyShortComments(@Path("id") String id);
 
     //主题日报列表查看   https://news-at.zhihu.com/api/4/themes
 

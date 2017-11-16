@@ -1,5 +1,7 @@
 package com.xfhy.daily.network.entity.zhihu;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.List;
 
 /**
@@ -31,7 +33,7 @@ public class DailyCommentBean {
          * time : 1479737963
          * id : 27279755
          * likes : 9
-         * reply_to : {"content":"第二个机灵抖的还是有逻辑问题，不该说忘了，应该说没喝过啊我也不知道","status":0,"id":27275308,
+         * replyTo : {"content":"第二个机灵抖的还是有逻辑问题，不该说忘了，应该说没喝过啊我也不知道","status":0,"id":27275308,
          * "author":"2233155495"}
          */
 
@@ -62,7 +64,8 @@ public class DailyCommentBean {
         /**
          * 所回复的消息
          */
-        private ReplyToBean reply_to;
+        @JSONField(name = "replyTo")
+        private ReplyToBean replyTo;
 
         public String getAuthor() {
             return author;
@@ -112,12 +115,12 @@ public class DailyCommentBean {
             this.likes = likes;
         }
 
-        public ReplyToBean getReply_to() {
-            return reply_to;
+        public ReplyToBean getReplyTo() {
+            return replyTo;
         }
 
-        public void setReply_to(ReplyToBean reply_to) {
-            this.reply_to = reply_to;
+        public void setReplyTo(ReplyToBean replyTo) {
+            this.replyTo = replyTo;
         }
 
         @Override
@@ -129,7 +132,7 @@ public class DailyCommentBean {
                     ", time=" + time +
                     ", id=" + id +
                     ", likes=" + likes +
-                    ", reply_to=" + reply_to +
+                    ", replyTo=" + replyTo +
                     '}';
         }
 

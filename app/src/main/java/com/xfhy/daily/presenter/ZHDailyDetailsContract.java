@@ -61,6 +61,12 @@ public interface ZHDailyDetailsContract {
          * @return true:已设置自动缓存,未设置自动缓存
          */
         boolean getAutoCacheState();
+
+        /**
+         * 获取评论数量
+         */
+        int getCommentCount();
+
     }
 
     interface View extends BaseView {
