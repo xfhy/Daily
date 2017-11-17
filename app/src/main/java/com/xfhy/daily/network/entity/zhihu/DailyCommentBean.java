@@ -1,6 +1,7 @@
 package com.xfhy.daily.network.entity.zhihu;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.xfhy.androidbasiclibs.uihelper.adapter.entity.SectionEntity;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class DailyCommentBean {
         this.comments = comments;
     }
 
-    public static class CommentsBean {
+    public static class CommentsBean extends SectionEntity {
         /*
          * author : andy小陆
          * content :
@@ -66,6 +67,13 @@ public class DailyCommentBean {
          */
         @JSONField(name = "replyTo")
         private ReplyToBean replyTo;
+
+        public CommentsBean() {
+        }
+
+        public CommentsBean(boolean isHeader) {
+            super(isHeader);
+        }
 
         public String getAuthor() {
             return author;

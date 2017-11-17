@@ -49,6 +49,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * author feiyang
  * create at 2017/10/16 15:45
  * description：简单的封装BaseAdapter
+ * 泛型:  T:bean类  K:ViewHolder(如果不是自定义则直接用BaseViewHolder)
  */
 public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends RecyclerView
         .Adapter<K> {

@@ -69,11 +69,6 @@ public interface ZHCommentContract {
          */
         void loadShortComError(String errorMsg);
 
-        /**
-         * 正在加载短评论数据
-         */
-        void loadingShortCom();
-
     }
 
 }

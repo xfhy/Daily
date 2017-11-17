@@ -4,6 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:background="@color/fragment_background"
     android:layout_marginBottom="@dimen/dimen_10">
 
     <!--知乎评论列表item-->
@@ -29,7 +31,7 @@
         android:ellipsize="end"
         android:maxLength="10"
         android:maxLines="1"
-        android:text="每一天都在混水摸鱼"
+        android:text="@string/daily_bottom_omitted"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/font_size_16"
         android:textStyle="bold"
@@ -44,7 +46,7 @@
         android:layout_marginEnd="@dimen/dimen_10"
         android:drawablePadding="@dimen/dimen_5"
         android:drawableStart="@drawable/ic_daily_like"
-        android:text="2"
+        android:text="0"
         android:textColor="@color/gray_bfbfbf"
         android:textSize="@dimen/font_size_14"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,11 +63,11 @@
         android:layout_marginTop="@dimen/dimen_5"
         android:gravity="start"
         android:lineSpacingMultiplier="1.2"
-        android:text="因为在欧洲留学，所以坐过几家航空公司的飞机。汉莎的飞机餐不错，但是票价贵，除非运气好有便宜票，否则一般不坐。阿联酋土豪，第一次回国的时候坐的，吃的不记得了，就记得它每个座椅后面都有个插头可以充电，感觉好高大上，不过11个小时的航程因为转机变成16个，于是就放弃它家了。国航坐的最多，吃的嘛…我们还是来谈谈空姐好了~ 我从国内走都会在包里塞泡面你们造嘛？！吃的时候旁边小伙伴满满的羡慕你们造嘛！(可以要求空姐帮你泡的~"
+        android:text="@string/daily_bottom_omitted"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/font_size_16"
-        app:layout_constraintEnd_toEndOf="@+id/tv_comment_like"
-        app:layout_constraintStart_toStartOf="@+id/tv_author"
+        app:layout_constraintEnd_toEndOf="@id/tv_comment_like"
+        app:layout_constraintStart_toStartOf="@id/tv_author"
         app:layout_constraintTop_toBottomOf="@id/civ_comment_avatar"/>
 
     <!--时间-->
@@ -76,7 +78,7 @@
         android:layout_marginTop="@dimen/dimen_10"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="11-16 14:17"
+        android:text="00-00 00:00"
         android:textColor="@color/gray_bfbfbf"
         android:textSize="@dimen/font_size_14"
         app:layout_constraintEnd_toEndOf="@id/tv_content"

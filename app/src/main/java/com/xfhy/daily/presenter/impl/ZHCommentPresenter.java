@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
+import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.common.util.LogUtils;
 import com.xfhy.daily.network.RetrofitHelper;
 import com.xfhy.daily.network.entity.zhihu.DailyCommentBean;
@@ -45,56 +46,78 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
     @SuppressWarnings("unchecked")
     public void reqLongComFromNet(String id) {
         view.onLoading();
-        mRetrofitHelper.getZhiHuApi().getDailyLongComments(id)
-                .compose(view.bindLifecycle())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<DailyCommentBean>() {
-                    @Override
-                    public void accept(DailyCommentBean dailyCommentBean) throws Exception {
-                        if (dailyCommentBean != null && dailyCommentBean.getComments() != null) {
-                            view.loadLongComSuccess(dailyCommentBean.getComments());
-                            LogUtils.e(dailyCommentBean.toString());
-                        } else {
-                            view.showEmptyView();
+        if (DevicesUtils.hasNetworkConnected(mContext)) {
+            mRetrofitHelper.getZhiHuApi().getDailyLongComments(id)
+                    .compose(view.bindLifecycle())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<DailyCommentBean>() {
+                        @Override
+                        public void accept(DailyCommentBean dailyCommentBean) throws Exception {
+                            if (dailyCommentBean != null && dailyCommentBean
+                                    .getComments() != null) {
+                                List<DailyCommentBean.CommentsBean> longComments = dailyCommentBean
+                                        .getComments();
+                                DailyCommentBean.CommentsBean headerBean = new DailyCommentBean
+                                        .CommentsBean(true);
+                                headerBean.header = longComments.size() + "条长评";
+                                longComments.add(0, headerBean);
+                                view.loadLongComSuccess(longComments);
+                                LogUtils.e(dailyCommentBean.toString());
+                            } else {
+                                view.showEmptyView();
+                            }
                         }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
-                                .getLocalizedMessage());
-                        view.showErrorMsg("日报长评论信息请求失败");
-                    }
-                });
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
+                                    .getLocalizedMessage());
+                            view.showErrorMsg("日报长评论信息请求失败");
+                        }
+                    });
+        } else {
+            view.showOffline();
+        }
+
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void reqShortComFromNet(String id) {
-        view.loadingShortCom();
-        mRetrofitHelper.getZhiHuApi().getDailyShortComments(id)
-                .compose(view.bindLifecycle())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<DailyCommentBean>() {
-                    @Override
-                    public void accept(DailyCommentBean dailyCommentBean) throws Exception {
-                        if (dailyCommentBean != null && dailyCommentBean.getComments() != null) {
-                            view.loadShortComSuccess(dailyCommentBean.getComments());
-                            LogUtils.e(dailyCommentBean.toString());
-                        } else {
-                            view.loadShortComError("该日报无短评论");
+        if (DevicesUtils.hasNetworkConnected(mContext)) {
+            mRetrofitHelper.getZhiHuApi().getDailyShortComments(id)
+                    .compose(view.bindLifecycle())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<DailyCommentBean>() {
+                        @Override
+                        public void accept(DailyCommentBean dailyCommentBean) throws Exception {
+                            if (dailyCommentBean != null && dailyCommentBean.getComments() !=
+                                    null) {
+                                List<DailyCommentBean.CommentsBean> shortComments = dailyCommentBean
+                                        .getComments();
+                                DailyCommentBean.CommentsBean headerBean = new DailyCommentBean
+                                        .CommentsBean(true);
+                                headerBean.header = shortComments.size() + "条短评";
+                                shortComments.add(0, headerBean);
+                                view.loadShortComSuccess(dailyCommentBean.getComments());
+                                LogUtils.e(dailyCommentBean.toString());
+                            } else {
+                                view.loadShortComError("该日报无短评论");
+                            }
                         }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
-                                .getLocalizedMessage());
-                        view.showErrorMsg("日报短评论信息请求失败");
-                    }
-                });
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
+                                    .getLocalizedMessage());
+                            view.showErrorMsg("日报短评论信息请求失败");
+                        }
+                    });
+        } else {
+            view.showOffline();
+        }
     }
 
     @Nullable

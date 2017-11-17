@@ -271,6 +271,8 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
             case android.R.id.home:
                 goToBack();
                 break;
+            default:
+                break;
         }
         return true;
     }

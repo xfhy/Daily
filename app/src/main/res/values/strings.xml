@@ -20,6 +20,7 @@
     <string name="daily_bottom_like">点赞</string>
     <string name="daily_bottom_comment">评论</string>
     <string name="daily_bottom_share">分享</string>
+    <string name="daily_bottom_omitted">...</string>
 
 
 </resources>
