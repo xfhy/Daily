@@ -4,9 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:background="@color/fragment_background"
-    android:layout_marginBottom="@dimen/dimen_10">
+    android:layout_marginBottom="@dimen/dimen_10"
+    android:background="@color/fragment_background">
 
     <!--知乎评论列表item-->
 
@@ -70,10 +69,28 @@
         app:layout_constraintStart_toStartOf="@id/tv_author"
         app:layout_constraintTop_toBottomOf="@id/civ_comment_avatar"/>
 
+    <!--回复内容-->
+    <TextView
+        android:id="@+id/tv_comment_reply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_5"
+        android:background="@drawable/reply_bg"
+        android:ellipsize="end"
+        android:lineSpacingMultiplier="1.2"
+        android:maxLines="2"
+        android:paddingStart="@dimen/dimen_10"
+        android:textColor="@color/comment_reply"
+        android:textSize="@dimen/font_size_16"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/tv_content"
+        app:layout_constraintStart_toStartOf="@id/tv_author"
+        app:layout_constraintTop_toBottomOf="@id/tv_content"/>
+
     <!--时间-->
     <TextView
         android:id="@+id/tv_comment_time"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_10"
         android:ellipsize="end"
@@ -81,7 +98,20 @@
         android:text="00-00 00:00"
         android:textColor="@color/gray_bfbfbf"
         android:textSize="@dimen/font_size_14"
-        app:layout_constraintEnd_toEndOf="@id/tv_content"
         app:layout_constraintStart_toStartOf="@id/tv_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_content"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_comment_reply"/>
+
+    <!--展开收缩-->
+    <TextView
+        android:id="@+id/tv_comment_expand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_20"
+        android:textColor="@color/gray_bfbfbf"
+        android:textSize="@dimen/font_size_16"
+        android:text="展开"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/tv_comment_time"
+        app:layout_constraintTop_toTopOf="@id/tv_comment_time"/>
+
 </android.support.constraint.ConstraintLayout>

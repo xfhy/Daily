@@ -16,4 +16,6 @@
     <color name="color_header">#6F6F6F</color>
     <color name="color_item_content">#000000</color>
     <color name="color_item_bg">#FFFFFF</color>
+
+    <color name="comment_reply">#9ba4a3</color>
 </resources>

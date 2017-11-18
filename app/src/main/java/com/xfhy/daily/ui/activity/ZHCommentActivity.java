@@ -193,6 +193,5 @@ public class ZHCommentActivity extends BaseMvpActivity<ZHCommentContract.Present
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        ToastUtil.showMessage(mContext, "点我了...");
     }
 }

@@ -68,8 +68,10 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
                         @Override
                         public void accept(List<DailyCommentBean.CommentsBean> commentsBeanList)
                                 throws Exception {
+                            //header
                             DailyCommentBean.CommentsBean headerBean = new DailyCommentBean
                                     .CommentsBean(true);
+                            //区分长评论和短评论
                             if (reqStep == 1) {
                                 headerBean.header = commentsBeanList.size() + "条长评";
                             } else {
@@ -77,8 +79,8 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
                                 reqStep--;
                             }
                             commentsBeanList.add(0, headerBean);
+                            mComments = commentsBeanList;
                             view.loadCommentSuccess(commentsBeanList);
-                            LogUtils.e(commentsBeanList.toString());
                             reqStep++;
                         }
                     }, new Consumer<Throwable>() {

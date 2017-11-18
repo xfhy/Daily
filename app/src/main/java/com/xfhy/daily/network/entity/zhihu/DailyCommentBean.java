@@ -169,6 +169,12 @@ public class DailyCommentBean {
              */
             private String author;
 
+            /**
+             * 展开状态
+             */
+            @JSONField(serialize=false)
+            private int expandState = 0;
+
             public String getContent() {
                 return content;
             }
@@ -199,6 +205,14 @@ public class DailyCommentBean {
 
             public void setAuthor(String author) {
                 this.author = author;
+            }
+
+            public int getExpandState() {
+                return expandState;
+            }
+
+            public void setExpandState(int expandState) {
+                this.expandState = expandState;
             }
 
             @Override
