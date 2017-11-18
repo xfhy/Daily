@@ -15,60 +15,33 @@ public interface ZHCommentContract {
 
     interface Presenter extends BasePresenter<View> {
         /**
-         * 从网络请求日报长评论
+         * 从网络请求日报评论
          *
          * @param id 日报id
          */
         void reqLongComFromNet(String id);
 
         /**
-         * 从网络请求日报短评论
-         *
-         * @param id 日报id
+         * 获取所有评论列表
          */
-        void reqShortComFromNet(String id);
-
-        /**
-         * 获取长评论列表
-         */
-        List<DailyCommentBean.CommentsBean> getLongComments();
-
-        /**
-         * 获取短评论列表
-         */
-        List<DailyCommentBean.CommentsBean> getShortComments();
+        List<DailyCommentBean.CommentsBean> getComments();
 
     }
 
     interface View extends BaseView {
         /**
-         * 加载长评论成功
+         * 加载评论成功
          *
          * @param commentsBean 服务器返回的数据
          */
-        void loadLongComSuccess(List<DailyCommentBean.CommentsBean> commentsBean);
+        void loadCommentSuccess(List<DailyCommentBean.CommentsBean> commentsBean);
 
         /**
-         * 加载长评论失败
+         * 加载评论失败
          *
          * @param errorMsg 错误信息
          */
-        void loadLongComError(String errorMsg);
-
-        /**
-         * 加载短评论成功
-         *
-         * @param commentsBean 服务器返回的数据
-         */
-        void loadShortComSuccess(List<DailyCommentBean.CommentsBean> commentsBean);
-
-        /**
-         * 加载短评论失败
-         *
-         * @param errorMsg 错误信息
-         */
-        void loadShortComError(String errorMsg);
-
+        void loadCommentError(String errorMsg);
     }
 
 }

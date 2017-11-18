@@ -91,12 +91,6 @@ public class ZHCommentActivity extends BaseMvpActivity<ZHCommentContract.Present
     protected void initData() {
         super.initData();
         mPresenter.reqLongComFromNet(String.valueOf(mDailyId));
-        mPresenter.reqShortComFromNet(String.valueOf(mDailyId));
-    }
-
-    @Override
-    public void loadShortComError(String errorMsg) {
-        SnackbarUtil.showBarShortTime(rvDailyComment, errorMsg, SnackbarUtil.WARNING);
     }
 
     @Override
@@ -116,17 +110,16 @@ public class ZHCommentActivity extends BaseMvpActivity<ZHCommentContract.Present
 
     @Override
     public void closeLoading() {
-        mStateView.showContent();
     }
 
     @Override
     public void showErrorMsg(String msg) {
+        mStateView.showContent();
         SnackbarUtil.showBarShortTime(rvDailyComment, msg, SnackbarUtil.WARNING);
     }
 
     @Override
     public void showEmptyView() {
-        mStateView.showEmpty(R.string.stfErrorMessage);
     }
 
     @Override
@@ -154,7 +147,6 @@ public class ZHCommentActivity extends BaseMvpActivity<ZHCommentContract.Present
 
     @Override
     public void showContent() {
-        mStateView.showContent();
     }
 
     @Override
@@ -163,19 +155,14 @@ public class ZHCommentActivity extends BaseMvpActivity<ZHCommentContract.Present
     }
 
     @Override
-    public void loadLongComSuccess(List<DailyCommentBean.CommentsBean> commentsBean) {
+    public void loadCommentSuccess(List<DailyCommentBean.CommentsBean> commentsBean) {
         mStateView.showContent();
         mCommentAdapter.addData(commentsBean);
     }
 
     @Override
-    public void loadLongComError(String errorMsg) {
+    public void loadCommentError(String errorMsg) {
         SnackbarUtil.showBarShortTime(rvDailyComment, errorMsg, SnackbarUtil.WARNING);
-    }
-
-    @Override
-    public void loadShortComSuccess(List<DailyCommentBean.CommentsBean> commentsBean) {
-        mCommentAdapter.addData(commentsBean);
     }
 
     /**

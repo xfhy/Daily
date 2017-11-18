@@ -1,7 +1,6 @@
 package com.xfhy.daily.presenter.impl;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
@@ -12,8 +11,10 @@ import com.xfhy.daily.presenter.ZHCommentContract;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -29,13 +30,13 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
      */
     private RetrofitHelper mRetrofitHelper;
     /**
-     * 长评论数据
+     * 评论数据
      */
-    private List<DailyCommentBean.CommentsBean> mLongComments;
+    private List<DailyCommentBean.CommentsBean> mComments;
     /**
-     * 短评论数据
+     * 当前请求的是哪个请求  长评论,短评论
      */
-    private List<DailyCommentBean.CommentsBean> mShortComments;
+    private int reqStep = 1;
 
     public ZHCommentPresenter(Context context) {
         super(context);
@@ -44,75 +45,48 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
 
     @Override
     @SuppressWarnings("unchecked")
-    public void reqLongComFromNet(String id) {
+    public void reqLongComFromNet(final String id) {
         view.onLoading();
         if (DevicesUtils.hasNetworkConnected(mContext)) {
-            mRetrofitHelper.getZhiHuApi().getDailyLongComments(id)
+            Flowable<DailyCommentBean> longCommentFlowable = mRetrofitHelper.getZhiHuApi()
+                    .getDailyLongComments(id);
+            Flowable<DailyCommentBean> shortCommentFlowable = mRetrofitHelper.getZhiHuApi()
+                    .getDailyShortComments(id);
+            Flowable.concat(longCommentFlowable, shortCommentFlowable)   //必须按顺序
                     .compose(view.bindLifecycle())
+                    .map(new Function<DailyCommentBean, List<DailyCommentBean.CommentsBean>>() {
+                        @Override
+                        public List<DailyCommentBean.CommentsBean> apply(DailyCommentBean
+                                                                                 dailyCommentBean)
+                                throws Exception {
+                            return dailyCommentBean.getComments();
+                        }
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<DailyCommentBean>() {
+                    .subscribe(new Consumer<List<DailyCommentBean.CommentsBean>>() {
                         @Override
-                        public void accept(DailyCommentBean dailyCommentBean) throws Exception {
-                            if (dailyCommentBean != null && dailyCommentBean
-                                    .getComments() != null) {
-                                List<DailyCommentBean.CommentsBean> longComments = dailyCommentBean
-                                        .getComments();
-                                DailyCommentBean.CommentsBean headerBean = new DailyCommentBean
-                                        .CommentsBean(true);
-                                headerBean.header = longComments.size() + "条长评";
-                                longComments.add(0, headerBean);
-                                view.loadLongComSuccess(longComments);
-                                LogUtils.e(dailyCommentBean.toString());
+                        public void accept(List<DailyCommentBean.CommentsBean> commentsBeanList)
+                                throws Exception {
+                            DailyCommentBean.CommentsBean headerBean = new DailyCommentBean
+                                    .CommentsBean(true);
+                            if (reqStep == 1) {
+                                headerBean.header = commentsBeanList.size() + "条长评";
                             } else {
-                                view.showEmptyView();
+                                headerBean.header = commentsBeanList.size() + "条短评";
+                                reqStep--;
                             }
+                            commentsBeanList.add(0, headerBean);
+                            view.loadCommentSuccess(commentsBeanList);
+                            LogUtils.e(commentsBeanList.toString());
+                            reqStep++;
                         }
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
                             LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
                                     .getLocalizedMessage());
-                            view.showErrorMsg("日报长评论信息请求失败");
-                        }
-                    });
-        } else {
-            view.showOffline();
-        }
-
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public void reqShortComFromNet(String id) {
-        if (DevicesUtils.hasNetworkConnected(mContext)) {
-            mRetrofitHelper.getZhiHuApi().getDailyShortComments(id)
-                    .compose(view.bindLifecycle())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<DailyCommentBean>() {
-                        @Override
-                        public void accept(DailyCommentBean dailyCommentBean) throws Exception {
-                            if (dailyCommentBean != null && dailyCommentBean.getComments() !=
-                                    null) {
-                                List<DailyCommentBean.CommentsBean> shortComments = dailyCommentBean
-                                        .getComments();
-                                DailyCommentBean.CommentsBean headerBean = new DailyCommentBean
-                                        .CommentsBean(true);
-                                headerBean.header = shortComments.size() + "条短评";
-                                shortComments.add(0, headerBean);
-                                view.loadShortComSuccess(dailyCommentBean.getComments());
-                                LogUtils.e(dailyCommentBean.toString());
-                            } else {
-                                view.loadShortComError("该日报无短评论");
-                            }
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
-                                    .getLocalizedMessage());
-                            view.showErrorMsg("日报短评论信息请求失败");
+                            view.showErrorMsg("日报评论信息请求失败");
                         }
                     });
         } else {
@@ -120,15 +94,8 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
         }
     }
 
-    @Nullable
     @Override
-    public List<DailyCommentBean.CommentsBean> getLongComments() {
-        return mLongComments;
-    }
-
-    @Nullable
-    @Override
-    public List<DailyCommentBean.CommentsBean> getShortComments() {
-        return mShortComments;
+    public List<DailyCommentBean.CommentsBean> getComments() {
+        return mComments;
     }
 }
