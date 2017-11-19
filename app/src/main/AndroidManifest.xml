@@ -33,6 +33,8 @@
         </activity>
         <activity android:name=".ui.activity.ZHCommentActivity">
         </activity>
+        <activity android:name=".ui.activity.ThemeActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -17,6 +17,11 @@ public class DBConstants {
      * 知乎主题列表
      */
     public final static String ZHIHU_THEME_LIST_KEY = "zhihu_theme_list";
+    /**
+     * 知乎主题列表详情
+     */
+    public final static String ZHIHU_THEME_LIST_DETAILS_KEY = "zhihu_theme_details_list";
+
 
 
     /*-------------------收藏数据库----------------------*/

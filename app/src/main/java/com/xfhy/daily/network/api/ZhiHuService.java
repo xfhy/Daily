@@ -101,7 +101,7 @@ public interface ZhiHuService {
     @GET("themes")
     Flowable<TopicDailyListBean> getTopicDailyList();
 
-    //主题日报详情   https://news-at.zhihu.com/api/4/theme/11]
+    //主题日报详情   https://news-at.zhihu.com/api/4/theme/11
 
     /**
      * 获取主题日报详情

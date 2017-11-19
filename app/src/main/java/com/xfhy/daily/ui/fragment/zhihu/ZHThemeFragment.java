@@ -18,6 +18,7 @@ import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.TopicDailyListBean;
 import com.xfhy.daily.presenter.ZHThemeContract;
 import com.xfhy.daily.presenter.impl.ZHThemePresenter;
+import com.xfhy.daily.ui.activity.ThemeActivity;
 import com.xfhy.daily.ui.adapter.ZHThemeAdapter;
 
 import java.util.List;
@@ -26,8 +27,8 @@ import butterknife.BindView;
 
 /**
  * @author xfhy
- * create at 2017/11/18 23:30
- * description：知乎主题列表
+ *         create at 2017/11/18 23:30
+ *         description：知乎主题列表
  */
 public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implements ZHThemeContract
         .View, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener {
@@ -62,6 +63,9 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
 
     @Override
     protected void initView() {
+        //下拉刷新颜色
+        mRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+
         mThemeAdapter = new ZHThemeAdapter(R.layout.item_zh_theme, null, mActivity);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, SPAN_COUNT);
         mThemeList.setLayoutManager(gridLayoutManager);
@@ -152,6 +156,9 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        ToastUtil.showMessage(mActivity,"点我了...");
+        List<TopicDailyListBean.OthersBean> othersBeans = mPresenter.getData();
+        if (othersBeans != null && othersBeans.size() > position) {
+            ThemeActivity.enterZHThemeDetailsActi(mActivity, othersBeans.get(position).getId());
+        }
     }
 }
