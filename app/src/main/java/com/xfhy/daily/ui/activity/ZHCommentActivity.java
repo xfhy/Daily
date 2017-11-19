@@ -1,7 +1,9 @@
 package com.xfhy.daily.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +14,9 @@ import android.view.View;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.activity.BaseMvpActivity;
+import com.xfhy.androidbasiclibs.common.util.Clipboard;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
+import com.xfhy.androidbasiclibs.common.util.ShareUtil;
 import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
 import com.xfhy.androidbasiclibs.common.util.StringUtils;
 import com.xfhy.androidbasiclibs.common.util.ToastUtil;
@@ -33,6 +37,12 @@ public class ZHCommentActivity extends BaseMvpActivity<ZHCommentContract.Present
 
     private static final String DAILY_ID = "daily_id";
     private static final String COMMENT_COUNT = "comment_count";
+
+    /**
+     * 点击的评论的对话框选项
+     */
+    private final static String[] COMMENT_DIALOG_ITEMS = new String[]{"复制", "分享"};
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.sl_state_view)
@@ -126,7 +136,8 @@ public class ZHCommentActivity extends BaseMvpActivity<ZHCommentContract.Present
     public void showOffline() {
         setToolBar(mToolbar, "...");
         mStateView.showOffline(StringUtils.getStringByResId(mContext, R.string.stfOfflineMessage),
-                StringUtils.getStringByResId(mContext, R.string.stfButtonSetting), new View.OnClickListener() {
+                StringUtils.getStringByResId(mContext, R.string.stfButtonSetting), new View
+                        .OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //未联网  跳转到设置界面
@@ -192,6 +203,34 @@ public class ZHCommentActivity extends BaseMvpActivity<ZHCommentContract.Present
     }
 
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onItemClick(final BaseQuickAdapter adapter, View view, final int position) {
+        final Object adapterItem = adapter.getItem(position);
+        if (adapterItem == null || !(adapterItem instanceof DailyCommentBean
+                .CommentsBean)) {
+            return;
+        }
+        final DailyCommentBean.CommentsBean commentsBean = (DailyCommentBean
+                .CommentsBean) adapterItem;
+        final AlertDialog.Builder commentDialog = new AlertDialog.Builder(mContext);
+        commentDialog.setItems(COMMENT_DIALOG_ITEMS, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        //复制内容到系统剪贴板
+                        Clipboard.INSTANCE.copyText(mContext, commentsBean.getContent());
+                        SnackbarUtil.showBarShortTime(mStateView, "复制成功", SnackbarUtil.INFO);
+                        break;
+                    case 1:
+                        //调用系统分享 text
+                        ShareUtil.INSTANCE.shareText(mContext, "刚刚在知乎上看到一条评论很不错," +
+                                "内容如下:" + commentsBean.getContent());
+                        break;
+                    default:
+                }
+            }
+        });
+        commentDialog.setCancelable(true);
+        commentDialog.show();
     }
 }

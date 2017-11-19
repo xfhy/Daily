@@ -13,6 +13,11 @@ public class DBConstants {
      * 数据库中 知乎最新日报的元组的key
      */
     public final static String ZHIHU_LATEST_DAILY_KEY = "zhihu_latest_daily";
+    /**
+     * 知乎主题列表
+     */
+    public final static String ZHIHU_THEME_LIST_KEY = "zhihu_theme_list";
+
 
     /*-------------------收藏数据库----------------------*/
     /**

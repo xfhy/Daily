@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseFragment;
 import com.xfhy.daily.R;
@@ -53,7 +50,7 @@ public class ZhihuFragment extends BaseFragment {
     @Override
     protected void initView() {
         ZhihuTabAdapter zhihuTabAdapter = new ZhihuTabAdapter(getChildFragmentManager
-                (), getTestData());
+                (), getTabData());
         mViewPager.setAdapter(zhihuTabAdapter);
         // 设置默认的缓存个数
         mViewPager.setOffscreenPageLimit(PAGE_COUNT);
@@ -61,15 +58,14 @@ public class ZhihuFragment extends BaseFragment {
     }
 
     /**
-     * 测试
+     * 获取tab数据
      */
-    private List<Fragment> getTestData() {
+    private List<Fragment> getTabData() {
         List<Fragment> fragmentList = new ArrayList<>();
-        for (int i = 0; i < PAGE_COUNT; i++) {
-            ZhihuLatestDailyFragment zhihuLatestDailyFragment = ZhihuLatestDailyFragment
-                    .newInstance();
-            fragmentList.add(zhihuLatestDailyFragment);
-        }
+        ZHLatestDailyFragment zhLatestDailyFragment = ZHLatestDailyFragment.newInstance();
+        ZHThemeFragment zhThemeFragment = ZHThemeFragment.newInstance();
+        fragmentList.add(zhLatestDailyFragment);
+        fragmentList.add(zhThemeFragment);
         return fragmentList;
     }
 

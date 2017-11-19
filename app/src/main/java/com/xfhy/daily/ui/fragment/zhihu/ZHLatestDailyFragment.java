@@ -1,8 +1,5 @@
 package com.xfhy.daily.ui.fragment.zhihu;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
-import com.xfhy.androidbasiclibs.basekit.activity.BaseActivity;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseMVPFragment;
 import com.xfhy.androidbasiclibs.common.util.DensityUtil;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
@@ -41,7 +37,7 @@ import butterknife.BindView;
  * create at 2017/9/30 16:38
  * description：知乎最新日报fragment
  */
-public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresenter>
+public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresenter>
         implements ZHDailyLatestContract.View, SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener,
         EasyBanner.OnItemClickListener, ZhihuLatestDailyAdapter.HeaderChangeListener {
@@ -67,11 +63,11 @@ public class ZhihuLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPrese
      */
     private static final int BANNER_HEIGHT = 200;
 
-    public static ZhihuLatestDailyFragment newInstance() {
+    public static ZHLatestDailyFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        ZhihuLatestDailyFragment fragment = new ZhihuLatestDailyFragment();
+        ZHLatestDailyFragment fragment = new ZHLatestDailyFragment();
         fragment.setArguments(args);
         return fragment;
     }

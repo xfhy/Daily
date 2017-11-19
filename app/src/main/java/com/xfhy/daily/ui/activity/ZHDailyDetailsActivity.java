@@ -39,8 +39,8 @@ import butterknife.OnClick;
 
 /**
  * @author feiyang
- * @create 2017年11月7日11:14:19
- * @description 知乎最新日报详情页
+ * create 2017年11月7日11:14:19
+ * description 知乎最新日报详情页
  */
 public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContract.Presenter>
         implements ZHDailyDetailsContract.View {
@@ -317,7 +317,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @OnClick(R.id.tv_daily_like_count)
     public void likeDaily() {
-        ToastUtil.showMessage(mContext, "likeDaily");
+        SnackbarUtil.showBarShortTime(mNestedScrollView,"Sorry,暂未实现此功能",SnackbarUtil.CONFIRM);
     }
 
     @OnClick(R.id.tv_daily_comment_count)
@@ -329,7 +329,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     public void shareDaily() {
         DailyContentBean data = mPresenter.getData();
         if (data != null) {
-            ShareUtil.INSTANCE.shareUrl(this, data.getShareUrl());
+            ShareUtil.INSTANCE.shareText(this, "我正在使用Daily,看到一篇文章很不错,分享给大家: " + data.getShareUrl());
         } else {
             SnackbarUtil.showBarShortTime(mWebView, "数据未加载成功,不能分享", SnackbarUtil.WARNING);
         }

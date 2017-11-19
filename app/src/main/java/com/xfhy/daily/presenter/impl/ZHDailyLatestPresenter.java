@@ -72,6 +72,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
         reqDailyDataFromNet();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void reqDailyDataFromNet() {
         step = Constants.STATE_LOADING;
@@ -119,6 +120,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
 
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void reqDailyDataFromDB() {
         //把访问数据库的操作放到子线程中
@@ -175,37 +177,18 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                 });
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void saveDailyDataToDB(@android.support.annotation.NonNull LatestDailyListBean
+    public void saveDailyDataToDB(@android.support.annotation.NonNull final LatestDailyListBean
                                           latestDailyListBean) {
-        //缓存数据到数据库  用RxJava的IO线程去操作
-        Flowable.just(latestDailyListBean)
-                .compose(view.bindLifecycle())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<LatestDailyListBean>() {
-                    @Override
-                    public void accept(LatestDailyListBean latestDailyListBean) throws Exception {
-                        //缓存到数据库
-                        CacheBean cacheBean = new CacheBean();
-                        cacheBean.setKey(DBConstants.ZHIHU_LATEST_DAILY_KEY);
-                        cacheBean.setJson(JSON.toJSONString(latestDailyListBean));
-                        CacheDao.insertCache(NewsApplication.getDaoSession(), cacheBean);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        //缓存到数据库失败
-                        LogUtils.e("知乎首页数据缓存到数据库失败,原因:" + throwable.getLocalizedMessage());
-                    }
-                });
-
-
+        CacheDao.saveTextToDB(DBConstants.ZHIHU_LATEST_DAILY_KEY, NewsApplication.getDaoSession()
+                , JSON.toJSONString(latestDailyListBean));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void loadMoreData(@IntRange(from = 1) int pastDays) {
-        //TODO 需要写一个Util方法  计算今天的日期-x天 表示的日期   格式:yyyyMMdd
+        //需要写一个Util方法  计算今天的日期-x天 表示的日期   格式:yyyyMMdd
         //再计算该日期需要显示的文字  比如: 20171010 : 10月10日 星期二
         //-2天显示:10月09日 星期一
         /*

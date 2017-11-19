@@ -1,6 +1,18 @@
 package com.xfhy.androidbasiclibs.common.db;
 
+import com.alibaba.fastjson.JSON;
+import com.trello.rxlifecycle2.LifecycleTransformer;
+import com.xfhy.androidbasiclibs.common.util.LogUtils;
+
 import java.util.List;
+
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * author feiyang
@@ -14,8 +26,8 @@ public class CacheDao {
      *
      * @param cacheBean CacheBean数据
      */
-    public static void insertCache(DaoSession daoSession, CacheBean cacheBean) {
-        daoSession.insertOrReplace(cacheBean);
+    public static long insertCache(DaoSession daoSession, CacheBean cacheBean) {
+        return daoSession.insertOrReplace(cacheBean);
     }
 
     /**
@@ -65,6 +77,35 @@ public class CacheDao {
      */
     public static List<CacheBean> queryAllCache(DaoSession daoSession) {
         return daoSession.loadAll(CacheBean.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void saveTextToDB(final String key, final DaoSession daoSession, final String
+            text) {
+        //缓存数据到数据库  用RxJava的IO线程去操作
+        Flowable.create(new FlowableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(FlowableEmitter<Boolean> e) throws Exception {
+                //缓存到数据库
+                CacheBean cacheBean = new CacheBean();
+                cacheBean.setKey(key);
+                cacheBean.setJson(text);
+                CacheDao.insertCache(daoSession, cacheBean);
+            }
+        }, BackpressureStrategy.BUFFER)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean success) throws Exception {
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        //缓存到数据库失败
+                        LogUtils.e(key + "数据缓存到数据库失败,原因:" + throwable.getLocalizedMessage());
+                    }
+                });
     }
 
 }
