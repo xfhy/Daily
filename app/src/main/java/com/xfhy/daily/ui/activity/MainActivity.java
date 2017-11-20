@@ -83,29 +83,6 @@ public class MainActivity extends BaseActivity implements NavigationView
 
     @Override
     protected void initData() {
-        /*
-        请求网络的demo   以后需要写在presenter里面的
-
-        RetrofitHelper retrofitHelper = RetrofitHelper.getInstance();
-        if (DevicesUtils.hasNetworkConnected(this)) {
-            retrofitHelper.getZhiHuApi().getHotDailyList()
-                    .compose(this.<HotDailyBean>bindToLifecycle())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<HotDailyBean>() {
-                        @Override
-                        public void accept(HotDailyBean s) throws Exception {
-                            LogUtils.e(s.toString());
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            LogUtils.e(throwable.getLocalizedMessage());
-                        }
-                    });
-        } else {
-            ToastUtil.showMessage(this, "没有网络");
-        }*/
 
     }
 

@@ -57,7 +57,7 @@ public class ThemeActivity extends BaseMvpActivity<ZHThemeDetailsContract.Presen
     /**
      * 当前日报类别的id
      */
-    private int themeId = -1;
+    private int mThemeId = -1;
     private ZHThemeDetailsAdapter mThemeDetailsAdapter;
 
     @Override
@@ -105,14 +105,14 @@ public class ThemeActivity extends BaseMvpActivity<ZHThemeDetailsContract.Presen
         super.initIntentData();
         Intent intent = getIntent();
         if (intent != null) {
-            themeId = intent.getIntExtra(THEME_ID, -1);
+            mThemeId = intent.getIntExtra(THEME_ID, -1);
         }
     }
 
     @Override
     protected void initData() {
         super.initData();
-        mPresenter.reqDataFromNet(String.valueOf(themeId));
+        mPresenter.reqDataFromNet(String.valueOf(mThemeId));
     }
 
     @Override
@@ -133,7 +133,7 @@ public class ThemeActivity extends BaseMvpActivity<ZHThemeDetailsContract.Presen
     @Override
     public void showErrorMsg(String msg) {
         closeLoading();
-        //SnackbarUtil.showBarLongTime(mStateView, msg, SnackbarUtil.ALERT);
+        SnackbarUtil.showBarLongTime(mStateView, msg, SnackbarUtil.ALERT);
     }
 
     @Override
@@ -149,6 +149,7 @@ public class ThemeActivity extends BaseMvpActivity<ZHThemeDetailsContract.Presen
     @Override
     public void showOffline() {
         closeRefresh();
+        closeLoading();
         SnackbarUtil.showBarLongTime(mStateView, StringUtils
                         .getStringByResId(mContext, R.string.stfOfflineMessage), SnackbarUtil
                         .WARNING, StringUtils.getStringByResId(mContext, R.string.stfButtonSetting),
@@ -184,6 +185,11 @@ public class ThemeActivity extends BaseMvpActivity<ZHThemeDetailsContract.Presen
     }
 
     @Override
+    public int getmThemeId() {
+        return mThemeId;
+    }
+
+    @Override
     protected void initViewEvent() {
 
     }
@@ -213,7 +219,7 @@ public class ThemeActivity extends BaseMvpActivity<ZHThemeDetailsContract.Presen
 
     @Override
     public void onRefresh() {
-        mPresenter.reqDataFromNet(String.valueOf(themeId));
+        mPresenter.reqDataFromNet(String.valueOf(mThemeId));
     }
 
     @Override

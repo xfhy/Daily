@@ -8,6 +8,7 @@
 
     <!--多样式布局-->
     <string name="stfErrorMessage">糟糕！加载失败了ヽ(≧Д≦)ノ\n 请稍后重试...</string>
+    <string name="stfErrorMessageNormal">加载数据失败...</string>
     <string name="stfOfflineMessage">网络不给力,请检查网络设置</string>
     <string name="stfEmptyMessage">咦,没有数据可以显示....请尝试下拉刷新一下</string>
     <string name="stfLoadingMessage">正在加载中...</string>

@@ -44,5 +44,10 @@ public interface ZHThemeDetailsContract {
          * 请求主题列表数据成功
          */
         void loadSuccess(ThemeDailyDetailsBean themeDailyDetailsBean);
+
+        /**
+         * 获取当前主题id
+         */
+        int getmThemeId();
     }
 }

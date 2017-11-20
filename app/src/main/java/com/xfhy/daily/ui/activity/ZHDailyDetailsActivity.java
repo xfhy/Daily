@@ -39,8 +39,8 @@ import butterknife.OnClick;
 
 /**
  * @author feiyang
- * create 2017年11月7日11:14:19
- * description 知乎最新日报详情页
+ *         create 2017年11月7日11:14:19
+ *         description 知乎最新日报详情页
  */
 public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContract.Presenter>
         implements ZHDailyDetailsContract.View {
@@ -159,7 +159,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
             settings.setBlockNetworkImage(true);
         }
         //判断用户是否设置了自动缓存
-        if (!mPresenter.getAutoCacheState()) {
+        if (mPresenter.getAutoCacheState()) {
             //设置是否应该启用应用程序缓存API。 默认值是false
             settings.setAppCacheEnabled(true);
             //设置是否启用DOM存储API。 默认值是false。
@@ -246,10 +246,11 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @Override
     public void loadError() {
+        setToolBar(mToolbar, "...");
         LoadDialogUtil.dismiss();
         SnackbarUtil.showBarLongTime(mWebView, StringUtils
-                        .getStringByResId(mContext, R.string.stfErrorMessage), SnackbarUtil
-                        .WARNING, StringUtils.getStringByResId(mContext, R.string.empty_view_retry),
+                        .getStringByResId(mContext, R.string.stfErrorMessageNormal), SnackbarUtil
+                        .ALERT, StringUtils.getStringByResId(mContext, R.string.empty_view_retry),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -317,7 +318,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @OnClick(R.id.tv_daily_like_count)
     public void likeDaily() {
-        SnackbarUtil.showBarShortTime(mNestedScrollView,"Sorry,暂未实现此功能",SnackbarUtil.CONFIRM);
+        SnackbarUtil.showBarShortTime(mNestedScrollView, "Sorry,暂未实现此功能", SnackbarUtil.CONFIRM);
     }
 
     @OnClick(R.id.tv_daily_comment_count)

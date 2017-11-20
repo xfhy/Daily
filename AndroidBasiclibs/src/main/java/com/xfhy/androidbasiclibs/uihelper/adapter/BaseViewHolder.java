@@ -223,7 +223,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      */
     public BaseViewHolder setVisible(@IdRes int viewId, boolean visible) {
         View view = getView(viewId);
-        view.setVisibility(visible ? view.VISIBLE : View.GONE);
+        view.setVisibility(visible ? View.VISIBLE : View.GONE);
         return this;
     }
 

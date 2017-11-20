@@ -3,7 +3,10 @@ package com.xfhy.androidbasiclibs.common.util;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.xfhy.androidbasiclibs.common.db.RewriteCacheControlInterceptor;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +19,10 @@ import okhttp3.Cache;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by xfhy on 2017/9/24 22:18.
@@ -30,6 +36,18 @@ public class OkHttpUtils {
      * 对象，这是非常耗费资源的
      */
     private static OkHttpClient okHttpClient = null;
+    /**
+     * 最大缓存 10M
+     */
+    private final static int MAX_CACHE_SIZE = 10 * 1024 * 1024;
+    /**
+     * 读取超时 20s
+     */
+    private final static int READ_TIME_OUT = 20;
+    /**
+     * 连接超时
+     */
+    private final static int CONNECT_TIME_OUT = 15;
 
     /**
      * 初始化OkHttp客户端
@@ -46,38 +64,26 @@ public class OkHttpUtils {
      * 初始化OkHttp
      */
     public static void initOkHttp(Context context) {
+        //拦截器
+        RewriteCacheControlInterceptor mRewriteCacheControlInterceptor = new
+                RewriteCacheControlInterceptor(context);
+
         //缓存文件
         File cacheFile = context.getCacheDir();
-        int cacheSize = 10 * 1024 * 1024;  //缓存的maxSize
-
+        //设置缓存大小
+        Cache cache = new Cache(cacheFile, MAX_CACHE_SIZE);
         if (cacheFile != null) {
             okHttpClient = new OkHttpClient.Builder()
-                    .connectTimeout(15, TimeUnit.SECONDS)//连接超时(单位:秒)
-                    .writeTimeout(20, TimeUnit.SECONDS)//写入超时(单位:秒)
-                    .readTimeout(20, TimeUnit.SECONDS)//读取超时(单位:秒)
-                    .pingInterval(20, TimeUnit.SECONDS) //WebSocket轮训间隔(单位:秒)
-                    .cache(new Cache(cacheFile.getAbsoluteFile(), cacheSize))//设置缓存
-                    .cookieJar(new CookieJar() {  //设置缓存自动管理
-                        private final HashMap<HttpUrl, List<Cookie>> cookieStore = new HashMap<>();
-
-                        @Override
-                        public void saveFromResponse(@NonNull HttpUrl url, @NonNull List<Cookie>
-                                cookies) {
-                            cookieStore.put(url, cookies);
-                        }
-
-                        @Override
-                        public List<Cookie> loadForRequest(@NonNull HttpUrl url) {
-                            List<Cookie> cookies = cookieStore.get(url);
-                            return cookies != null ? cookies : new ArrayList<Cookie>();
-                        }
-                    })
-                    .hostnameVerifier(new HostnameVerifier() {
-                        @Override
-                        public boolean verify(String hostname, SSLSession session) {
-                            return true;
-                        }
-                    })
+                    //超时设置
+                    .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
+                    .connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS)
+                    //错误重连
+                    .retryOnConnectionFailure(true)
+                    //拦截器
+                    .addNetworkInterceptor(mRewriteCacheControlInterceptor)
+                    .addInterceptor(mRewriteCacheControlInterceptor)
+                    //缓存
+                    .cache(cache)
                     .build();
         } else {
             okHttpClient = new OkHttpClient.Builder().build();

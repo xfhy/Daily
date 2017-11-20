@@ -243,6 +243,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
 
     }
 
+    @Override
     @Nullable
     public LatestDailyListBean getData() {
         return mData;

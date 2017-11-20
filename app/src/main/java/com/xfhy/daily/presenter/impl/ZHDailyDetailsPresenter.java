@@ -62,67 +62,60 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
     @Override
     public void reqDailyContentFromNet(String id) {
         view.onLoading();
-        LifecycleTransformer lifecycleTransformer = view.bindLifecycle();
-        if (DevicesUtils.hasNetworkConnected(mContext)) {
-            mRetrofitHelper.getZhiHuApi().getDailyContent(id)
-                    .compose(lifecycleTransformer)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<DailyContentBean>() {
-                        @Override
-                        public void accept(DailyContentBean dailyContentBean) throws Exception {
-                            mDailyContentBean = dailyContentBean;
-                            if (mDailyContentBean != null) {
-                                view.showContent();
-                                view.loadSuccess(mDailyContentBean);
-                            } else {
-                                view.showEmptyView();
-                            }
+        mRetrofitHelper.getZhiHuApi().getDailyContent(id)
+                .compose(view.bindLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<DailyContentBean>() {
+                    @Override
+                    public void accept(DailyContentBean dailyContentBean) throws Exception {
+                        mDailyContentBean = dailyContentBean;
+                        if (mDailyContentBean != null) {
+                            view.showContent();
+                            view.loadSuccess(mDailyContentBean);
+                        } else {
+                            view.showEmptyView();
+                        }
 
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            LogUtils.e("从网络请求日报内容失败" + throwable.getCause() + throwable
-                                    .getLocalizedMessage());
-                            view.loadError();
-                        }
-                    });
-        } else {
-            view.showOffline();
-        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        LogUtils.e("从网络请求日报内容失败" + throwable.getCause() + throwable
+                                .getLocalizedMessage());
+                        view.loadError();
+                    }
+                });
 
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void reqDailyExtraInfoFromNet(String id) {
-        if (DevicesUtils.hasNetworkConnected(mContext)) {
-            mRetrofitHelper.getZhiHuApi().getDailyExtraInfo(id)
-                    .compose(view.bindLifecycle())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<DailyExtraInfoBean>() {
-                        @Override
-                        public void accept(DailyExtraInfoBean dailyExtraInfoBean) throws Exception {
-                            mDailyExtraInfoBean = dailyExtraInfoBean;
-                            if (mDailyExtraInfoBean != null) {
-                                view.setExtraInfo(mDailyExtraInfoBean.getPopularity(),
-                                        mDailyExtraInfoBean.getComments());
-                            } else {
-                                view.showErrorMsg("日报评论信息请求失败");
-                                LogUtils.e("mDailyContentBean == null");
-                            }
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
-                                    .getLocalizedMessage());
+        mRetrofitHelper.getZhiHuApi().getDailyExtraInfo(id)
+                .compose(view.bindLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<DailyExtraInfoBean>() {
+                    @Override
+                    public void accept(DailyExtraInfoBean dailyExtraInfoBean) throws Exception {
+                        mDailyExtraInfoBean = dailyExtraInfoBean;
+                        if (mDailyExtraInfoBean != null) {
+                            view.setExtraInfo(mDailyExtraInfoBean.getPopularity(),
+                                    mDailyExtraInfoBean.getComments());
+                        } else {
                             view.showErrorMsg("日报评论信息请求失败");
+                            LogUtils.e("mDailyContentBean == null");
                         }
-                    });
-        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
+                                .getLocalizedMessage());
+                        view.loadError();
+                    }
+                });
     }
 
     @Override
