@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -15,7 +14,7 @@ import com.xfhy.androidbasiclibs.basekit.activity.BaseActivity;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseFragment;
 import com.xfhy.androidbasiclibs.common.util.ToastUtil;
 import com.xfhy.daily.R;
-import com.xfhy.daily.ui.fragment.zhihu.ZhihuFragment;
+import com.xfhy.daily.ui.fragment.zhihu.ZHMainFragment;
 
 import butterknife.BindView;
 
@@ -65,7 +64,7 @@ public class MainActivity extends BaseActivity implements NavigationView
     private void showZhihu() {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fl_main_content, ZhihuFragment.newInstance());
+        fragmentTransaction.add(R.id.fl_main_content, ZHMainFragment.newInstance());
         fragmentTransaction.commit();
     }
 

@@ -8,7 +8,7 @@ import android.support.v4.view.ViewPager;
 
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseFragment;
 import com.xfhy.daily.R;
-import com.xfhy.daily.ui.adapter.ZhihuTabAdapter;
+import com.xfhy.daily.ui.adapter.ZHTabAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import butterknife.BindView;
  * create at 2017/9/30 15:34
  * description：知乎板块的主fragment
  */
-public class ZhihuFragment extends BaseFragment {
+public class ZHMainFragment extends BaseFragment {
 
     @BindView(R.id.tl_zhihu)
     TabLayout mTabLayout;
@@ -28,11 +28,11 @@ public class ZhihuFragment extends BaseFragment {
     ViewPager mViewPager;
     private static final int PAGE_COUNT = 4;
 
-    public static ZhihuFragment newInstance() {
+    public static ZHMainFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        ZhihuFragment fragment = new ZhihuFragment();
+        ZHMainFragment fragment = new ZHMainFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,12 +44,12 @@ public class ZhihuFragment extends BaseFragment {
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_zhuhu_main;
+        return R.layout.fragment_zh_main;
     }
 
     @Override
     protected void initView() {
-        ZhihuTabAdapter zhihuTabAdapter = new ZhihuTabAdapter(getChildFragmentManager
+        ZHTabAdapter zhihuTabAdapter = new ZHTabAdapter(getChildFragmentManager
                 (), getTabData());
         mViewPager.setAdapter(zhihuTabAdapter);
         // 设置默认的缓存个数
@@ -64,8 +64,10 @@ public class ZhihuFragment extends BaseFragment {
         List<Fragment> fragmentList = new ArrayList<>();
         ZHLatestDailyFragment zhLatestDailyFragment = ZHLatestDailyFragment.newInstance();
         ZHThemeFragment zhThemeFragment = ZHThemeFragment.newInstance();
+        ZHSectionFragment zhSectionFragment = ZHSectionFragment.newInstance();
         fragmentList.add(zhLatestDailyFragment);
         fragmentList.add(zhThemeFragment);
+        fragmentList.add(zhSectionFragment);
         return fragmentList;
     }
 

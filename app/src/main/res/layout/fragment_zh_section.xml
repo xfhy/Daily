@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--知乎专栏首页-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh_layout_section"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout
+            android:id="@+id/sfl_state_view_section"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_zh_section"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dimen_10"/>
+
+        </com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</android.support.constraint.ConstraintLayout>

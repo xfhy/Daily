@@ -24,3 +24,12 @@ common是一个通用型的工具箱集，它可以对上层所依赖的第三�
 ### uihelper
 
 uihelper是一个自定义View的依赖。所有不含业务型的View都应该放在这个module。
+
+# 2. 主界面
+
+全部放在MainActivity中
+
+### 知乎模块
+
+整体一个fragment包含一个ViewPager,然后一个ViewPager包含4个fragment.
+分别为日报,主题,专栏,热门.

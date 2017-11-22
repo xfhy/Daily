@@ -11,7 +11,7 @@ import java.util.List;
  * create at 2017/9/30 17:18
  * description：知乎首页顶部分页
  */
-public class ZhihuTabAdapter extends FragmentPagerAdapter {
+public class ZHTabAdapter extends FragmentPagerAdapter {
 
     /**
      * 知乎的标题栏是直接定了的
@@ -22,7 +22,7 @@ public class ZhihuTabAdapter extends FragmentPagerAdapter {
      */
     private List<Fragment> fragmentList;
 
-    public ZhihuTabAdapter(FragmentManager fm, List<Fragment> fragmentList) {
+    public ZHTabAdapter(FragmentManager fm, List<Fragment> fragmentList) {
         super(fm);
         this.fragmentList = fragmentList;
         if (fragmentList == null) {

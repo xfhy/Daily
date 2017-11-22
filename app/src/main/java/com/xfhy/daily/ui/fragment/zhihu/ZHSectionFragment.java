@@ -2,7 +2,7 @@ package com.xfhy.daily.ui.fragment.zhihu;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -14,67 +14,71 @@ import com.xfhy.androidbasiclibs.common.util.StringUtils;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
 import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
 import com.xfhy.daily.R;
-import com.xfhy.daily.network.entity.zhihu.TopicDailyListBean;
-import com.xfhy.daily.presenter.ZHThemeContract;
-import com.xfhy.daily.presenter.impl.ZHThemePresenter;
+import com.xfhy.daily.network.entity.zhihu.ColumnDailyBean;
+import com.xfhy.daily.presenter.ZHSectionContract;
+import com.xfhy.daily.presenter.impl.ZHSectionPresenter;
 import com.xfhy.daily.ui.activity.MainActivity;
-import com.xfhy.daily.ui.activity.ThemeActivity;
-import com.xfhy.daily.ui.adapter.ZHThemeAdapter;
+import com.xfhy.daily.ui.adapter.ZHSectionAdapter;
 
 import java.util.List;
 
 import butterknife.BindView;
 
 /**
- * @author xfhy
- *         create at 2017/11/18 23:30
- *         description：知乎主题列表
+ * @author feiyang
+ *         time create at 2017/11/22 15:04
+ *         description 知乎专栏fragment
  */
-public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implements ZHThemeContract
-        .View, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener {
+public class ZHSectionFragment extends BaseMVPFragment<ZHSectionPresenter> implements
+        ZHSectionContract.View, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter
+        .OnItemClickListener {
 
-    /**
-     * 主题列表列数
-     */
-    private static final int SPAN_COUNT = 2;
 
-    @BindView(R.id.srl_refresh_layout)
-    SwipeRefreshLayout mRefreshLayout;
-    @BindView(R.id.rv_theme_list)
-    RecyclerView mThemeList;
-    @BindView(R.id.sfl_state_view)
+    @BindView(R.id.rv_zh_section)
+    RecyclerView mSectionRv;
+    @BindView(R.id.sfl_state_view_section)
     StatefulLayout mStateView;
+    @BindView(R.id.srl_refresh_layout_section)
+    SwipeRefreshLayout mRefreshLayout;
 
-    private ZHThemeAdapter mThemeAdapter;
+    private ZHSectionAdapter mSectionAdapter;
 
-    public static ZHThemeFragment newInstance() {
+    public static ZHSectionFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        ZHThemeFragment fragment = new ZHThemeFragment();
+        ZHSectionFragment fragment = new ZHSectionFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_zh_theme;
+        return R.layout.fragment_zh_section;
     }
 
     @Override
     protected void initView() {
+
+        //设置标题
+        if (mActivity != null && mActivity instanceof MainActivity) {
+            MainActivity activity = (MainActivity) mActivity;
+            activity.setToolBar(StringUtils.getStringByResId(activity, R.string.zh_section));
+        }
+
         //下拉刷新颜色
         mRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
-        mThemeAdapter = new ZHThemeAdapter(R.layout.item_zh_theme, null, mActivity);
-        mThemeAdapter.openLoadAnimation();
-        mThemeAdapter.isFirstOnly(false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, SPAN_COUNT);
-        mThemeList.setLayoutManager(gridLayoutManager);
-        mThemeList.setAdapter(mThemeAdapter);
+        mSectionAdapter = new ZHSectionAdapter(R.layout.item_zh_section, null, mActivity);
+        //循环 动画
+        mSectionAdapter.openLoadAnimation();
+        mSectionAdapter.isFirstOnly(false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        mSectionRv.setLayoutManager(linearLayoutManager);
+        mSectionRv.setAdapter(mSectionAdapter);
 
         mRefreshLayout.setOnRefreshListener(this);
-        mThemeAdapter.setOnItemClickListener(this);
+        mSectionAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -84,10 +88,16 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
     }
 
     @Override
+    public void loadSuccess(List<ColumnDailyBean.DataBean> dataBeans) {
+        closeRefresh();
+        mStateView.showContent();
+        mSectionAdapter.replaceData(dataBeans);
+    }
+
+    @Override
     public void onLoading() {
         mStateView.showLoading();
     }
-
 
     @Override
     public LifecycleTransformer bindLifecycle() {
@@ -116,13 +126,6 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
     }
 
     @Override
-    public void loadSuccess(List<TopicDailyListBean.OthersBean> othersBeans) {
-        closeRefresh();
-        mStateView.showContent();
-        mThemeAdapter.replaceData(othersBeans);
-    }
-
-    @Override
     public void showOffline() {
         closeRefresh();
         mStateView.showOffline(R.string.stfOfflineMessage, R.string.stfButtonSetting, new View
@@ -143,7 +146,7 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
 
     @Override
     public void initPresenter() {
-        mPresenter = new ZHThemePresenter(mActivity);
+        mPresenter = new ZHSectionPresenter(mActivity);
     }
 
     @Override
@@ -158,10 +161,7 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        List<TopicDailyListBean.OthersBean> othersBeans = mPresenter.getData();
-        if (othersBeans != null && othersBeans.size() > position) {
-            ThemeActivity.enterZHThemeDetailsActi(mActivity, othersBeans.get(position).getId());
-        }
+        SnackbarUtil.showBarShortTime(mStateView, "点我了", SnackbarUtil.INFO);
     }
 
     @Override
@@ -170,9 +170,10 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
             //设置标题
             if (mActivity != null && mActivity instanceof MainActivity) {
                 MainActivity activity = (MainActivity) mActivity;
-                activity.setToolBar(StringUtils.getStringByResId(activity, R.string.zh_theme));
+                activity.setToolBar(StringUtils.getStringByResId(activity, R.string.zh_section));
             }
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
+
 }

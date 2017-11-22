@@ -15,6 +15,7 @@ import com.xfhy.androidbasiclibs.common.util.DensityUtil;
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.common.util.GlideUtils;
 import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
+import com.xfhy.androidbasiclibs.common.util.StringUtils;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
 import com.xfhy.androidbasiclibs.uihelper.widget.EasyBanner;
 import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
@@ -25,7 +26,7 @@ import com.xfhy.daily.presenter.ZHDailyLatestContract;
 import com.xfhy.daily.presenter.impl.ZHDailyLatestPresenter;
 import com.xfhy.daily.ui.activity.MainActivity;
 import com.xfhy.daily.ui.activity.ZHDailyDetailsActivity;
-import com.xfhy.daily.ui.adapter.ZhihuLatestDailyAdapter;
+import com.xfhy.daily.ui.adapter.ZHLatestDailyAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ import butterknife.BindView;
 public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresenter>
         implements ZHDailyLatestContract.View, SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener,
-        EasyBanner.OnItemClickListener, ZhihuLatestDailyAdapter.HeaderChangeListener {
+        EasyBanner.OnItemClickListener, ZHLatestDailyAdapter.HeaderChangeListener {
 
     @BindView(R.id.sl_state_view)
     StatefulLayout mStateView;
@@ -49,7 +50,7 @@ public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresente
     @BindView(R.id.rv_latest_daily_list)
     RecyclerView mDailyRecyclerView;
 
-    private ZhihuLatestDailyAdapter mDailyAdapter;
+    private ZHLatestDailyAdapter mDailyAdapter;
     /**
      * 过去的天数
      */
@@ -90,7 +91,7 @@ public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresente
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_zhihu_latest_daily;
+        return R.layout.fragment_zh_latest_daily;
     }
 
     @Override
@@ -98,7 +99,7 @@ public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresente
         //下拉刷新颜色
         mRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
-        mDailyAdapter = new ZhihuLatestDailyAdapter(mActivity,
+        mDailyAdapter = new ZHLatestDailyAdapter(mActivity,
                 null);
         // 开启RecyclerView动画
         mDailyAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
@@ -275,6 +276,13 @@ public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresente
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            //设置标题
+            if (mActivity != null && mActivity instanceof MainActivity) {
+                MainActivity activity = (MainActivity) mActivity;
+                activity.setToolBar(StringUtils.getStringByResId(activity, R.string.zh_daily));
+            }
+        }
         super.setUserVisibleHint(isVisibleToUser);
         if (!isCreated) {
             return;

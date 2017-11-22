@@ -12,10 +12,18 @@
     <string name="drawer_menu_like">收藏</string>
     <string name="drawer_menu_setting">设置</string>
     <string name="drawer_menu_about">关于</string>
+
+    <string name="zh_daily">知乎·日报</string>
+    <string name="zh_theme">知乎·主题</string>
+    <string name="zh_section">知乎·专栏</string>
+    <string name="zh_hot">知乎·热门</string>
+
     <string name="navigation_drawer_open">菜单打开</string>
     <string name="navigation_drawer_close">菜单关闭</string>
+
     <string name="app_intro">A pure reading App for you</string>
     <string name="test">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</string>
+
     <string name="devices_offline">未连接网络</string>
     <string name="daily_bottom_like">点赞</string>
     <string name="daily_bottom_comment">评论</string>

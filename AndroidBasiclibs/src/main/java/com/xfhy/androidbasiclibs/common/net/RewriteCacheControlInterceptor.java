@@ -1,10 +1,9 @@
-package com.xfhy.androidbasiclibs.common.db;
+package com.xfhy.androidbasiclibs.common.net;
 
 import android.content.Context;
 import android.text.TextUtils;
 
 import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
-import com.xfhy.androidbasiclibs.common.util.LogUtils;
 
 import java.io.IOException;
 
@@ -48,17 +47,12 @@ public class RewriteCacheControlInterceptor implements Interceptor {
         }
         Response originalResponse = chain.proceed(request);
         if (DevicesUtils.hasNetworkConnected(mContext)) {
-
-            LogUtils.e("有网络");
             //有网的时候连接服务器请求,缓存60s
             return originalResponse.newBuilder()
                     .header("Cache-Control", "public, max-age=" + MAX_AGE)
                     .removeHeader("Pragma")
                     .build();
         } else {
-
-            LogUtils.e("无网络");
-
             //网络断开时读取缓存
             return originalResponse.newBuilder()
                     .header("Cache-Control", "public, only-if-cached, max-stale=" + CACHE_STALE_SEC)

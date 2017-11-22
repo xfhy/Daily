@@ -1,28 +1,12 @@
-package com.xfhy.androidbasiclibs.common.util;
+package com.xfhy.androidbasiclibs.common.net;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-
-import com.xfhy.androidbasiclibs.common.db.RewriteCacheControlInterceptor;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
-
 import okhttp3.Cache;
-import okhttp3.Cookie;
-import okhttp3.CookieJar;
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by xfhy on 2017/9/24 22:18.
