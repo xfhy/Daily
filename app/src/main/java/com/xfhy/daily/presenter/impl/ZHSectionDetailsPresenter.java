@@ -14,8 +14,8 @@ import com.xfhy.androidbasiclibs.common.util.StringUtils;
 import com.xfhy.daily.NewsApplication;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.RetrofitHelper;
-import com.xfhy.daily.network.entity.zhihu.ColumnDailyBean;
-import com.xfhy.daily.presenter.ZHSectionContract;
+import com.xfhy.daily.network.entity.zhihu.ColumnDailyDetailsBean;
+import com.xfhy.daily.presenter.ZHSectionDetailsContract;
 
 import java.util.List;
 
@@ -29,53 +29,54 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * @author feiyang
- *         time create at 2017/11/22 14:24
- *         description
+ * @author xfhy
+ *         create at 2017/11/26 12:49
+ *         description：知乎专栏详情列表presenter
  */
-public class ZHSectionPresenter extends AbstractPresenter<ZHSectionContract.View> implements
-        ZHSectionContract.Presenter {
+public class ZHSectionDetailsPresenter extends AbstractPresenter<ZHSectionDetailsContract.View>
+        implements ZHSectionDetailsContract.Presenter {
 
     private RetrofitHelper mRetrofitHelper;
-    private List<ColumnDailyBean.DataBean> mData;
+    private List<ColumnDailyDetailsBean.StoriesBean> mData;
     /**
      * 当前view所处的状态
      */
     private int mStep;
 
-    public ZHSectionPresenter(Context context) {
+    public ZHSectionDetailsPresenter(Context context) {
         super(context);
         mRetrofitHelper = RetrofitHelper.getInstance();
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void reqDataFromNet() {
+    public void reqDataFromNet(String sectionId) {
         view.onLoading();
         mStep = Constants.STATE_LOADING;
         if (DevicesUtils.hasNetworkConnected(mContext)) {
-            mRetrofitHelper.getZhiHuApi().getColumnDailyList()
+            mRetrofitHelper.getZhiHuApi().getColumnDailyDetailsList(sectionId)
                     .compose(view.bindLifecycle())
-                    .map(new Function<ColumnDailyBean, List<ColumnDailyBean.DataBean>>() {
+                    .map(new Function<ColumnDailyDetailsBean, List<ColumnDailyDetailsBean
+                            .StoriesBean>>() {
+
                         @Override
-                        public List<ColumnDailyBean.DataBean> apply(ColumnDailyBean
-                                                                            columnDailyBean)
-                                throws Exception {
-                            return columnDailyBean.getData();
+                        public List<ColumnDailyDetailsBean.StoriesBean> apply
+                                (ColumnDailyDetailsBean columnDailyDetailsBean) throws Exception {
+                            return columnDailyDetailsBean.getStories();
                         }
                     })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<List<ColumnDailyBean.DataBean>>() {
+                    .subscribe(new Consumer<List<ColumnDailyDetailsBean.StoriesBean>>() {
                         @Override
-                        public void accept(List<ColumnDailyBean.DataBean> dataBeans)
+                        public void accept(List<ColumnDailyDetailsBean.StoriesBean> dataBeans)
                                 throws Exception {
                             if (dataBeans != null) {
                                 view.loadSuccess(dataBeans);
                                 mData = dataBeans;
                                 saveDataToDB(dataBeans);
                             } else {
-                                view.showErrorMsg("专栏列表加载失败....");
+                                view.showErrorMsg("专栏列表详情加载失败....");
                                 view.showEmptyView();
                             }
                             mStep = Constants.STATE_NORMAL;
@@ -83,7 +84,7 @@ public class ZHSectionPresenter extends AbstractPresenter<ZHSectionContract.View
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            LogUtils.e("专栏列表加载失败 错误:" + throwable.getLocalizedMessage());
+                            LogUtils.e("专栏列表详情加载失败 错误:" + throwable.getLocalizedMessage());
                             view.showEmptyView();
                         }
                     });
@@ -93,11 +94,11 @@ public class ZHSectionPresenter extends AbstractPresenter<ZHSectionContract.View
     }
 
     @Override
-    public void refreshData() {
+    public void refreshData(String sectionId) {
         if (mStep == Constants.STATE_LOADING) {
             return;
         }
-        reqDataFromNet();
+        reqDataFromNet(sectionId);
     }
 
     @SuppressWarnings("unchecked")
@@ -109,7 +110,7 @@ public class ZHSectionPresenter extends AbstractPresenter<ZHSectionContract.View
                     Exception {
                 List<CacheBean> cacheBeans = CacheDao.queryCacheByKey(NewsApplication
                         .getDaoSession(), DBConstants
-                        .ZHIHU_SECTION_LIST_KEY);
+                        .ZHIHU_SECTION_DETAILS_LIST_KEY + view.getSectionId());
                 if (cacheBeans != null && cacheBeans.size() > 0 && cacheBeans.get(0) != null) {
                     CacheBean cacheBean = cacheBeans.get(0);  //读取出来的值
                     e.onNext(cacheBean);
@@ -127,7 +128,8 @@ public class ZHSectionPresenter extends AbstractPresenter<ZHSectionContract.View
                     public void accept(CacheBean cacheBean) throws
                             Exception {
                         //解析json数据
-                        mData = JSON.parseArray(cacheBean.getJson(), ColumnDailyBean.DataBean
+                        mData = JSON.parseArray(cacheBean.getJson(), ColumnDailyDetailsBean
+                                .StoriesBean
                                 .class);
                         //判断数据是否为空
                         if (mData != null) {
@@ -159,29 +161,22 @@ public class ZHSectionPresenter extends AbstractPresenter<ZHSectionContract.View
     }
 
     @Override
-    public void saveDataToDB(List<ColumnDailyBean.DataBean> dataBeans) {
-        CacheDao.saveTextToDB(DBConstants.ZHIHU_SECTION_LIST_KEY, NewsApplication.getDaoSession(),
+    public void saveDataToDB(List<ColumnDailyDetailsBean.StoriesBean> dataBeans) {
+        CacheDao.saveTextToDB(DBConstants.ZHIHU_SECTION_DETAILS_LIST_KEY + view.getSectionId(),
+                NewsApplication.getDaoSession(),
                 JSON.toJSONString(dataBeans));
     }
 
     @Override
-    public List<ColumnDailyBean.DataBean> getData() {
+    public List<ColumnDailyDetailsBean.StoriesBean> getData() {
         return mData;
     }
 
     @Override
-    public int getSectionId(int position) {
+    public int getDailyId(int position) {
         if (mData != null && mData.size() > position) {
             return mData.get(position).getId();
         }
         return 0;
-    }
-
-    @Override
-    public String getSectionTitle(int position) {
-        if (mData != null && mData.size() > position) {
-            return mData.get(position).getName();
-        }
-        return "";
     }
 }

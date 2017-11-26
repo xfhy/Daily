@@ -5,22 +5,6 @@
     android:layout_height="match_parent">
 
     <!--知乎 最新日报布局-->
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/srl_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout
-            android:id="@+id/sl_state_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_latest_daily_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    <include layout="@layout/layout_refresh_common_list"/>
 
 </android.support.design.widget.CoordinatorLayout>

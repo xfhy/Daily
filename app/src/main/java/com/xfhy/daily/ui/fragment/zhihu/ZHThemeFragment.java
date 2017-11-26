@@ -40,7 +40,7 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
 
     @BindView(R.id.srl_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
-    @BindView(R.id.rv_theme_list)
+    @BindView(R.id.rv_common_list)
     RecyclerView mThemeList;
     @BindView(R.id.sfl_state_view)
     StatefulLayout mStateView;

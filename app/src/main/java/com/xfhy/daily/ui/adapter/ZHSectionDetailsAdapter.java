@@ -2,34 +2,32 @@ package com.xfhy.daily.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.xfhy.androidbasiclibs.common.util.DensityUtil;
 import com.xfhy.androidbasiclibs.common.util.GlideUtils;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseViewHolder;
 import com.xfhy.daily.R;
-import com.xfhy.daily.network.entity.zhihu.ColumnDailyBean;
+import com.xfhy.daily.network.entity.zhihu.ColumnDailyDetailsBean;
 
 import java.util.List;
 
 /**
- * @author feiyang
- *         time create at 2017/11/22 14:56
- *         description 知乎专栏列表adapter
+ * @author xfhy
+ *         create at 2017/11/26 14:52
+ *         description：知乎专栏详情列表adapter
  */
-public class ZHSectionAdapter extends BaseQuickAdapter<ColumnDailyBean.DataBean, BaseViewHolder> {
-
+public class ZHSectionDetailsAdapter extends BaseQuickAdapter<ColumnDailyDetailsBean.StoriesBean,
+        BaseViewHolder> {
     private Context mContext;
 
-    public ZHSectionAdapter(int layoutResId, @Nullable List<ColumnDailyBean.DataBean> data,
-                            Context context) {
+    public ZHSectionDetailsAdapter(int layoutResId, @Nullable List<ColumnDailyDetailsBean
+            .StoriesBean> data, Context mContext) {
         super(layoutResId, data);
-        this.mContext = context;
+        this.mContext = mContext;
     }
 
     @Override
@@ -48,10 +46,15 @@ public class ZHSectionAdapter extends BaseQuickAdapter<ColumnDailyBean.DataBean,
     }
 
     @Override
-    protected void convert(BaseViewHolder holder, ColumnDailyBean.DataBean item) {
-        GlideUtils.loadConsumImage(mContext, item.getThumbnail(), (ImageView) holder.getView(R.id
-                .iv_sections_thumbnail));
-        holder.setText(R.id.tv_sections_name, item.getName());
-        holder.setText(R.id.tv_sections_description, item.getDescription());
+    protected void convert(BaseViewHolder holder, ColumnDailyDetailsBean.StoriesBean item) {
+        List<String> itemImages = item.getImages();
+        if (itemImages != null && itemImages.size() > 0) {
+            GlideUtils.loadConsumImage(mContext, itemImages.get(0), (ImageView) holder.getView(R
+                    .id.iv_news_image_latest));
+        } else {
+            Glide.with(mContext).load(R.mipmap.ic_launcher).into((ImageView) holder.getView(R
+                    .id.iv_news_image_latest));
+        }
+        holder.setText(R.id.tv_news_title_latest, item.getTitle());
     }
 }

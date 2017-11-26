@@ -43,11 +43,11 @@ public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresente
         BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener,
         EasyBanner.OnItemClickListener, ZHLatestDailyAdapter.HeaderChangeListener {
 
-    @BindView(R.id.sl_state_view)
+    @BindView(R.id.sfl_state_view)
     StatefulLayout mStateView;
     @BindView(R.id.srl_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
-    @BindView(R.id.rv_latest_daily_list)
+    @BindView(R.id.rv_common_list)
     RecyclerView mDailyRecyclerView;
 
     private ZHLatestDailyAdapter mDailyAdapter;

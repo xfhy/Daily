@@ -19,7 +19,6 @@ import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.common.util.ShareUtil;
 import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
 import com.xfhy.androidbasiclibs.common.util.StringUtils;
-import com.xfhy.androidbasiclibs.common.util.ToastUtil;
 import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
 import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
 import com.xfhy.daily.R;
@@ -45,7 +44,7 @@ public class ZHCommentActivity extends BaseMvpActivity<ZHCommentContract.Present
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.sl_state_view)
+    @BindView(R.id.sfl_state_view)
     StatefulLayout mStateView;
     @BindView(R.id.rv_daily_comment)
     RecyclerView rvDailyComment;

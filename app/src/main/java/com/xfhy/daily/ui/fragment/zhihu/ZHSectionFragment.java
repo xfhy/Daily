@@ -18,6 +18,7 @@ import com.xfhy.daily.network.entity.zhihu.ColumnDailyBean;
 import com.xfhy.daily.presenter.ZHSectionContract;
 import com.xfhy.daily.presenter.impl.ZHSectionPresenter;
 import com.xfhy.daily.ui.activity.MainActivity;
+import com.xfhy.daily.ui.activity.ZHSectionDetailsActivity;
 import com.xfhy.daily.ui.adapter.ZHSectionAdapter;
 
 import java.util.List;
@@ -34,11 +35,11 @@ public class ZHSectionFragment extends BaseMVPFragment<ZHSectionPresenter> imple
         .OnItemClickListener {
 
 
-    @BindView(R.id.rv_zh_section)
+    @BindView(R.id.rv_common_list)
     RecyclerView mSectionRv;
-    @BindView(R.id.sfl_state_view_section)
+    @BindView(R.id.sfl_state_view)
     StatefulLayout mStateView;
-    @BindView(R.id.srl_refresh_layout_section)
+    @BindView(R.id.srl_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
 
     private ZHSectionAdapter mSectionAdapter;
@@ -161,7 +162,8 @@ public class ZHSectionFragment extends BaseMVPFragment<ZHSectionPresenter> imple
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        SnackbarUtil.showBarShortTime(mStateView, "点我了", SnackbarUtil.INFO);
+        ZHSectionDetailsActivity.enterZHSectionDetailsActi(mActivity, mPresenter.getSectionId
+                (position), mPresenter.getSectionTitle(position));
     }
 
     @Override

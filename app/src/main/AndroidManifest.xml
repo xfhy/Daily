@@ -35,6 +35,8 @@
         </activity>
         <activity android:name=".ui.activity.ThemeActivity">
         </activity>
+        <activity android:name=".ui.activity.ZHSectionDetailsActivity">
+        </activity>
     </application>
 
 </manifest>

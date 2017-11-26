@@ -178,7 +178,7 @@ public class GlideUtils {
         RequestOptions requestOptions = new RequestOptions();
         Glide.with(context)
                 .load(path)
-                .thumbnail(0.1f)
+                .thumbnail(0.1f)   //缩略图
                 .apply(requestOptions
                         //.error(R.drawable.error)   // 加载失败图片   暂时没设置,还没有素材
                         .diskCacheStrategy(DiskCacheStrategy.ALL)) // 缓存策略是:所有的都缓存:内存缓存和磁盘缓存

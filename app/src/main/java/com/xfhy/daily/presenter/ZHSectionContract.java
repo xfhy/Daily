@@ -40,6 +40,16 @@ public interface ZHSectionContract {
          */
         void refreshData();
 
+        /**
+         * 根据RecyclerView的position获取专题id
+         */
+        int getSectionId(int position);
+
+        /**
+         * 根据RecyclerView的position获取专栏标题
+         */
+        String getSectionTitle(int position);
+
     }
 
     interface View extends BaseView {
