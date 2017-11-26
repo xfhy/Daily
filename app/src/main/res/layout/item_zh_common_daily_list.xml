@@ -13,7 +13,7 @@
     app:cardCornerRadius="@dimen/dimen_4"
     app:cardElevation="@dimen/dimen_2">
 
-    <!-- 知乎最新日报列表布局 -->
+    <!-- 知乎通用日报列表布局 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

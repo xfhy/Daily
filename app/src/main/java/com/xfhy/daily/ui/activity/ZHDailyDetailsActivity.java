@@ -27,7 +27,6 @@ import com.xfhy.androidbasiclibs.common.util.LoadDialogUtil;
 import com.xfhy.androidbasiclibs.common.util.ShareUtil;
 import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
 import com.xfhy.androidbasiclibs.common.util.StringUtils;
-import com.xfhy.androidbasiclibs.common.util.ToastUtil;
 import com.xfhy.daily.NewsApplication;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.DailyContentBean;
@@ -235,7 +234,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
         //标题
         setToolBar(mToolbar, dailyContentBean.getTitle());
         //顶部图片
-        GlideUtils.loadConsumImage(mContext, dailyContentBean.getImage(), ivTopPicture);
+        GlideUtils.loadCustomImage(mContext, dailyContentBean.getImage(), ivTopPicture);
         //图片来源
         tvImageSource.setText(dailyContentBean.getImageSource());
         //加载html

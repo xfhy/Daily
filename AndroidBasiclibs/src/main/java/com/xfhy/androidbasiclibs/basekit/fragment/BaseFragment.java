@@ -118,7 +118,7 @@ public abstract class BaseFragment extends RxFragment {
     /**
      * 初始化view的点击事件
      */
-    protected abstract void initViewEvent();
+    protected void initViewEvent(){}
 
     /**
      * 设置布局数据

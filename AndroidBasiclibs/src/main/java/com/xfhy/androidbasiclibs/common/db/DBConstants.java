@@ -29,6 +29,10 @@ public class DBConstants {
      * 知乎专栏详情列表
      */
     public final static String ZHIHU_SECTION_DETAILS_LIST_KEY = "zhihu_section_details_list";
+    /**
+     * 知乎热门列表
+     */
+    public final static String ZHIHU_HOT_LIST_KEY = "zhihu_hot_list";
 
 
 

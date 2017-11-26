@@ -59,7 +59,7 @@ public class ZHSectionDetailsActivity extends BaseMvpActivity<ZHSectionDetailsPr
         //设置刷新颜色
         mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         mSectionsAdapter = new ZHSectionDetailsAdapter(R.layout
-                .item_zh_latest_daily, null, mContext);
+                .item_zh_common_daily_list, null, mContext);
         mSectionsAdapter.openLoadAnimation();
         // 循环播放动画
         mSectionsAdapter.isFirstOnly(false);

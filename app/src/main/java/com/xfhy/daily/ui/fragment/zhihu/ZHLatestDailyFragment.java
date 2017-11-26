@@ -38,13 +38,11 @@ import butterknife.BindView;
  * create at 2017/9/30 16:38
  * description：知乎最新日报fragment
  */
-public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresenter>
+public class ZHLatestDailyFragment extends BaseStateMVPFragment<ZHDailyLatestPresenter>
         implements ZHDailyLatestContract.View, SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener,
         EasyBanner.OnItemClickListener, ZHLatestDailyAdapter.HeaderChangeListener {
 
-    @BindView(R.id.sfl_state_view)
-    StatefulLayout mStateView;
     @BindView(R.id.srl_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_common_list)
@@ -137,7 +135,7 @@ public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresente
         mBanner.setImageLoader(new EasyBanner.ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, String url) {
-                GlideUtils.loadConsumImage(mActivity, url, imageView);
+                GlideUtils.loadCustomImage(mActivity, url, imageView);
             }
         });
         // 设置bannerItem监听事件
@@ -182,49 +180,6 @@ public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresente
     }
 
     @Override
-    public void onLoading() {
-        if (mStateView != null) {
-            mStateView.showLoading();
-        }
-    }
-
-    @Override
-    public void closeLoading() {
-        mStateView.showContent();
-    }
-
-    @Override
-    public void showContent() {
-        closeRefresh();
-        mStateView.showContent();
-    }
-
-    @Override
-    public void showErrorMsg(String msg) {
-        closeRefresh();
-        SnackbarUtil.showBarLongTime(mDailyRecyclerView, msg, SnackbarUtil.ALERT);
-    }
-
-    @Override
-    public void showEmptyView() {
-        closeRefresh();
-        mStateView.showEmpty(R.string.stfEmptyMessage, R.string.stfButtonRetry);
-    }
-
-    @Override
-    public void showOffline() {
-        closeRefresh();
-        mStateView.showOffline(R.string.stfOfflineMessage, R.string.stfButtonSetting, new View
-                .OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //未联网  跳转到设置界面
-                DevicesUtils.goSetting(mActivity);
-            }
-        });
-    }
-
-    @Override
     public void loadMoreSuccess(String groupTitle, PastNewsBean pastNewsBean) {
         mDailyAdapter.loadMoreComplete();
         if (pastNewsBean == null) {
@@ -239,11 +194,6 @@ public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresente
     }
 
     @Override
-    public LifecycleTransformer bindLifecycle() {
-        return bindToLifecycle();
-    }
-
-    @Override
     public void onRefresh() {
         mPresenter.reqDailyDataFromNet();
     }
@@ -253,10 +203,8 @@ public class ZHLatestDailyFragment extends BaseMVPFragment<ZHDailyLatestPresente
         mPresenter.loadMoreData(pastDays++);
     }
 
-    /**
-     * 停止刷新
-     */
-    private void closeRefresh() {
+    @Override
+    public void closeRefresh() {
         mRefreshLayout.setRefreshing(false);
     }
 

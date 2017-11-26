@@ -1,6 +1,7 @@
 package com.xfhy.androidbasiclibs.common.util;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -173,10 +174,30 @@ public class GlideUtils {
      * @param path      路径
      * @param imageView 需要加载图片到那个ImageView上
      */
-    public static void loadConsumImage(Context context, String path, ImageView imageView) {
+    public static void loadCustomImage(Context context, String path, ImageView imageView) {
         //图片加载的配置参数
         RequestOptions requestOptions = new RequestOptions();
         Glide.with(context)
+                .load(path)
+                .thumbnail(0.1f)   //缩略图
+                .apply(requestOptions
+                        //.error(R.drawable.error)   // 加载失败图片   暂时没设置,还没有素材
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)) // 缓存策略是:所有的都缓存:内存缓存和磁盘缓存
+                .transition(DrawableTransitionOptions.withCrossFade(IMAGE_LOAD_DURATION)) //动画
+                .into(imageView);
+    }
+
+    /**
+     * 加载图片   并设置完所有东西  方便加载  里面设置有加载失败图片,缓存策略,动画
+     *
+     * @param view   View
+     * @param path      路径
+     * @param imageView 需要加载图片到那个ImageView上
+     */
+    public static void loadCustomImage(View view, String path, ImageView imageView) {
+        //图片加载的配置参数
+        RequestOptions requestOptions = new RequestOptions();
+        Glide.with(view)
                 .load(path)
                 .thumbnail(0.1f)   //缩略图
                 .apply(requestOptions

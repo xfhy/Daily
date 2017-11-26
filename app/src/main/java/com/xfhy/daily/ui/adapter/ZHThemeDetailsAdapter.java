@@ -37,7 +37,7 @@ public class ZHThemeDetailsAdapter extends BaseQuickAdapter<ThemeDailyDetailsBea
             holder.setVisible(R.id.iv_daily_image, false);
         } else {
             holder.setVisible(R.id.iv_daily_image, true);
-            GlideUtils.loadConsumImage(mContext, images.get(0), (ImageView) holder.getView(R.id
+            GlideUtils.loadCustomImage(mContext, images.get(0), (ImageView) holder.getView(R.id
                     .iv_daily_image));
         }
 

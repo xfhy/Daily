@@ -49,7 +49,7 @@ public class ZHSectionDetailsAdapter extends BaseQuickAdapter<ColumnDailyDetails
     protected void convert(BaseViewHolder holder, ColumnDailyDetailsBean.StoriesBean item) {
         List<String> itemImages = item.getImages();
         if (itemImages != null && itemImages.size() > 0) {
-            GlideUtils.loadConsumImage(mContext, itemImages.get(0), (ImageView) holder.getView(R
+            GlideUtils.loadCustomImage(mContext, itemImages.get(0), (ImageView) holder.getView(R
                     .id.iv_news_image_latest));
         } else {
             Glide.with(mContext).load(R.mipmap.ic_launcher).into((ImageView) holder.getView(R

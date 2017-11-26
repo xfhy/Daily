@@ -179,7 +179,7 @@ public class ThemeActivity extends BaseMvpActivity<ZHThemeDetailsContract.Presen
         mStateView.showContent();
         setToolBar(mToolbar, themeDailyDetailsBean.getName());
         mThemeDetailsAdapter.replaceData(themeDailyDetailsBean.getStories());
-        GlideUtils.loadConsumImage(mContext, themeDailyDetailsBean.getBackground(),
+        GlideUtils.loadCustomImage(mContext, themeDailyDetailsBean.getBackground(),
                 ivThemeBackground);
         tvThemeDescription.setText(themeDailyDetailsBean.getDescription());
     }

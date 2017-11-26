@@ -30,15 +30,13 @@ import butterknife.BindView;
  *         time create at 2017/11/22 15:04
  *         description 知乎专栏fragment
  */
-public class ZHSectionFragment extends BaseMVPFragment<ZHSectionPresenter> implements
+public class ZHSectionFragment extends BaseStateMVPFragment<ZHSectionPresenter> implements
         ZHSectionContract.View, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter
         .OnItemClickListener {
 
 
     @BindView(R.id.rv_common_list)
     RecyclerView mSectionRv;
-    @BindView(R.id.sfl_state_view)
-    StatefulLayout mStateView;
     @BindView(R.id.srl_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
 
@@ -55,7 +53,7 @@ public class ZHSectionFragment extends BaseMVPFragment<ZHSectionPresenter> imple
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_zh_section;
+        return R.layout.layout_refresh_common_list;
     }
 
     @Override
@@ -96,63 +94,13 @@ public class ZHSectionFragment extends BaseMVPFragment<ZHSectionPresenter> imple
     }
 
     @Override
-    public void onLoading() {
-        mStateView.showLoading();
-    }
-
-    @Override
-    public LifecycleTransformer bindLifecycle() {
-        return bindToLifecycle();
-    }
-
-    @Override
-    public void closeLoading() {
-        mStateView.showContent();
-    }
-
-    @Override
-    public void showErrorMsg(String msg) {
-        closeLoading();
-        SnackbarUtil.showBarLongTime(mStateView, msg, SnackbarUtil.ALERT);
-    }
-
-    @Override
-    public void showEmptyView() {
-        closeRefresh();
-        mStateView.showEmpty(R.string.stfEmptyMessage, R.string.stfButtonRetry);
-    }
-
-    private void closeRefresh() {
+    public void closeRefresh() {
         mRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void showOffline() {
-        closeRefresh();
-        mStateView.showOffline(R.string.stfOfflineMessage, R.string.stfButtonSetting, new View
-                .OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //未联网  跳转到设置界面
-                DevicesUtils.goSetting(mActivity);
-            }
-        });
-    }
-
-    @Override
-    public void showContent() {
-        closeRefresh();
-        mStateView.showContent();
     }
 
     @Override
     public void initPresenter() {
         mPresenter = new ZHSectionPresenter(mActivity);
-    }
-
-    @Override
-    protected void initViewEvent() {
-
     }
 
     @Override

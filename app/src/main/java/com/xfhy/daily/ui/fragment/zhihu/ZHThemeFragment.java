@@ -30,7 +30,7 @@ import butterknife.BindView;
  *         create at 2017/11/18 23:30
  *         description：知乎主题列表
  */
-public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implements ZHThemeContract
+public class ZHThemeFragment extends BaseStateMVPFragment<ZHThemePresenter> implements ZHThemeContract
         .View, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener {
 
     /**
@@ -42,8 +42,6 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_common_list)
     RecyclerView mThemeList;
-    @BindView(R.id.sfl_state_view)
-    StatefulLayout mStateView;
 
     private ZHThemeAdapter mThemeAdapter;
 
@@ -58,7 +56,7 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_zh_theme;
+        return R.layout.layout_refresh_common_list;
     }
 
     @Override
@@ -84,34 +82,7 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
     }
 
     @Override
-    public void onLoading() {
-        mStateView.showLoading();
-    }
-
-
-    @Override
-    public LifecycleTransformer bindLifecycle() {
-        return bindToLifecycle();
-    }
-
-    @Override
-    public void closeLoading() {
-        mStateView.showContent();
-    }
-
-    @Override
-    public void showErrorMsg(String msg) {
-        closeLoading();
-        SnackbarUtil.showBarLongTime(mStateView, msg, SnackbarUtil.ALERT);
-    }
-
-    @Override
-    public void showEmptyView() {
-        closeRefresh();
-        mStateView.showEmpty(R.string.stfEmptyMessage, R.string.stfButtonRetry);
-    }
-
-    private void closeRefresh() {
+    public void closeRefresh() {
         mRefreshLayout.setRefreshing(false);
     }
 
@@ -123,32 +94,8 @@ public class ZHThemeFragment extends BaseMVPFragment<ZHThemePresenter> implement
     }
 
     @Override
-    public void showOffline() {
-        closeRefresh();
-        mStateView.showOffline(R.string.stfOfflineMessage, R.string.stfButtonSetting, new View
-                .OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //未联网  跳转到设置界面
-                DevicesUtils.goSetting(mActivity);
-            }
-        });
-    }
-
-    @Override
-    public void showContent() {
-        closeRefresh();
-        mStateView.showContent();
-    }
-
-    @Override
     public void initPresenter() {
         mPresenter = new ZHThemePresenter(mActivity);
-    }
-
-    @Override
-    protected void initViewEvent() {
-
     }
 
     @Override

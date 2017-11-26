@@ -1,7 +1,6 @@
 package com.xfhy.daily.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -61,7 +60,7 @@ public class ZHCommentAdapter extends BaseSectionQuickAdapter<DailyCommentBean.C
             return;
         }
         //头像
-        GlideUtils.loadConsumImage(context, item.getAvatar(), (CircleImageView) holder.getView(R.id
+        GlideUtils.loadCustomImage(context, item.getAvatar(), (CircleImageView) holder.getView(R.id
                 .civ_comment_avatar));
         //昵称
         holder.setText(R.id.tv_author, item.getAuthor());

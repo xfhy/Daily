@@ -65,9 +65,11 @@ public class ZHMainFragment extends BaseFragment {
         ZHLatestDailyFragment zhLatestDailyFragment = ZHLatestDailyFragment.newInstance();
         ZHThemeFragment zhThemeFragment = ZHThemeFragment.newInstance();
         ZHSectionFragment zhSectionFragment = ZHSectionFragment.newInstance();
+        ZHHotFragment zhHotFragment = ZHHotFragment.newInstance();
         fragmentList.add(zhLatestDailyFragment);
         fragmentList.add(zhThemeFragment);
         fragmentList.add(zhSectionFragment);
+        fragmentList.add(zhHotFragment);
         return fragmentList;
     }
 

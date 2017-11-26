@@ -1,5 +1,7 @@
 package com.xfhy.daily.network.entity.zhihu;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.List;
 
 /**
@@ -35,7 +37,8 @@ public class HotDailyBean {
         /**
          * 日报id
          */
-        private int news_id;
+        @JSONField(name = "news_id")
+        private int newsId;
         /**
          * 日报详情url 可以直接使用的   返回{@link DailyContentBean}的是JSON数据
          */
@@ -49,12 +52,12 @@ public class HotDailyBean {
          */
         private String title;
 
-        public int getNews_id() {
-            return news_id;
+        public int getNewsId() {
+            return newsId;
         }
 
-        public void setNews_id(int news_id) {
-            this.news_id = news_id;
+        public void setNewsId(int newsId) {
+            this.newsId = newsId;
         }
 
         public String getUrl() {
@@ -84,7 +87,7 @@ public class HotDailyBean {
         @Override
         public String toString() {
             return "RecentBean{" +
-                    "news_id=" + news_id +
+                    "newsId=" + newsId +
                     ", url='" + url + '\'' +
                     ", thumbnail='" + thumbnail + '\'' +
                     ", title='" + title + '\'' +

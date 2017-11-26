@@ -27,7 +27,7 @@ public class ZHLatestDailyAdapter extends BaseSectionQuickAdapter<LatestDailyLis
 
     public ZHLatestDailyAdapter(@NonNull Context context, @Nullable List<LatestDailyListBean
             .StoriesBean> data) {
-        super(R.layout.item_zh_latest_daily, R.layout.header_zh_latest_daily, data);
+        super(R.layout.item_zh_common_daily_list, R.layout.header_zh_latest_daily, data);
         this.context = context;
     }
 
@@ -47,7 +47,7 @@ public class ZHLatestDailyAdapter extends BaseSectionQuickAdapter<LatestDailyLis
         holder.setText(R.id.tv_news_title_latest, item.getTitle());
         List<String> imageUrl = item.getImages();
         if (imageUrl != null && imageUrl.size() > 0) {
-            GlideUtils.loadConsumImage(context, imageUrl.get(0), (ImageView) holder.getView(R.id
+            GlideUtils.loadCustomImage(context, imageUrl.get(0), (ImageView) holder.getView(R.id
                     .iv_news_image_latest));
         }
 

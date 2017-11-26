@@ -56,7 +56,7 @@ public class ZHThemeAdapter extends BaseQuickAdapter<TopicDailyListBean.OthersBe
 
     @Override
     protected void convert(BaseViewHolder holder, TopicDailyListBean.OthersBean item) {
-        GlideUtils.loadConsumImage(context, item.getThumbnail(), (ImageView) holder.getView(R.id
+        GlideUtils.loadCustomImage(context, item.getThumbnail(), (ImageView) holder.getView(R.id
                 .iv_theme_item));
         holder.setText(R.id.tv_theme_item, item.getName());
     }
