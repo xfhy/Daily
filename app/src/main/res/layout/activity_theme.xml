@@ -22,7 +22,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-        <com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout
+        <com.xfhy.androidbasiclibs.widget.StatefulLayout
             android:id="@+id/sfl_state_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -73,7 +73,7 @@
                             android:layout_marginBottom="@dimen/dimen_20"
                             android:layout_marginEnd="@dimen/dimen_20"
                             android:layout_marginStart="@dimen/dimen_10"
-                            android:textColor="@color/white"
+                            android:textColor="@color/color_ffffff"
                             android:textSize="@dimen/font_size_18"/>
 
                     </android.support.design.widget.CollapsingToolbarLayout>
@@ -88,7 +88,7 @@
                     app:layout_behavior="@string/appbar_scrolling_view_behavior">
                 </android.support.v7.widget.RecyclerView>
             </android.support.design.widget.CoordinatorLayout>
-        </com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout>
+        </com.xfhy.androidbasiclibs.widget.StatefulLayout>
 
 
     </android.support.v4.widget.SwipeRefreshLayout>

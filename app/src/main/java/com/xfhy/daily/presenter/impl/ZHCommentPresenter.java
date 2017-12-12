@@ -3,8 +3,8 @@ package com.xfhy.daily.presenter.impl;
 import android.content.Context;
 
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
-import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
-import com.xfhy.androidbasiclibs.common.util.LogUtils;
+import com.xfhy.androidbasiclibs.util.DevicesUtils;
+import com.xfhy.androidbasiclibs.util.LogUtils;
 import com.xfhy.daily.network.RetrofitHelper;
 import com.xfhy.daily.network.entity.zhihu.DailyCommentBean;
 import com.xfhy.daily.presenter.ZHCommentContract;

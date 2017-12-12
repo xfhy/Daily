@@ -6,13 +6,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.trello.rxlifecycle2.LifecycleTransformer;
-import com.xfhy.androidbasiclibs.basekit.fragment.BaseMVPFragment;
-import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
-import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
-import com.xfhy.androidbasiclibs.common.util.StringUtils;
-import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
-import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
+import com.xfhy.androidbasiclibs.util.StringUtils;
+import com.xfhy.androidbasiclibs.adapter.BaseQuickAdapter;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.TopicDailyListBean;
 import com.xfhy.daily.presenter.ZHThemeContract;

@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 import com.xfhy.androidbasiclibs.basekit.activity.BaseActivity;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseFragment;
-import com.xfhy.androidbasiclibs.common.util.ToastUtil;
+import com.xfhy.androidbasiclibs.util.ToastUtil;
 import com.xfhy.daily.R;
 import com.xfhy.daily.ui.fragment.zhihu.ZHMainFragment;
 

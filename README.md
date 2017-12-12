@@ -14,12 +14,12 @@
 **该文档最后更新2017年11月22日17:04:14**
 
 <img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/49275610.jpg" width=300>
-<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/35524408.jpg" width=300>
-<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/80068225.jpg" width=300>
-<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/79138080.jpg" width=300>
-<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/92628555.jpg" width=300>
-<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/51698199.jpg" width=300>
-<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/58757161.jpg" width=300>
+<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/35524408.jpg" width=300/>
+<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/80068225.jpg" width=300/>
+<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/79138080.jpg" width=300/>
+<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/92628555.jpg" width=300/>
+<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/51698199.jpg" width=300/>
+<img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/58757161.jpg" width=300/>
 <img src="http://olg7c0d2n.bkt.clouddn.com/17-11-22/44390678.jpg" width=300>
 
 ## 值得提到的点
@@ -30,6 +30,7 @@
 - GreenDao操作数据库
 - 数据库Dao封装
 - OkHttp3封装(有网走网络,无网走缓存,动态切换url等)
+- 可离线使用
 - 工具类
     - 剪贴板
     - 日期
@@ -82,3 +83,9 @@
 - Butterknife 不用findViewById啦
 - Logger 强大的log
 - Glide 图片加载
+
+## 声明
+
+知乎模块API参考自:https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90
+获取与共享之行为或有侵犯知乎权益的嫌疑。若被告知需停止共享与使用，本人会及时删除知乎模块。请您暸解相关情况，并遵守知乎协议。
+知乎模块的全部内容来源于知乎官方,内容版权归知乎(Zhihu.inc)所有.项目已经开源: https://github.com/xfhy/Daily  ,仅供学习交流,请勿用作商业用途.

@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
-import com.xfhy.androidbasiclibs.common.util.GlideUtils;
-import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
-import com.xfhy.androidbasiclibs.uihelper.adapter.BaseViewHolder;
+import com.xfhy.androidbasiclibs.util.DevicesUtils;
+import com.xfhy.androidbasiclibs.util.GlideUtils;
+import com.xfhy.androidbasiclibs.adapter.BaseQuickAdapter;
+import com.xfhy.androidbasiclibs.adapter.BaseViewHolder;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.TopicDailyListBean;
 

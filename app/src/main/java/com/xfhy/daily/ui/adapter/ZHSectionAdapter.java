@@ -5,10 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
-import com.xfhy.androidbasiclibs.common.util.DensityUtil;
-import com.xfhy.androidbasiclibs.common.util.GlideUtils;
-import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
-import com.xfhy.androidbasiclibs.uihelper.adapter.BaseViewHolder;
+import com.xfhy.androidbasiclibs.util.DensityUtil;
+import com.xfhy.androidbasiclibs.util.GlideUtils;
+import com.xfhy.androidbasiclibs.adapter.BaseQuickAdapter;
+import com.xfhy.androidbasiclibs.adapter.BaseViewHolder;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.ColumnDailyBean;
 

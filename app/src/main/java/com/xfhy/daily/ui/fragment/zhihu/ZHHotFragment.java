@@ -6,8 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.xfhy.androidbasiclibs.common.util.StringUtils;
-import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
+import com.xfhy.androidbasiclibs.util.StringUtils;
+import com.xfhy.androidbasiclibs.adapter.BaseQuickAdapter;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.HotDailyBean;
 import com.xfhy.daily.presenter.ZHHotContract;

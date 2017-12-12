@@ -7,12 +7,12 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.TextView;
 
-import com.xfhy.androidbasiclibs.common.util.DateUtils;
-import com.xfhy.androidbasiclibs.common.util.GlideUtils;
-import com.xfhy.androidbasiclibs.common.util.LogUtils;
-import com.xfhy.androidbasiclibs.uihelper.adapter.BaseSectionQuickAdapter;
-import com.xfhy.androidbasiclibs.uihelper.adapter.BaseViewHolder;
-import com.xfhy.androidbasiclibs.uihelper.widget.CircleImageView;
+import com.xfhy.androidbasiclibs.util.DateUtils;
+import com.xfhy.androidbasiclibs.util.GlideUtils;
+import com.xfhy.androidbasiclibs.util.LogUtils;
+import com.xfhy.androidbasiclibs.adapter.BaseSectionQuickAdapter;
+import com.xfhy.androidbasiclibs.adapter.BaseViewHolder;
+import com.xfhy.androidbasiclibs.widget.CircleImageView;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.DailyCommentBean;
 

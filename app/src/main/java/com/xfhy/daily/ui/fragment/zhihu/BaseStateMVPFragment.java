@@ -9,9 +9,9 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.fragment.BaseFragment;
 import com.xfhy.androidbasiclibs.basekit.presenter.BasePresenter;
 import com.xfhy.androidbasiclibs.basekit.view.BaseView;
-import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
-import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
-import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
+import com.xfhy.androidbasiclibs.util.DevicesUtils;
+import com.xfhy.androidbasiclibs.util.SnackbarUtil;
+import com.xfhy.androidbasiclibs.widget.StatefulLayout;
 import com.xfhy.daily.R;
 
 import butterknife.BindView;

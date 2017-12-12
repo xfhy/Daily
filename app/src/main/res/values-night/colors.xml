@@ -4,17 +4,15 @@
     <color name="colorPrimaryDark">#222222</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
+    <color name="color_ffffff">#FFFFFF</color>
+    <color name="color_000000">#000000</color>
 
     <!--侧滑菜单header 字体颜色-->
-    <color name="drawer_header_text">#BEBEBE</color>
+    <color name="color_1e1e1e">#BEBEBE</color>
     <!--fragment背景-->
     <color name="fragment_background">#343434</color>
     <color name="color_translucent_white">#88FFFFFF</color>
 
     <!--item-->
     <color name="color_header">#BEBEBE</color>
-    <color name="color_item_content">#F3F3F3</color>
-    <color name="color_item_bg">#404040</color>
 </resources>

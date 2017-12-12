@@ -7,7 +7,7 @@
 
     <!--通用的带刷新的列表布局  -->
 
-    <com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout
+    <com.xfhy.androidbasiclibs.widget.StatefulLayout
         android:id="@+id/sfl_state_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,6 +16,6 @@
             android:id="@+id/rv_common_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    </com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout>
+    </com.xfhy.androidbasiclibs.widget.StatefulLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

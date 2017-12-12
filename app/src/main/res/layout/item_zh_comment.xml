@@ -11,7 +11,7 @@
     <!--知乎评论列表item-->
 
     <!--头像-->
-    <com.xfhy.androidbasiclibs.uihelper.widget.CircleImageView
+    <com.xfhy.androidbasiclibs.widget.CircleImageView
         android:id="@+id/civ_comment_avatar"
         android:layout_width="@dimen/dimen_40"
         android:layout_height="@dimen/dimen_40"

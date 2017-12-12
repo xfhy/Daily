@@ -1,1 +1,1 @@
-include ':app', ':AndroidBasiclibs'
+include ':app', ':DailyProjectLibrary'

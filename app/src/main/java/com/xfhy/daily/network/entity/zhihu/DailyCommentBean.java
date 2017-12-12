@@ -1,7 +1,7 @@
 package com.xfhy.daily.network.entity.zhihu;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.xfhy.androidbasiclibs.uihelper.adapter.entity.SectionEntity;
+import com.xfhy.androidbasiclibs.adapter.entity.SectionEntity;
 
 import java.util.List;
 

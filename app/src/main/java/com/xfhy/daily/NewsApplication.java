@@ -7,10 +7,10 @@ import android.support.v7.app.AppCompatDelegate;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
-import com.xfhy.androidbasiclibs.common.db.DaoMaster;
-import com.xfhy.androidbasiclibs.common.db.DaoSession;
-import com.xfhy.androidbasiclibs.common.net.OkHttpUtils;
-import com.xfhy.androidbasiclibs.common.util.UserInfoTools;
+import com.xfhy.androidbasiclibs.db.DaoMaster;
+import com.xfhy.androidbasiclibs.db.DaoSession;
+import com.xfhy.androidbasiclibs.net.OkHttpUtils;
+import com.xfhy.androidbasiclibs.util.UserInfoTools;
 
 import org.greenrobot.greendao.database.Database;
 

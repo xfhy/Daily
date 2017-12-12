@@ -9,7 +9,7 @@
     android:layout_marginStart="@dimen/dimen_10"
     android:layout_marginTop="@dimen/dimen_5"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/color_item_bg"
+    app:cardBackgroundColor="@color/color_ffffff"
     app:cardCornerRadius="@dimen/dimen_4"
     app:cardElevation="@dimen/dimen_2">
 
@@ -37,7 +37,7 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:text="@string/test"
-            android:textColor="@color/black"
+            android:textColor="@color/color_000000"
             android:textSize="@dimen/font_size_17"/>
 
     </LinearLayout>

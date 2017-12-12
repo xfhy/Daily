@@ -4,18 +4,18 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <!--侧滑菜单header 字体颜色-->
-    <color name="drawer_header_text">#000000</color>
+    <color name="color_ffffff">#FFFFFF</color>
+    <color name="color_000000">#000000</color>
+
+    <!--黑色字体颜色-->
+    <color name="color_1e1e1e">#1e1e1e</color>
+
     <!--fragment背景-->
     <color name="fragment_background">#F3F3F3</color>
     <color name="color_translucent_white">#88FFFFFF</color>
 
     <!--item-->
     <color name="color_header">#6F6F6F</color>
-    <color name="color_item_content">#000000</color>
-    <color name="color_item_bg">#FFFFFF</color>
 
     <color name="comment_reply">#9ba4a3</color>
 </resources>

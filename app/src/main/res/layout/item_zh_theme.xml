@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/color_ffffff"
         android:textSize="@dimen/font_size_18"
         android:textStyle="bold"/>
 

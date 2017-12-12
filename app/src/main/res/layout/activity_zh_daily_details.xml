@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/color_ffffff"
     android:fitsSystemWindows="true"
     tools:context="com.xfhy.daily.ui.activity.ZHDailyDetailsActivity">
 
@@ -109,7 +109,7 @@
             android:id="@+id/ll_daily_bottom_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/details_daily_bottom"
-            android:background="@color/white"
+            android:background="@color/color_ffffff"
             android:orientation="horizontal"
             android:padding="@dimen/dimen_5">
 

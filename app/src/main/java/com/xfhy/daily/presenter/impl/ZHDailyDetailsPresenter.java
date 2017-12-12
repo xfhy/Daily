@@ -2,32 +2,23 @@ package com.xfhy.daily.presenter.impl;
 
 import android.content.Context;
 
-import com.alibaba.fastjson.JSON;
-import com.trello.rxlifecycle2.LifecycleProvider;
-import com.trello.rxlifecycle2.LifecycleTransformer;
-import com.trello.rxlifecycle2.RxLifecycle;
-import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
-import com.xfhy.androidbasiclibs.common.db.CollectBean;
-import com.xfhy.androidbasiclibs.common.db.CollectBeanDao;
-import com.xfhy.androidbasiclibs.common.db.CollectDao;
-import com.xfhy.androidbasiclibs.common.db.DBConstants;
-import com.xfhy.androidbasiclibs.common.util.Constants;
-import com.xfhy.androidbasiclibs.common.util.DateUtils;
-import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
-import com.xfhy.androidbasiclibs.common.util.LogUtils;
-import com.xfhy.androidbasiclibs.common.util.SpUtil;
+import com.xfhy.androidbasiclibs.db.CollectBean;
+import com.xfhy.androidbasiclibs.db.CollectDao;
+import com.xfhy.androidbasiclibs.db.DBConstants;
+import com.xfhy.androidbasiclibs.util.Constants;
+import com.xfhy.androidbasiclibs.util.DateUtils;
+import com.xfhy.androidbasiclibs.util.LogUtils;
+import com.xfhy.androidbasiclibs.util.SpUtil;
 import com.xfhy.daily.NewsApplication;
 import com.xfhy.daily.network.RetrofitHelper;
 import com.xfhy.daily.network.entity.zhihu.DailyContentBean;
 import com.xfhy.daily.network.entity.zhihu.DailyExtraInfoBean;
 import com.xfhy.daily.presenter.ZHDailyDetailsContract;
-import com.xfhy.daily.ui.activity.ZHDailyDetailsActivity;
 
 import java.util.Date;
 import java.util.List;
 
-import io.reactivex.FlowableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;

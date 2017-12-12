@@ -15,12 +15,12 @@ import android.widget.TextView;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.xfhy.androidbasiclibs.basekit.activity.BaseMvpActivity;
-import com.xfhy.androidbasiclibs.common.util.DevicesUtils;
-import com.xfhy.androidbasiclibs.common.util.GlideUtils;
-import com.xfhy.androidbasiclibs.common.util.SnackbarUtil;
-import com.xfhy.androidbasiclibs.common.util.StringUtils;
-import com.xfhy.androidbasiclibs.uihelper.adapter.BaseQuickAdapter;
-import com.xfhy.androidbasiclibs.uihelper.widget.StatefulLayout;
+import com.xfhy.androidbasiclibs.util.DevicesUtils;
+import com.xfhy.androidbasiclibs.util.GlideUtils;
+import com.xfhy.androidbasiclibs.util.SnackbarUtil;
+import com.xfhy.androidbasiclibs.util.StringUtils;
+import com.xfhy.androidbasiclibs.adapter.BaseQuickAdapter;
+import com.xfhy.androidbasiclibs.widget.StatefulLayout;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.entity.zhihu.ThemeDailyDetailsBean;
 import com.xfhy.daily.presenter.ZHThemeDetailsContract;
