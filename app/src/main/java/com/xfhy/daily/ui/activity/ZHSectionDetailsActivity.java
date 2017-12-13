@@ -89,7 +89,7 @@ public class ZHSectionDetailsActivity extends BaseMvpActivity<ZHSectionDetailsPr
 
     @Override
     public void initPresenter() {
-        mPresenter = new ZHSectionDetailsPresenter(mContext);
+        mPresenter = new ZHSectionDetailsPresenter();
     }
 
     @Override

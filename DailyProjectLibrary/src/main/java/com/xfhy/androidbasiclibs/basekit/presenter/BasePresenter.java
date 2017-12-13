@@ -13,7 +13,12 @@ public interface BasePresenter<V extends BaseView> {
      *
      * @param view 该presenter的View
      */
-    void setView(V view);
+    void attach(V view);
+
+    /**
+     * 获取View
+     */
+    V getView();
 
     /**
      * 模拟界面的生命周期 onCreate()

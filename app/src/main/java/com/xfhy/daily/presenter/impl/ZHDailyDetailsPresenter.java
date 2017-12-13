@@ -44,17 +44,16 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
      */
     private DailyExtraInfoBean mDailyExtraInfoBean;
 
-    public ZHDailyDetailsPresenter(Context context) {
-        super(context);
+    public ZHDailyDetailsPresenter() {
         mRetrofitHelper = RetrofitHelper.getInstance();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void reqDailyContentFromNet(String id) {
-        view.onLoading();
+        getView().onLoading();
         mRetrofitHelper.getZhiHuApi().getDailyContent(id)
-                .compose(view.bindLifecycle())
+                .compose(getView().bindLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<DailyContentBean>() {
@@ -62,10 +61,10 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
                     public void accept(DailyContentBean dailyContentBean) throws Exception {
                         mDailyContentBean = dailyContentBean;
                         if (mDailyContentBean != null) {
-                            view.showContent();
-                            view.loadSuccess(mDailyContentBean);
+                            getView().showContent();
+                            getView().loadSuccess(mDailyContentBean);
                         } else {
-                            view.showEmptyView();
+                            getView().showEmptyView();
                         }
 
                     }
@@ -74,7 +73,7 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
                     public void accept(Throwable throwable) throws Exception {
                         LogUtils.e("从网络请求日报内容失败" + throwable.getCause() + throwable
                                 .getLocalizedMessage());
-                        view.loadError();
+                        getView().loadError();
                     }
                 });
 
@@ -84,7 +83,7 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
     @Override
     public void reqDailyExtraInfoFromNet(String id) {
         mRetrofitHelper.getZhiHuApi().getDailyExtraInfo(id)
-                .compose(view.bindLifecycle())
+                .compose(getView().bindLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<DailyExtraInfoBean>() {
@@ -92,10 +91,10 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
                     public void accept(DailyExtraInfoBean dailyExtraInfoBean) throws Exception {
                         mDailyExtraInfoBean = dailyExtraInfoBean;
                         if (mDailyExtraInfoBean != null) {
-                            view.setExtraInfo(mDailyExtraInfoBean.getPopularity(),
+                            getView().setExtraInfo(mDailyExtraInfoBean.getPopularity(),
                                     mDailyExtraInfoBean.getComments());
                         } else {
-                            view.showErrorMsg("日报评论信息请求失败");
+                            getView().showErrorMsg("日报评论信息请求失败");
                             LogUtils.e("mDailyContentBean == null");
                         }
                     }
@@ -104,7 +103,7 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
                     public void accept(Throwable throwable) throws Exception {
                         LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
                                 .getLocalizedMessage());
-                        view.loadError();
+                        getView().loadError();
                     }
                 });
     }
@@ -133,10 +132,10 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
 
         List<CollectBean> collectBeans = CollectDao.queryCacheByKey(id);
         if (collectBeans == null || collectBeans.size() == 0) {
-            view.setCollectBtnSelState(false);
+            getView().setCollectBtnSelState(false);
             return false;
         } else {
-            view.setCollectBtnSelState(true);
+            getView().setCollectBtnSelState(true);
             return true;
         }
     }

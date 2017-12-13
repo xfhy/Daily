@@ -27,7 +27,7 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (mPresenter != null) {
-            mPresenter.setView(this);
+            mPresenter.attach(this);
             mPresenter.onCreate();
         }
     }

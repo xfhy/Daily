@@ -161,7 +161,7 @@ public class ZHCommentActivity extends BaseMvpActivity<ZHCommentContract.Present
 
     @Override
     public void initPresenter() {
-        mPresenter = new ZHCommentPresenter(mContext);
+        mPresenter = new ZHCommentPresenter();
     }
 
     @Override

@@ -170,7 +170,7 @@ public class ThemeActivity extends BaseMvpActivity<ZHThemeDetailsContract.Presen
 
     @Override
     public void initPresenter() {
-        mPresenter = new ZHThemeDetailsPresenter(mContext);
+        mPresenter = new ZHThemeDetailsPresenter();
     }
 
     @Override

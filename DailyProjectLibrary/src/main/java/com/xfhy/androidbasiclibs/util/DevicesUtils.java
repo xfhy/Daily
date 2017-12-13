@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
+
+import com.xfhy.androidbasiclibs.BaseApplication;
 
 /**
  * Created by xfhy on 2017/9/24 21:57.
@@ -21,18 +22,15 @@ public class DevicesUtils {
     /**
      * 判断网络连接是否正常
      *
-     * @param context Context
      * @return 返回网络连接是否正常  true:正常 false:无网络连接
      */
-    public static boolean hasNetworkConnected(@NonNull Context context) {
-        if (context != null) {
-            ConnectivityManager connectivityManager = (ConnectivityManager) context
-                    .getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (connectivityManager != null) {
-                NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-                if (activeNetworkInfo != null) {
-                    return activeNetworkInfo.isAvailable();
-                }
+    public static boolean hasNetworkConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) BaseApplication.getApplication()
+                .getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            if (activeNetworkInfo != null) {
+                return activeNetworkInfo.isAvailable();
             }
         }
         return false;
@@ -40,29 +38,30 @@ public class DevicesUtils {
 
     /**
      * 获取屏幕的大小(宽高)
-     * @param context Context
-     * @return DisplayMetrics实例
      *
+     * @return DisplayMetrics实例
+     * <p>
      * displayMetrics.heightPixels是高度(单位是像素)
      * displayMetrics.heightPixels是宽度(单位是像素)
      */
-    public static DisplayMetrics getDevicesSize(@NonNull Context context) {
+    public static DisplayMetrics getDevicesSize() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        if (context != null) {
-            WindowManager windowManager = (WindowManager) context.getApplicationContext()
-                    .getSystemService(Context
-                    .WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) BaseApplication.getApplication().getApplicationContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        if (windowManager != null) {
             Display defaultDisplay = windowManager.getDefaultDisplay();
             defaultDisplay.getMetrics(displayMetrics);
+            return displayMetrics;
         }
-        return displayMetrics;
+        return new DisplayMetrics();
     }
 
     /**
      * 跳转到设置界面
+     *
      * @param context Context
      */
-    public static void goSetting(@NonNull Context context){
+    public static void goSetting(Context context) {
         if (context != null) {
             Intent intent = new Intent(Settings.ACTION_SETTINGS);
             context.startActivity(intent);

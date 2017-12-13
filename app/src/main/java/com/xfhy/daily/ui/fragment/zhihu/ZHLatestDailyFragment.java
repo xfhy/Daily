@@ -74,7 +74,7 @@ public class ZHLatestDailyFragment extends BaseStateMVPFragment<ZHDailyLatestPre
 
     @Override
     public void initPresenter() {
-        mPresenter = new ZHDailyLatestPresenter(mActivity);
+        mPresenter = new ZHDailyLatestPresenter();
     }
 
     @Override

@@ -67,7 +67,7 @@ public class ZHHotFragment extends BaseStateMVPFragment<ZHHotContract.Presenter>
 
     @Override
     public void initPresenter() {
-        mPresenter = new ZHHotPresenter(mActivity);
+        mPresenter = new ZHHotPresenter();
     }
 
     @Override

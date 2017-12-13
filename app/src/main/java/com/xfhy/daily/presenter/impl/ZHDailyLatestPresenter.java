@@ -5,6 +5,7 @@ import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 
 import com.alibaba.fastjson.JSON;
+import com.xfhy.androidbasiclibs.BaseApplication;
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
 import com.xfhy.androidbasiclibs.db.CacheBean;
 import com.xfhy.androidbasiclibs.db.CacheDao;
@@ -14,7 +15,6 @@ import com.xfhy.androidbasiclibs.util.DateUtils;
 import com.xfhy.androidbasiclibs.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.util.LogUtils;
 import com.xfhy.androidbasiclibs.util.StringUtils;
-import com.xfhy.daily.NewsApplication;
 import com.xfhy.daily.R;
 import com.xfhy.daily.network.RetrofitHelper;
 import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
@@ -53,14 +53,8 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
      */
     private int step;
 
-    public ZHDailyLatestPresenter(Context context) {
-        super(context);
+    public ZHDailyLatestPresenter() {
         mRetrofitHelper = RetrofitHelper.getInstance();
-    }
-
-    @Override
-    public void setView(ZHDailyLatestContract.View view) {
-        super.setView(view);
     }
 
     @Override
@@ -76,13 +70,13 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
     @Override
     public void reqDailyDataFromNet() {
         step = Constants.STATE_LOADING;
-        view.onLoading();
+        getView().onLoading();
         //判断当前是否有网络   再决定走网络还是数据库缓存
-        if (DevicesUtils.hasNetworkConnected(mContext)) {
+        if (DevicesUtils.hasNetworkConnected()) {
             //从网络获取最新数据
             mRetrofitHelper
                     .getZhiHuApi().getLatestDailyList()
-                    .compose(view.bindLifecycle())
+                    .compose(getView().bindLifecycle())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<LatestDailyListBean>() {
@@ -90,7 +84,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                         public void accept(LatestDailyListBean s) throws Exception {
                             mData = s;
                             //显示最新数据
-                            view.showLatestData(mData);
+                            getView().showLatestData(mData);
 
                             LatestDailyListBean.StoriesBean header = new LatestDailyListBean
                                     .StoriesBean(true);
@@ -98,7 +92,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                             mData.getStories().add(0, header);
 
                             //显示内容区域
-                            view.showContent();
+                            getView().showContent();
                             step = Constants.STATE_NORMAL;
 
                             //保存网络数据到数据库
@@ -107,8 +101,8 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            view.showErrorMsg("sorry,请求网络数据失败~");
-                            view.showEmptyView();
+                            getView().showErrorMsg("sorry,请求网络数据失败~");
+                            getView().showEmptyView();
                             step = Constants.STATE_NO_DATA;
                             LogUtils.e("从网络加载最新数据失败,原因:" + throwable.getLocalizedMessage());
                         }
@@ -133,12 +127,12 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                     CacheBean cacheBean = cacheBeen.get(0);
                     e.onNext(cacheBean);
                 } else {
-                    e.onError(new Exception(StringUtils.getStringByResId(mContext, R.string
+                    e.onError(new Exception(StringUtils.getStringByResId(BaseApplication.getApplication(), R.string
                             .devices_offline)));
                 }
             }
         }, BackpressureStrategy.BUFFER)
-                .compose(view.bindLifecycle())
+                .compose(getView().bindLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<CacheBean>() {
@@ -149,14 +143,14 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                                 .getJson(), LatestDailyListBean.class);
                         //判断数据是否为空
                         if (mData != null) {
-                            view.showContent();
+                            getView().showContent();
 
                             //刷新界面
-                            view.showLatestData(mData);
+                            getView().showLatestData(mData);
                             step = Constants.STATE_NORMAL;
                         } else {
                             //无数据   显示空布局
-                            view.showEmptyView();
+                            getView().showEmptyView();
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -165,12 +159,12 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                         String localizedMessage = throwable.getLocalizedMessage();
                         LogUtils.e(localizedMessage);
 
-                        if (StringUtils.getStringByResId(mContext, R.string.devices_offline)
+                        if (StringUtils.getStringByResId(BaseApplication.getApplication(), R.string.devices_offline)
                                 .equals(localizedMessage)) {
-                            view.showOffline();
+                            getView().showOffline();
                             step = Constants.STATE_ERROR;
                         } else {
-                            view.showErrorMsg(localizedMessage);
+                            getView().showErrorMsg(localizedMessage);
                         }
                     }
                 });
@@ -209,7 +203,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
         final String groupTitle = DateUtils.getDateFormatText(pastDate, "MM月dd日 E");
         mRetrofitHelper.getZhiHuApi()
                 .getPastNews(DateUtils.getDateFormatText(pastDate, "yyyyMMdd"))
-                .compose(view.bindLifecycle())
+                .compose(getView().bindLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<PastNewsBean>() {
@@ -222,18 +216,18 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                             header.header = groupTitle;
                             mData.getStories().add(header);
 
-                            view.loadMoreSuccess(groupTitle, pastNewsBean);
+                            getView().loadMoreSuccess(groupTitle, pastNewsBean);
                         } else {
-                            view.showErrorMsg("无更多数据~");
-                            view.loadMoreFailed();
+                            getView().showErrorMsg("无更多数据~");
+                            getView().loadMoreFailed();
                         }
                         step = Constants.STATE_NORMAL;
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        view.showErrorMsg("加载更多数据失败~请稍后重试");
-                        view.loadMoreFailed();
+                        getView().showErrorMsg("加载更多数据失败~请稍后重试");
+                        getView().loadMoreFailed();
                         LogUtils.e(throwable.getLocalizedMessage());
                         step = Constants.STATE_NORMAL;
                     }

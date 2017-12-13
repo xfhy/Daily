@@ -90,7 +90,7 @@ public class ZHThemeFragment extends BaseStateMVPFragment<ZHThemePresenter> impl
 
     @Override
     public void initPresenter() {
-        mPresenter = new ZHThemePresenter(mActivity);
+        mPresenter = new ZHThemePresenter();
     }
 
     @Override

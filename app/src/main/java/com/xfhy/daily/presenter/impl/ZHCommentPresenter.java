@@ -1,7 +1,5 @@
 package com.xfhy.daily.presenter.impl;
 
-import android.content.Context;
-
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
 import com.xfhy.androidbasiclibs.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.util.LogUtils;
@@ -38,22 +36,21 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
      */
     private int reqStep = 1;
 
-    public ZHCommentPresenter(Context context) {
-        super(context);
+    public ZHCommentPresenter() {
         mRetrofitHelper = RetrofitHelper.getInstance();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void reqLongComFromNet(final String id) {
-        view.onLoading();
-        if (DevicesUtils.hasNetworkConnected(mContext)) {
+        getView().onLoading();
+        if (DevicesUtils.hasNetworkConnected()) {
             Flowable<DailyCommentBean> longCommentFlowable = mRetrofitHelper.getZhiHuApi()
                     .getDailyLongComments(id);
             Flowable<DailyCommentBean> shortCommentFlowable = mRetrofitHelper.getZhiHuApi()
                     .getDailyShortComments(id);
             Flowable.concat(longCommentFlowable, shortCommentFlowable)   //必须按顺序
-                    .compose(view.bindLifecycle())
+                    .compose(getView().bindLifecycle())
                     .map(new Function<DailyCommentBean, List<DailyCommentBean.CommentsBean>>() {
                         @Override
                         public List<DailyCommentBean.CommentsBean> apply(DailyCommentBean
@@ -80,7 +77,7 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
                             }
                             commentsBeanList.add(0, headerBean);
                             mComments = commentsBeanList;
-                            view.loadCommentSuccess(commentsBeanList);
+                            getView().loadCommentSuccess(commentsBeanList);
                             reqStep++;
                         }
                     }, new Consumer<Throwable>() {
@@ -88,11 +85,11 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
                         public void accept(Throwable throwable) throws Exception {
                             LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
                                     .getLocalizedMessage());
-                            view.showErrorMsg("日报评论信息请求失败");
+                            getView().showErrorMsg("日报评论信息请求失败");
                         }
                     });
         } else {
-            view.showOffline();
+            getView().showOffline();
         }
     }
 

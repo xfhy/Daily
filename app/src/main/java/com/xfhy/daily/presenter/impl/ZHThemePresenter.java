@@ -3,6 +3,7 @@ package com.xfhy.daily.presenter.impl;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
+import com.xfhy.androidbasiclibs.BaseApplication;
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
 import com.xfhy.androidbasiclibs.db.CacheBean;
 import com.xfhy.androidbasiclibs.db.CacheDao;
@@ -40,19 +41,18 @@ public class ZHThemePresenter extends AbstractPresenter<ZHThemeContract.View> im
     private List<TopicDailyListBean.OthersBean> mData;
     private int mStep;
 
-    public ZHThemePresenter(Context context) {
-        super(context);
+    public ZHThemePresenter() {
         mRetrofitHelper = RetrofitHelper.getInstance();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void reqDataFromNet() {
-        view.onLoading();
+        getView().onLoading();
         mStep = Constants.STATE_LOADING;
-        if (DevicesUtils.hasNetworkConnected(mContext)) {
+        if (DevicesUtils.hasNetworkConnected()) {
             mRetrofitHelper.getZhiHuApi().getTopicDailyList()
-                    .compose(view.bindLifecycle())
+                    .compose(getView().bindLifecycle())
                     .map(new Function<TopicDailyListBean, List<TopicDailyListBean.OthersBean>>() {
                         @Override
                         public List<TopicDailyListBean.OthersBean> apply(TopicDailyListBean
@@ -68,12 +68,12 @@ public class ZHThemePresenter extends AbstractPresenter<ZHThemeContract.View> im
                         public void accept(List<TopicDailyListBean.OthersBean> othersBeans)
                                 throws Exception {
                             if (othersBeans != null) {
-                                view.loadSuccess(othersBeans);
+                                getView().loadSuccess(othersBeans);
                                 mData = othersBeans;
                                 saveDataToDB(othersBeans);
                             } else {
-                                view.showErrorMsg("主题列表加载失败....");
-                                view.showEmptyView();
+                                getView().showErrorMsg("主题列表加载失败....");
+                                getView().showEmptyView();
                             }
                             mStep = Constants.STATE_NORMAL;
                         }
@@ -81,7 +81,7 @@ public class ZHThemePresenter extends AbstractPresenter<ZHThemeContract.View> im
                         @Override
                         public void accept(Throwable throwable) throws Exception {
                             LogUtils.e("主题列表加载失败 错误:" + throwable.getLocalizedMessage());
-                            view.showEmptyView();
+                            getView().showEmptyView();
                         }
                     });
         } else {
@@ -110,12 +110,12 @@ public class ZHThemePresenter extends AbstractPresenter<ZHThemeContract.View> im
                     CacheBean cacheBean = cacheBeans.get(0);  //读取出来的值
                     e.onNext(cacheBean);
                 } else {
-                    e.onError(new Exception(StringUtils.getStringByResId(mContext, R.string
+                    e.onError(new Exception(StringUtils.getStringByResId(BaseApplication.getApplication(), R.string
                             .devices_offline)));
                 }
             }
         }, BackpressureStrategy.BUFFER)
-                .compose(view.bindLifecycle())
+                .compose(getView().bindLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<CacheBean>() {
@@ -127,14 +127,14 @@ public class ZHThemePresenter extends AbstractPresenter<ZHThemeContract.View> im
                                 .class);
                         //判断数据是否为空
                         if (mData != null) {
-                            view.showContent();
+                            getView().showContent();
 
                             //刷新界面
-                            view.loadSuccess(mData);
+                            getView().loadSuccess(mData);
                             mStep = Constants.STATE_NORMAL;
                         } else {
                             //无数据   显示空布局
-                            view.showEmptyView();
+                            getView().showEmptyView();
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -143,12 +143,12 @@ public class ZHThemePresenter extends AbstractPresenter<ZHThemeContract.View> im
                         String localizedMessage = throwable.getLocalizedMessage();
                         LogUtils.e(localizedMessage);
 
-                        if (StringUtils.getStringByResId(mContext, R.string.devices_offline)
+                        if (StringUtils.getStringByResId(BaseApplication.getApplication(), R.string.devices_offline)
                                 .equals(localizedMessage)) {
-                            view.showOffline();
+                            getView().showOffline();
                             mStep = Constants.STATE_ERROR;
                         } else {
-                            view.showErrorMsg(localizedMessage);
+                            getView().showErrorMsg(localizedMessage);
                         }
                     }
                 });

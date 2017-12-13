@@ -146,7 +146,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
 
     @Override
     public void initPresenter() {
-        mPresenter = new ZHDailyDetailsPresenter(mContext);
+        mPresenter = new ZHDailyDetailsPresenter();
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -165,7 +165,7 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
             settings.setDomStorageEnabled(true);
             //设置是否启用数据库存储API。 默认值是false。
             settings.setDatabaseEnabled(true);
-            if (DevicesUtils.hasNetworkConnected(NewsApplication.getAppContext())) {
+            if (DevicesUtils.hasNetworkConnected()) {
                 //默认缓存使用模式。
                 settings.setCacheMode(WebSettings.LOAD_DEFAULT);
             } else {

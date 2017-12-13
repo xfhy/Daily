@@ -1,8 +1,9 @@
 package com.xfhy.androidbasiclibs.basekit.presenter;
 
-import android.content.Context;
-
 import com.xfhy.androidbasiclibs.basekit.view.BaseView;
+
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
 
 /**
  * author feiyang
@@ -11,16 +12,16 @@ import com.xfhy.androidbasiclibs.basekit.view.BaseView;
  */
 public abstract class AbstractPresenter<V extends BaseView> implements BasePresenter<V> {
 
-    protected V view;
-    protected Context mContext;
+    protected Reference<V> view;
 
-    public AbstractPresenter(Context context) {
-        this.mContext = context;
+    @Override
+    public void attach(V view) {
+        this.view = new WeakReference<>(view);
     }
 
     @Override
-    public void setView(V view) {
-        this.view = view;
+    public V getView() {
+        return view.get();
     }
 
     @Override
@@ -34,7 +35,10 @@ public abstract class AbstractPresenter<V extends BaseView> implements BasePrese
 
     @Override
     public void onDestroy() {
-
+        if (view != null) {
+            view.clear();
+            view = null;
+        }
     }
 
 }

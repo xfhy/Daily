@@ -39,14 +39,14 @@ public class RewriteCacheControlInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         String cacheControl = request.cacheControl().toString();
-        if (!DevicesUtils.hasNetworkConnected(mContext)) {
+        if (!DevicesUtils.hasNetworkConnected()) {
             request = request.newBuilder()
                     .cacheControl(TextUtils.isEmpty(cacheControl) ? CacheControl.FORCE_CACHE :
                             CacheControl.FORCE_NETWORK)
                     .build();
         }
         Response originalResponse = chain.proceed(request);
-        if (DevicesUtils.hasNetworkConnected(mContext)) {
+        if (DevicesUtils.hasNetworkConnected()) {
             //有网的时候连接服务器请求,缓存60s
             return originalResponse.newBuilder()
                     .header("Cache-Control", "public, max-age=" + MAX_AGE)

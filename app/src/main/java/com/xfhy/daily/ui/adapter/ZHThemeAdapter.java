@@ -35,7 +35,7 @@ public class ZHThemeAdapter extends BaseQuickAdapter<TopicDailyListBean.OthersBe
                           Context context) {
         super(layoutResId, data);
         this.context = context;
-        DisplayMetrics devicesSize = DevicesUtils.getDevicesSize(context);
+        DisplayMetrics devicesSize = DevicesUtils.getDevicesSize();
         mWidthPixels = devicesSize.widthPixels / 2;
     }
 

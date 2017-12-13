@@ -95,7 +95,7 @@ public class ZHSectionFragment extends BaseStateMVPFragment<ZHSectionPresenter> 
 
     @Override
     public void initPresenter() {
-        mPresenter = new ZHSectionPresenter(mActivity);
+        mPresenter = new ZHSectionPresenter();
     }
 
     @Override

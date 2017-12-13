@@ -23,7 +23,7 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActiv
 
         initPresenter();
         if (mPresenter != null) {
-            mPresenter.setView(this);
+            mPresenter.attach(this);
             mPresenter.onCreate();
         }
         // 这样做的目的是为了在初始化的时候,presenter已经初始化好了
