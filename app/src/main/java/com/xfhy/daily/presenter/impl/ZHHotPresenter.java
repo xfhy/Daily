@@ -94,8 +94,7 @@ public class ZHHotPresenter extends AbstractPresenter<ZHHotContract.View> implem
             @Override
             public void subscribe(FlowableEmitter<CacheBean> e) throws
                     Exception {
-                List<CacheBean> cacheBeans = CacheDao.queryCacheByKey(NewsApplication
-                        .getDaoSession(), DBConstants.ZHIHU_HOT_LIST_KEY);
+                List<CacheBean> cacheBeans = CacheDao.queryCacheByKey(DBConstants.ZHIHU_HOT_LIST_KEY);
                 if (cacheBeans != null && cacheBeans.size() > 0 && cacheBeans.get(0) != null) {
                     CacheBean cacheBean = cacheBeans.get(0);  //读取出来的值
                     e.onNext(cacheBean);
@@ -146,7 +145,7 @@ public class ZHHotPresenter extends AbstractPresenter<ZHHotContract.View> implem
 
     @Override
     public void saveDataToDB(List<HotDailyBean.RecentBean> dataBeans) {
-        CacheDao.saveTextToDB(DBConstants.ZHIHU_HOT_LIST_KEY, NewsApplication.getDaoSession(),
+        CacheDao.saveTextToDB(DBConstants.ZHIHU_HOT_LIST_KEY,
                 JSON.toJSONString(dataBeans));
     }
 

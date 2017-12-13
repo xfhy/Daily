@@ -107,8 +107,7 @@ public class ZHSectionPresenter extends AbstractPresenter<ZHSectionContract.View
             @Override
             public void subscribe(FlowableEmitter<CacheBean> e) throws
                     Exception {
-                List<CacheBean> cacheBeans = CacheDao.queryCacheByKey(NewsApplication
-                        .getDaoSession(), DBConstants
+                List<CacheBean> cacheBeans = CacheDao.queryCacheByKey(DBConstants
                         .ZHIHU_SECTION_LIST_KEY);
                 if (cacheBeans != null && cacheBeans.size() > 0 && cacheBeans.get(0) != null) {
                     CacheBean cacheBean = cacheBeans.get(0);  //读取出来的值
@@ -160,7 +159,7 @@ public class ZHSectionPresenter extends AbstractPresenter<ZHSectionContract.View
 
     @Override
     public void saveDataToDB(List<ColumnDailyBean.DataBean> dataBeans) {
-        CacheDao.saveTextToDB(DBConstants.ZHIHU_SECTION_LIST_KEY, NewsApplication.getDaoSession(),
+        CacheDao.saveTextToDB(DBConstants.ZHIHU_SECTION_LIST_KEY,
                 JSON.toJSONString(dataBeans));
     }
 

@@ -127,8 +127,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
         Flowable.create(new FlowableOnSubscribe<CacheBean>() {
             @Override
             public void subscribe(@NonNull FlowableEmitter<CacheBean> e) throws Exception {
-                List<CacheBean> cacheBeen = CacheDao.queryCacheByKey(NewsApplication
-                        .getDaoSession(), DBConstants
+                List<CacheBean> cacheBeen = CacheDao.queryCacheByKey(DBConstants
                         .ZHIHU_LATEST_DAILY_KEY);
                 if (cacheBeen != null && cacheBeen.size() > 0 && cacheBeen.get(0) != null) {
                     CacheBean cacheBean = cacheBeen.get(0);
@@ -181,8 +180,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
     @Override
     public void saveDailyDataToDB(@android.support.annotation.NonNull final LatestDailyListBean
                                           latestDailyListBean) {
-        CacheDao.saveTextToDB(DBConstants.ZHIHU_LATEST_DAILY_KEY, NewsApplication.getDaoSession()
-                , JSON.toJSONString(latestDailyListBean));
+        CacheDao.saveTextToDB(DBConstants.ZHIHU_LATEST_DAILY_KEY, JSON.toJSONString(latestDailyListBean));
     }
 
     @SuppressWarnings("unchecked")

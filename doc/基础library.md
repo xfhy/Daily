@@ -40,3 +40,19 @@ public class CenterFragment extends BaseMvpFragment<CenterFragmentContract.Prese
 
 --------------
 ## 4.widget
+
+自定义控件
+
+## 5.db
+数据库操作
+
+## 6.util
+
+工具类
+
+## 7.net
+网络相关
+
+## 8.adapter
+
+一个封装好了的adapter,方便使用

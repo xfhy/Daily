@@ -118,12 +118,11 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
 
         //先判断数据库中是否存在该日报,存在则删除  不存在则插入
 
-        List<CollectBean> collectBeans = CollectDao.queryCacheByKey(NewsApplication.getDaoSession
-                (), id);
+        List<CollectBean> collectBeans = CollectDao.queryCacheByKey(id);
         if (collectBeans == null || collectBeans.size() == 0) {
-            CollectDao.insertCollect(NewsApplication.getDaoSession(), collectBean);
+            CollectDao.insertCollect(collectBean);
         } else {
-            CollectDao.deleteCache(NewsApplication.getDaoSession(), collectBeans.get(0).getId());
+            CollectDao.deleteCache(collectBeans.get(0).getId());
         }
 
     }
@@ -132,8 +131,7 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
     public boolean isCollected(String id) {
         //先判断数据库中是否存在该日报,存在则曾经被收藏过
 
-        List<CollectBean> collectBeans = CollectDao.queryCacheByKey(NewsApplication.getDaoSession
-                (), id);
+        List<CollectBean> collectBeans = CollectDao.queryCacheByKey(id);
         if (collectBeans == null || collectBeans.size() == 0) {
             view.setCollectBtnSelState(false);
             return false;

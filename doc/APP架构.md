@@ -8,7 +8,7 @@
 
 ## AndroidBasicLibs
 
-首先，我们整体的思路是让现在开发的APP去依赖AndroidBasicLibs，我们尽量做到精简只需要在Gradle依赖它就行了。
+首先，我们整体的思路是让现在开发的APP去依赖DailyProjectLibrary，我们尽量做到精简只需要在Gradle依赖它就行了。
 
 AndroidBasicLibs里面有3个东西,basekit、common、uihelper
 

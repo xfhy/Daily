@@ -91,8 +91,8 @@ public class ZHThemeDetailsPresenter extends AbstractPresenter<ZHThemeDetailsCon
             @Override
             public void subscribe(FlowableEmitter<CacheBean> e) throws
                     Exception {
-                List<CacheBean> cacheBeans = CacheDao.queryCacheByKey(NewsApplication
-                        .getDaoSession(), DBConstants.ZHIHU_THEME_LIST_DETAILS_KEY + view
+                List<CacheBean> cacheBeans = CacheDao.queryCacheByKey(DBConstants
+                        .ZHIHU_THEME_LIST_DETAILS_KEY + view
                         .getmThemeId());
                 if (cacheBeans != null && cacheBeans.size() > 0 && cacheBeans.get(0) != null) {
                     CacheBean cacheBean = cacheBeans.get(0);  //读取出来的值
@@ -143,9 +143,8 @@ public class ZHThemeDetailsPresenter extends AbstractPresenter<ZHThemeDetailsCon
 
     @Override
     public void saveDataToDB(ThemeDailyDetailsBean themeDailyDetailsBean) {
-        CacheDao.saveTextToDB(DBConstants.ZHIHU_THEME_LIST_DETAILS_KEY + view.getmThemeId(),
-                NewsApplication
-                        .getDaoSession(), JSON.toJSONString(themeDailyDetailsBean));
+        CacheDao.saveTextToDB(DBConstants.ZHIHU_THEME_LIST_DETAILS_KEY + view.getmThemeId(), JSON
+                .toJSONString(themeDailyDetailsBean));
     }
 
     @Override
