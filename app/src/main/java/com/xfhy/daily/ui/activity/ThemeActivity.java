@@ -22,7 +22,7 @@ import com.xfhy.androidbasiclibs.util.StringUtils;
 import com.xfhy.androidbasiclibs.adapter.BaseQuickAdapter;
 import com.xfhy.androidbasiclibs.widget.StatefulLayout;
 import com.xfhy.daily.R;
-import com.xfhy.daily.network.entity.zhihu.ThemeDailyDetailsBean;
+import com.xfhy.daily.model.bean.ThemeDailyDetailsBean;
 import com.xfhy.daily.presenter.ZHThemeDetailsContract;
 import com.xfhy.daily.presenter.impl.ZHThemeDetailsPresenter;
 import com.xfhy.daily.ui.adapter.ZHThemeDetailsAdapter;

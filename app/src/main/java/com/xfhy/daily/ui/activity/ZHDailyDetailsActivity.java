@@ -27,9 +27,8 @@ import com.xfhy.androidbasiclibs.util.LoadDialogUtil;
 import com.xfhy.androidbasiclibs.util.ShareUtil;
 import com.xfhy.androidbasiclibs.util.SnackbarUtil;
 import com.xfhy.androidbasiclibs.util.StringUtils;
-import com.xfhy.daily.NewsApplication;
 import com.xfhy.daily.R;
-import com.xfhy.daily.network.entity.zhihu.DailyContentBean;
+import com.xfhy.daily.model.bean.DailyContentBean;
 import com.xfhy.daily.presenter.ZHDailyDetailsContract;
 import com.xfhy.daily.presenter.impl.ZHDailyDetailsPresenter;
 

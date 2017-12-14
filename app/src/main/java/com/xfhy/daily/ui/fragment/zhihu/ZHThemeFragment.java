@@ -9,7 +9,7 @@ import android.view.View;
 import com.xfhy.androidbasiclibs.util.StringUtils;
 import com.xfhy.androidbasiclibs.adapter.BaseQuickAdapter;
 import com.xfhy.daily.R;
-import com.xfhy.daily.network.entity.zhihu.TopicDailyListBean;
+import com.xfhy.daily.model.bean.TopicDailyListBean;
 import com.xfhy.daily.presenter.ZHThemeContract;
 import com.xfhy.daily.presenter.impl.ZHThemePresenter;
 import com.xfhy.daily.ui.activity.MainActivity;

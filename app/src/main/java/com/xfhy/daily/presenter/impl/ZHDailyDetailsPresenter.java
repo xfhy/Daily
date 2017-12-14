@@ -1,7 +1,5 @@
 package com.xfhy.daily.presenter.impl;
 
-import android.content.Context;
-
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
 import com.xfhy.androidbasiclibs.db.CollectBean;
 import com.xfhy.androidbasiclibs.db.CollectDao;
@@ -11,9 +9,9 @@ import com.xfhy.androidbasiclibs.util.DateUtils;
 import com.xfhy.androidbasiclibs.util.LogUtils;
 import com.xfhy.androidbasiclibs.util.SpUtil;
 import com.xfhy.daily.NewsApplication;
-import com.xfhy.daily.network.RetrofitHelper;
-import com.xfhy.daily.network.entity.zhihu.DailyContentBean;
-import com.xfhy.daily.network.entity.zhihu.DailyExtraInfoBean;
+import com.xfhy.daily.model.network.RetrofitHelper;
+import com.xfhy.daily.model.bean.DailyContentBean;
+import com.xfhy.daily.model.bean.DailyExtraInfoBean;
 import com.xfhy.daily.presenter.ZHDailyDetailsContract;
 
 import java.util.Date;

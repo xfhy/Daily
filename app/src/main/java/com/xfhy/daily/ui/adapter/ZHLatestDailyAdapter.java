@@ -9,7 +9,7 @@ import com.xfhy.androidbasiclibs.util.GlideUtils;
 import com.xfhy.androidbasiclibs.adapter.BaseSectionQuickAdapter;
 import com.xfhy.androidbasiclibs.adapter.BaseViewHolder;
 import com.xfhy.daily.R;
-import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
+import com.xfhy.daily.model.bean.LatestDailyListBean;
 
 import java.util.List;
 

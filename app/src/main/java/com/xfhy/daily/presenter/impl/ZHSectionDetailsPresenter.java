@@ -1,7 +1,5 @@
 package com.xfhy.daily.presenter.impl;
 
-import android.content.Context;
-
 import com.alibaba.fastjson.JSON;
 import com.xfhy.androidbasiclibs.BaseApplication;
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
@@ -12,10 +10,9 @@ import com.xfhy.androidbasiclibs.util.Constants;
 import com.xfhy.androidbasiclibs.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.util.LogUtils;
 import com.xfhy.androidbasiclibs.util.StringUtils;
-import com.xfhy.daily.NewsApplication;
 import com.xfhy.daily.R;
-import com.xfhy.daily.network.RetrofitHelper;
-import com.xfhy.daily.network.entity.zhihu.ColumnDailyDetailsBean;
+import com.xfhy.daily.model.ZHDataManager;
+import com.xfhy.daily.model.bean.ColumnDailyDetailsBean;
 import com.xfhy.daily.presenter.ZHSectionDetailsContract;
 
 import java.util.List;
@@ -37,7 +34,10 @@ import io.reactivex.schedulers.Schedulers;
 public class ZHSectionDetailsPresenter extends AbstractPresenter<ZHSectionDetailsContract.View>
         implements ZHSectionDetailsContract.Presenter {
 
-    private RetrofitHelper mRetrofitHelper;
+    /**
+     * 知乎数据管理类 model
+     */
+    private ZHDataManager mZHDataManager;
     private List<ColumnDailyDetailsBean.StoriesBean> mData;
     /**
      * 当前view所处的状态
@@ -45,7 +45,7 @@ public class ZHSectionDetailsPresenter extends AbstractPresenter<ZHSectionDetail
     private int mStep;
 
     public ZHSectionDetailsPresenter() {
-        mRetrofitHelper = RetrofitHelper.getInstance();
+        mZHDataManager = ZHDataManager.getInstance();
     }
 
     @SuppressWarnings("unchecked")
@@ -54,7 +54,7 @@ public class ZHSectionDetailsPresenter extends AbstractPresenter<ZHSectionDetail
         getView().onLoading();
         mStep = Constants.STATE_LOADING;
         if (DevicesUtils.hasNetworkConnected()) {
-            mRetrofitHelper.getZhiHuApi().getColumnDailyDetailsList(sectionId)
+            mZHDataManager.getColumnDailyDetailsList(sectionId)
                     .compose(getView().bindLifecycle())
                     .map(new Function<ColumnDailyDetailsBean, List<ColumnDailyDetailsBean
                             .StoriesBean>>() {
@@ -114,7 +114,8 @@ public class ZHSectionDetailsPresenter extends AbstractPresenter<ZHSectionDetail
                     CacheBean cacheBean = cacheBeans.get(0);  //读取出来的值
                     e.onNext(cacheBean);
                 } else {
-                    e.onError(new Exception(StringUtils.getStringByResId(BaseApplication.getApplication(), R.string
+                    e.onError(new Exception(StringUtils.getStringByResId(BaseApplication.getApplication(),
+                            R.string
                             .devices_offline)));
                 }
             }
@@ -148,7 +149,8 @@ public class ZHSectionDetailsPresenter extends AbstractPresenter<ZHSectionDetail
                         String localizedMessage = throwable.getLocalizedMessage();
                         LogUtils.e(localizedMessage);
 
-                        if (StringUtils.getStringByResId(BaseApplication.getApplication(), R.string.devices_offline)
+                        if (StringUtils.getStringByResId(BaseApplication.getApplication(), R.string
+                                .devices_offline)
                                 .equals(localizedMessage)) {
                             getView().showOffline();
                             mStep = Constants.STATE_ERROR;

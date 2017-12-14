@@ -1,15 +1,15 @@
-package com.xfhy.daily.network.api;
+package com.xfhy.daily.model.network.api;
 
-import com.xfhy.daily.network.entity.zhihu.ColumnDailyBean;
-import com.xfhy.daily.network.entity.zhihu.ColumnDailyDetailsBean;
-import com.xfhy.daily.network.entity.zhihu.DailyCommentBean;
-import com.xfhy.daily.network.entity.zhihu.DailyContentBean;
-import com.xfhy.daily.network.entity.zhihu.DailyExtraInfoBean;
-import com.xfhy.daily.network.entity.zhihu.HotDailyBean;
-import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
-import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
-import com.xfhy.daily.network.entity.zhihu.ThemeDailyDetailsBean;
-import com.xfhy.daily.network.entity.zhihu.TopicDailyListBean;
+import com.xfhy.daily.model.bean.ColumnDailyBean;
+import com.xfhy.daily.model.bean.ColumnDailyDetailsBean;
+import com.xfhy.daily.model.bean.DailyCommentBean;
+import com.xfhy.daily.model.bean.DailyContentBean;
+import com.xfhy.daily.model.bean.DailyExtraInfoBean;
+import com.xfhy.daily.model.bean.HotDailyBean;
+import com.xfhy.daily.model.bean.LatestDailyListBean;
+import com.xfhy.daily.model.bean.PastNewsBean;
+import com.xfhy.daily.model.bean.ThemeDailyDetailsBean;
+import com.xfhy.daily.model.bean.TopicDailyListBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;

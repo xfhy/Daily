@@ -1,6 +1,4 @@
-package com.xfhy.daily.network.entity.zhihu;
-
-import com.alibaba.fastjson.annotation.JSONField;
+package com.xfhy.daily.model.bean;
 
 import java.util.List;
 

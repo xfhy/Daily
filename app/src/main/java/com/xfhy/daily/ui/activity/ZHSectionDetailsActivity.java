@@ -17,7 +17,7 @@ import com.xfhy.androidbasiclibs.util.StringUtils;
 import com.xfhy.androidbasiclibs.adapter.BaseQuickAdapter;
 import com.xfhy.androidbasiclibs.widget.StatefulLayout;
 import com.xfhy.daily.R;
-import com.xfhy.daily.network.entity.zhihu.ColumnDailyDetailsBean;
+import com.xfhy.daily.model.bean.ColumnDailyDetailsBean;
 import com.xfhy.daily.presenter.ZHSectionDetailsContract;
 import com.xfhy.daily.presenter.impl.ZHSectionDetailsPresenter;
 import com.xfhy.daily.ui.adapter.ZHSectionDetailsAdapter;

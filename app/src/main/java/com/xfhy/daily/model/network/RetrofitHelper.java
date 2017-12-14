@@ -1,9 +1,9 @@
-package com.xfhy.daily.network;
+package com.xfhy.daily.model.network;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xfhy.androidbasiclibs.net.converter.FastJsonConverterFactory;
 import com.xfhy.androidbasiclibs.net.OkHttpUtils;
-import com.xfhy.daily.network.api.ZhiHuService;
+import com.xfhy.daily.model.network.api.ZhiHuService;
 
 import retrofit2.Retrofit;
 
@@ -14,16 +14,19 @@ import retrofit2.Retrofit;
  */
 public class RetrofitHelper {
 
-    private static RetrofitHelper helper = null;
-
     private RetrofitHelper() {
     }
 
-    public static synchronized RetrofitHelper getInstance() {
-        if (helper == null) {
-            helper = new RetrofitHelper();
-        }
-        return helper;
+    /**
+     * 单例
+     * 懒加载 && 线程安全
+     */
+    private static class SingletonHolder {
+        private static final RetrofitHelper INSTANCE = new RetrofitHelper();
+    }
+
+    public static RetrofitHelper getInstance() {
+        return SingletonHolder.INSTANCE;
     }
 
     /**

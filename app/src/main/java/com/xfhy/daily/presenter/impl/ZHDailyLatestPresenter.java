@@ -1,6 +1,5 @@
 package com.xfhy.daily.presenter.impl;
 
-import android.content.Context;
 import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 
@@ -16,9 +15,9 @@ import com.xfhy.androidbasiclibs.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.util.LogUtils;
 import com.xfhy.androidbasiclibs.util.StringUtils;
 import com.xfhy.daily.R;
-import com.xfhy.daily.network.RetrofitHelper;
-import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
-import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
+import com.xfhy.daily.model.ZHDataManager;
+import com.xfhy.daily.model.bean.LatestDailyListBean;
+import com.xfhy.daily.model.bean.PastNewsBean;
 import com.xfhy.daily.presenter.ZHDailyLatestContract;
 
 import java.util.Date;
@@ -40,10 +39,12 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContract.View>
         implements ZHDailyLatestContract.Presenter {
+
     /**
-     * Retrofit帮助类
+     * 知乎数据管理类 model
      */
-    private RetrofitHelper mRetrofitHelper;
+    private ZHDataManager mZHDataManager;
+
     /**
      * 当前界面的显示的数据
      */
@@ -54,7 +55,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
     private int step;
 
     public ZHDailyLatestPresenter() {
-        mRetrofitHelper = RetrofitHelper.getInstance();
+        mZHDataManager = ZHDataManager.getInstance();
     }
 
     @Override
@@ -74,8 +75,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
         //判断当前是否有网络   再决定走网络还是数据库缓存
         if (DevicesUtils.hasNetworkConnected()) {
             //从网络获取最新数据
-            mRetrofitHelper
-                    .getZhiHuApi().getLatestDailyList()
+            mZHDataManager.getLatestDailyList()
                     .compose(getView().bindLifecycle())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -127,8 +127,9 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                     CacheBean cacheBean = cacheBeen.get(0);
                     e.onNext(cacheBean);
                 } else {
-                    e.onError(new Exception(StringUtils.getStringByResId(BaseApplication.getApplication(), R.string
-                            .devices_offline)));
+                    e.onError(new Exception(StringUtils.getStringByResId(BaseApplication.getApplication(),
+                            R.string
+                                    .devices_offline)));
                 }
             }
         }, BackpressureStrategy.BUFFER)
@@ -159,7 +160,8 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
                         String localizedMessage = throwable.getLocalizedMessage();
                         LogUtils.e(localizedMessage);
 
-                        if (StringUtils.getStringByResId(BaseApplication.getApplication(), R.string.devices_offline)
+                        if (StringUtils.getStringByResId(BaseApplication.getApplication(), R.string
+                                .devices_offline)
                                 .equals(localizedMessage)) {
                             getView().showOffline();
                             step = Constants.STATE_ERROR;
@@ -201,8 +203,7 @@ public class ZHDailyLatestPresenter extends AbstractPresenter<ZHDailyLatestContr
         Date pastDate = DateUtils.getPastDate(new Date(System.currentTimeMillis()),
                 pastDays);
         final String groupTitle = DateUtils.getDateFormatText(pastDate, "MM月dd日 E");
-        mRetrofitHelper.getZhiHuApi()
-                .getPastNews(DateUtils.getDateFormatText(pastDate, "yyyyMMdd"))
+        mZHDataManager.getPastNews(DateUtils.getDateFormatText(pastDate, "yyyyMMdd"))
                 .compose(getView().bindLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

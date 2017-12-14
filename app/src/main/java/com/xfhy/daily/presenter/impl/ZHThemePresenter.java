@@ -1,7 +1,5 @@
 package com.xfhy.daily.presenter.impl;
 
-import android.content.Context;
-
 import com.alibaba.fastjson.JSON;
 import com.xfhy.androidbasiclibs.BaseApplication;
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
@@ -12,10 +10,9 @@ import com.xfhy.androidbasiclibs.util.Constants;
 import com.xfhy.androidbasiclibs.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.util.LogUtils;
 import com.xfhy.androidbasiclibs.util.StringUtils;
-import com.xfhy.daily.NewsApplication;
 import com.xfhy.daily.R;
-import com.xfhy.daily.network.RetrofitHelper;
-import com.xfhy.daily.network.entity.zhihu.TopicDailyListBean;
+import com.xfhy.daily.model.ZHDataManager;
+import com.xfhy.daily.model.bean.TopicDailyListBean;
 import com.xfhy.daily.presenter.ZHThemeContract;
 
 import java.util.List;
@@ -37,12 +34,15 @@ import io.reactivex.schedulers.Schedulers;
 public class ZHThemePresenter extends AbstractPresenter<ZHThemeContract.View> implements
         ZHThemeContract.Presenter {
 
-    private RetrofitHelper mRetrofitHelper;
+    /**
+     * 知乎数据管理类 model
+     */
+    private ZHDataManager mZHDataManager;
     private List<TopicDailyListBean.OthersBean> mData;
     private int mStep;
 
     public ZHThemePresenter() {
-        mRetrofitHelper = RetrofitHelper.getInstance();
+        mZHDataManager = ZHDataManager.getInstance();
     }
 
     @SuppressWarnings("unchecked")
@@ -51,7 +51,7 @@ public class ZHThemePresenter extends AbstractPresenter<ZHThemeContract.View> im
         getView().onLoading();
         mStep = Constants.STATE_LOADING;
         if (DevicesUtils.hasNetworkConnected()) {
-            mRetrofitHelper.getZhiHuApi().getTopicDailyList()
+            mZHDataManager.getTopicDailyList()
                     .compose(getView().bindLifecycle())
                     .map(new Function<TopicDailyListBean, List<TopicDailyListBean.OthersBean>>() {
                         @Override
@@ -110,8 +110,9 @@ public class ZHThemePresenter extends AbstractPresenter<ZHThemeContract.View> im
                     CacheBean cacheBean = cacheBeans.get(0);  //读取出来的值
                     e.onNext(cacheBean);
                 } else {
-                    e.onError(new Exception(StringUtils.getStringByResId(BaseApplication.getApplication(), R.string
-                            .devices_offline)));
+                    e.onError(new Exception(StringUtils.getStringByResId(BaseApplication.getApplication(),
+                            R.string
+                                    .devices_offline)));
                 }
             }
         }, BackpressureStrategy.BUFFER)
@@ -143,7 +144,8 @@ public class ZHThemePresenter extends AbstractPresenter<ZHThemeContract.View> im
                         String localizedMessage = throwable.getLocalizedMessage();
                         LogUtils.e(localizedMessage);
 
-                        if (StringUtils.getStringByResId(BaseApplication.getApplication(), R.string.devices_offline)
+                        if (StringUtils.getStringByResId(BaseApplication.getApplication(), R.string
+                                .devices_offline)
                                 .equals(localizedMessage)) {
                             getView().showOffline();
                             mStep = Constants.STATE_ERROR;

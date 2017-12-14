@@ -3,8 +3,8 @@ package com.xfhy.daily.presenter.impl;
 import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
 import com.xfhy.androidbasiclibs.util.DevicesUtils;
 import com.xfhy.androidbasiclibs.util.LogUtils;
-import com.xfhy.daily.network.RetrofitHelper;
-import com.xfhy.daily.network.entity.zhihu.DailyCommentBean;
+import com.xfhy.daily.model.ZHDataManager;
+import com.xfhy.daily.model.bean.DailyCommentBean;
 import com.xfhy.daily.presenter.ZHCommentContract;
 
 import java.util.List;
@@ -24,9 +24,9 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
         ZHCommentContract.Presenter {
 
     /**
-     * Retrofit帮助类
+     * 知乎数据管理类 model
      */
-    private RetrofitHelper mRetrofitHelper;
+    private ZHDataManager mZHDataManager;
     /**
      * 评论数据
      */
@@ -37,7 +37,7 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
     private int reqStep = 1;
 
     public ZHCommentPresenter() {
-        mRetrofitHelper = RetrofitHelper.getInstance();
+        mZHDataManager = ZHDataManager.getInstance();
     }
 
     @Override
@@ -45,9 +45,9 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
     public void reqLongComFromNet(final String id) {
         getView().onLoading();
         if (DevicesUtils.hasNetworkConnected()) {
-            Flowable<DailyCommentBean> longCommentFlowable = mRetrofitHelper.getZhiHuApi()
+            Flowable<DailyCommentBean> longCommentFlowable = mZHDataManager
                     .getDailyLongComments(id);
-            Flowable<DailyCommentBean> shortCommentFlowable = mRetrofitHelper.getZhiHuApi()
+            Flowable<DailyCommentBean> shortCommentFlowable = mZHDataManager
                     .getDailyShortComments(id);
             Flowable.concat(longCommentFlowable, shortCommentFlowable)   //必须按顺序
                     .compose(getView().bindLifecycle())

@@ -1,4 +1,4 @@
-package com.xfhy.daily.network;
+package com.xfhy.daily.model.network;
 
 import com.xfhy.daily.BuildConfig;
 

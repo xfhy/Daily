@@ -1,4 +1,4 @@
-package com.xfhy.daily.network.entity.zhihu;
+package com.xfhy.daily.model.bean;
 
 import java.util.List;
 

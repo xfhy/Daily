@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.xfhy.androidbasiclibs.basekit.presenter.BasePresenter;
 import com.xfhy.androidbasiclibs.basekit.view.BaseView;
-import com.xfhy.daily.network.entity.zhihu.LatestDailyListBean;
-import com.xfhy.daily.network.entity.zhihu.PastNewsBean;
+import com.xfhy.daily.model.bean.LatestDailyListBean;
+import com.xfhy.daily.model.bean.PastNewsBean;
 
 /**
  * author feiyang

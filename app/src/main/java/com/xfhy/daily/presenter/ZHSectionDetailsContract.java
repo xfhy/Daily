@@ -2,7 +2,7 @@ package com.xfhy.daily.presenter;
 
 import com.xfhy.androidbasiclibs.basekit.presenter.BasePresenter;
 import com.xfhy.androidbasiclibs.basekit.view.BaseView;
-import com.xfhy.daily.network.entity.zhihu.ColumnDailyDetailsBean;
+import com.xfhy.daily.model.bean.ColumnDailyDetailsBean;
 
 import java.util.List;
 
