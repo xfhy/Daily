@@ -113,11 +113,6 @@ public class ZHCommentActivity extends BaseMvpActivity<ZHCommentContract.Present
     }
 
     @Override
-    public LifecycleTransformer bindLifecycle() {
-        return bindToLifecycle();
-    }
-
-    @Override
     public void closeLoading() {
     }
 

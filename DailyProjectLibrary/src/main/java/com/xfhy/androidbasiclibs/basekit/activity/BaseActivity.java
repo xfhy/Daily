@@ -4,9 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.xfhy.androidbasiclibs.common.AppManager;
 
 import butterknife.ButterKnife;
@@ -17,7 +17,7 @@ import butterknife.Unbinder;
  * create at 2017/9/15 13:42
  * description：所有Activity的父类
  */
-public abstract class BaseActivity extends RxAppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private Unbinder mUnbinder;
     /**

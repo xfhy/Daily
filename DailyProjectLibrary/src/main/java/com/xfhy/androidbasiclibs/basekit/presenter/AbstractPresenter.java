@@ -15,8 +15,16 @@ public abstract class AbstractPresenter<V extends BaseView> implements BasePrese
     protected Reference<V> view;
 
     @Override
-    public void attach(V view) {
+    public void attachView(V view) {
         this.view = new WeakReference<>(view);
+    }
+
+    @Override
+    public void detachView() {
+        if (view != null) {
+            view.clear();
+            view = null;
+        }
     }
 
     @Override
@@ -30,15 +38,10 @@ public abstract class AbstractPresenter<V extends BaseView> implements BasePrese
 
     @Override
     public void onResume() {
-
     }
 
     @Override
     public void onDestroy() {
-        if (view != null) {
-            view.clear();
-            view = null;
-        }
     }
 
 }

@@ -27,7 +27,7 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (mPresenter != null) {
-            mPresenter.attach(this);
+            mPresenter.attachView(this);
             mPresenter.onCreate();
         }
     }
@@ -44,7 +44,7 @@ public abstract class BaseMVPFragment<P extends BasePresenter> extends BaseFragm
     public void onDestroy() {
         super.onDestroy();
         if (mPresenter != null) {
-            mPresenter.onDestroy();
+            mPresenter.detachView();
         }
     }
 

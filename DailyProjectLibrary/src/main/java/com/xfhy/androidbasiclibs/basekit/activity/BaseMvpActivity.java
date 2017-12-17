@@ -23,7 +23,7 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActiv
 
         initPresenter();
         if (mPresenter != null) {
-            mPresenter.attach(this);
+            mPresenter.attachView(this);
             mPresenter.onCreate();
         }
         // 这样做的目的是为了在初始化的时候,presenter已经初始化好了
@@ -44,7 +44,7 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActiv
     protected void onDestroy() {
         super.onDestroy();
         if (mPresenter != null) {
-            mPresenter.onDestroy();
+            mPresenter.detachView();
         }
     }
 }

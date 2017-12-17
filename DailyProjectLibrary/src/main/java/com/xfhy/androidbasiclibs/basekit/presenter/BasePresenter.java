@@ -10,10 +10,15 @@ import com.xfhy.androidbasiclibs.basekit.view.BaseView;
 public interface BasePresenter<V extends BaseView> {
 
     /**
-     *
+     * 绑定View
      * @param view 该presenter的View
      */
-    void attach(V view);
+    void attachView(V view);
+
+    /**
+     * 解除绑定View
+     */
+    void detachView();
 
     /**
      * 获取View

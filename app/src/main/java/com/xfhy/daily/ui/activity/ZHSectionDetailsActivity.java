@@ -104,11 +104,6 @@ public class ZHSectionDetailsActivity extends BaseMvpActivity<ZHSectionDetailsPr
     }
 
     @Override
-    public LifecycleTransformer bindLifecycle() {
-        return bindToLifecycle();
-    }
-
-    @Override
     public void closeLoading() {
         mStateView.showContent();
     }

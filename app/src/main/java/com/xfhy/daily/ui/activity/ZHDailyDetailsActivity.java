@@ -103,11 +103,6 @@ public class ZHDailyDetailsActivity extends BaseMvpActivity<ZHDailyDetailsContra
     }
 
     @Override
-    public LifecycleTransformer bindLifecycle() {
-        return bindToLifecycle();
-    }
-
-    @Override
     public void closeLoading() {
         LoadDialogUtil.dismiss();
     }

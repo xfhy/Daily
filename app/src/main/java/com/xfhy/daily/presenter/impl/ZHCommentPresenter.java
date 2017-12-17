@@ -1,8 +1,8 @@
 package com.xfhy.daily.presenter.impl;
 
-import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
+import com.xfhy.androidbasiclibs.basekit.presenter.RxPresenter;
+import com.xfhy.androidbasiclibs.common.CommonSubscriber;
 import com.xfhy.androidbasiclibs.util.DevicesUtils;
-import com.xfhy.androidbasiclibs.util.LogUtils;
 import com.xfhy.daily.model.ZHDataManager;
 import com.xfhy.daily.model.bean.DailyCommentBean;
 import com.xfhy.daily.presenter.ZHCommentContract;
@@ -11,7 +11,6 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -20,7 +19,7 @@ import io.reactivex.schedulers.Schedulers;
  * time create at 2017/11/16 14:55
  * description 知乎评论页Presenter
  */
-public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View> implements
+public class ZHCommentPresenter extends RxPresenter<ZHCommentContract.View> implements
         ZHCommentContract.Presenter {
 
     /**
@@ -45,26 +44,21 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
     public void reqLongComFromNet(final String id) {
         getView().onLoading();
         if (DevicesUtils.hasNetworkConnected()) {
-            Flowable<DailyCommentBean> longCommentFlowable = mZHDataManager
-                    .getDailyLongComments(id);
-            Flowable<DailyCommentBean> shortCommentFlowable = mZHDataManager
-                    .getDailyShortComments(id);
-            Flowable.concat(longCommentFlowable, shortCommentFlowable)   //必须按顺序
-                    .compose(getView().bindLifecycle())
+            Flowable<DailyCommentBean> longCommentFlowable = mZHDataManager.getDailyLongComments(id);
+            Flowable<DailyCommentBean> shortCommentFlowable = mZHDataManager.getDailyShortComments(id);
+            addSubscribe(Flowable.concat(longCommentFlowable, shortCommentFlowable)   //必须按顺序
                     .map(new Function<DailyCommentBean, List<DailyCommentBean.CommentsBean>>() {
                         @Override
-                        public List<DailyCommentBean.CommentsBean> apply(DailyCommentBean
-                                                                                 dailyCommentBean)
+                        public List<DailyCommentBean.CommentsBean> apply(DailyCommentBean dailyCommentBean)
                                 throws Exception {
                             return dailyCommentBean.getComments();
                         }
                     })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<List<DailyCommentBean.CommentsBean>>() {
+                    .subscribeWith(new CommonSubscriber<List<DailyCommentBean.CommentsBean>>(getView(), "日报评论信息请求失败") {
                         @Override
-                        public void accept(List<DailyCommentBean.CommentsBean> commentsBeanList)
-                                throws Exception {
+                        public void onNext(List<DailyCommentBean.CommentsBean> commentsBeanList) {
                             //header
                             DailyCommentBean.CommentsBean headerBean = new DailyCommentBean
                                     .CommentsBean(true);
@@ -80,14 +74,8 @@ public class ZHCommentPresenter extends AbstractPresenter<ZHCommentContract.View
                             getView().loadCommentSuccess(commentsBeanList);
                             reqStep++;
                         }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
-                                    .getLocalizedMessage());
-                            getView().showErrorMsg("日报评论信息请求失败");
-                        }
-                    });
+                    })
+            );
         } else {
             getView().showOffline();
         }

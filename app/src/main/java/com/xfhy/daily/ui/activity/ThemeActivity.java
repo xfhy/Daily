@@ -121,11 +121,6 @@ public class ThemeActivity extends BaseMvpActivity<ZHThemeDetailsContract.Presen
     }
 
     @Override
-    public LifecycleTransformer bindLifecycle() {
-        return bindToLifecycle();
-    }
-
-    @Override
     public void closeLoading() {
         mStateView.showContent();
     }

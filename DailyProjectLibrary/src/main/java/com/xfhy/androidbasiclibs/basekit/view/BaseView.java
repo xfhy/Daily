@@ -15,12 +15,6 @@ public interface BaseView {
     void onLoading();
 
     /**
-     * 在Activity或者Fragment中实现bindLifecycle()方法
-     * 获取LifecycleTransformer用于在使用RxJava时防止内存泄漏
-     */
-    LifecycleTransformer bindLifecycle();
-
-    /**
      * 关闭正在加载
      */
     void closeLoading();

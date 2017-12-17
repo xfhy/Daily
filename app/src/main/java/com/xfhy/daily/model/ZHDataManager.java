@@ -144,4 +144,6 @@ public class ZHDataManager {
         return mRetrofitHelper.getZhiHuApi().getHotDailyList();
     }
 
+
+
 }

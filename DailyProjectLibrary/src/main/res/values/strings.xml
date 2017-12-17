@@ -14,4 +14,7 @@
     <string name="stfLoadingMessage">正在加载中...</string>
     <string name="stfButtonRetry">重试</string>
     <string name="stfButtonSetting">去设置</string>
+
+    <string name="data_loading_failed">数据加载失败ヽ(≧Д≦)ノ</string>
+    <string name="unknown_mistake">未知错误ヽ(≧Д≦)ノ</string>
 </resources>

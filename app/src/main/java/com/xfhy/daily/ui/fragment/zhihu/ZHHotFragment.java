@@ -73,7 +73,7 @@ public class ZHHotFragment extends BaseStateMVPFragment<ZHHotContract.Presenter>
     @Override
     protected void lazyLoad() {
         super.lazyLoad();
-        mPresenter.reqDataFromDB();
+        mPresenter.reqDataFromNet();
     }
 
     @Override

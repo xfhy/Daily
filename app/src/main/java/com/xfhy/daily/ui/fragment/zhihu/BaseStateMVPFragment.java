@@ -40,7 +40,7 @@ public abstract class BaseStateMVPFragment<P extends BasePresenter> extends Base
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (mPresenter != null) {
-            mPresenter.attach(this);
+            mPresenter.attachView(this);
             mPresenter.onCreate();
         }
     }
@@ -69,11 +69,6 @@ public abstract class BaseStateMVPFragment<P extends BasePresenter> extends Base
     @Override
     public void onLoading() {
         mStateView.showLoading();
-    }
-
-    @Override
-    public LifecycleTransformer bindLifecycle() {
-        return bindToLifecycle();
     }
 
     @Override

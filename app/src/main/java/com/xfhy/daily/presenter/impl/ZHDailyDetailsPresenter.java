@@ -1,6 +1,7 @@
 package com.xfhy.daily.presenter.impl;
 
-import com.xfhy.androidbasiclibs.basekit.presenter.AbstractPresenter;
+import com.xfhy.androidbasiclibs.basekit.presenter.RxPresenter;
+import com.xfhy.androidbasiclibs.common.CommonSubscriber;
 import com.xfhy.androidbasiclibs.db.CollectBean;
 import com.xfhy.androidbasiclibs.db.CollectDao;
 import com.xfhy.androidbasiclibs.db.DBConstants;
@@ -9,7 +10,7 @@ import com.xfhy.androidbasiclibs.util.DateUtils;
 import com.xfhy.androidbasiclibs.util.LogUtils;
 import com.xfhy.androidbasiclibs.util.SpUtil;
 import com.xfhy.daily.NewsApplication;
-import com.xfhy.daily.model.network.RetrofitHelper;
+import com.xfhy.daily.model.ZHDataManager;
 import com.xfhy.daily.model.bean.DailyContentBean;
 import com.xfhy.daily.model.bean.DailyExtraInfoBean;
 import com.xfhy.daily.presenter.ZHDailyDetailsContract;
@@ -18,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -26,13 +26,13 @@ import io.reactivex.schedulers.Schedulers;
  * @time create at 2017/11/7 13:51
  * @description 知乎最新日报详情
  */
-public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsContract.View>
+public class ZHDailyDetailsPresenter extends RxPresenter<ZHDailyDetailsContract.View>
         implements ZHDailyDetailsContract.Presenter {
 
     /**
-     * Retrofit帮助类
+     * 知乎数据管理类 model
      */
-    private RetrofitHelper mRetrofitHelper;
+    private ZHDataManager mZHDataManager;
     /**
      * 日报数据
      */
@@ -43,20 +43,19 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
     private DailyExtraInfoBean mDailyExtraInfoBean;
 
     public ZHDailyDetailsPresenter() {
-        mRetrofitHelper = RetrofitHelper.getInstance();
+        mZHDataManager = ZHDataManager.getInstance();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void reqDailyContentFromNet(String id) {
         getView().onLoading();
-        mRetrofitHelper.getZhiHuApi().getDailyContent(id)
-                .compose(getView().bindLifecycle())
+        addSubscribe(mZHDataManager.getDailyContent(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<DailyContentBean>() {
+                .subscribeWith(new CommonSubscriber<DailyContentBean>(getView()) {
                     @Override
-                    public void accept(DailyContentBean dailyContentBean) throws Exception {
+                    public void onNext(DailyContentBean dailyContentBean) {
                         mDailyContentBean = dailyContentBean;
                         if (mDailyContentBean != null) {
                             getView().showContent();
@@ -64,29 +63,25 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
                         } else {
                             getView().showEmptyView();
                         }
-
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        LogUtils.e("从网络请求日报内容失败" + throwable.getCause() + throwable
-                                .getLocalizedMessage());
+                    public void onError(Throwable t) {
                         getView().loadError();
                     }
-                });
-
+                })
+        );
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void reqDailyExtraInfoFromNet(String id) {
-        mRetrofitHelper.getZhiHuApi().getDailyExtraInfo(id)
-                .compose(getView().bindLifecycle())
+        addSubscribe(mZHDataManager.getDailyExtraInfo(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<DailyExtraInfoBean>() {
+                .subscribeWith(new CommonSubscriber<DailyExtraInfoBean>(getView()) {
                     @Override
-                    public void accept(DailyExtraInfoBean dailyExtraInfoBean) throws Exception {
+                    public void onNext(DailyExtraInfoBean dailyExtraInfoBean) {
                         mDailyExtraInfoBean = dailyExtraInfoBean;
                         if (mDailyExtraInfoBean != null) {
                             getView().setExtraInfo(mDailyExtraInfoBean.getPopularity(),
@@ -96,14 +91,12 @@ public class ZHDailyDetailsPresenter extends AbstractPresenter<ZHDailyDetailsCon
                             LogUtils.e("mDailyContentBean == null");
                         }
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        LogUtils.e("日报评论信息请求失败" + throwable.getCause() + throwable
-                                .getLocalizedMessage());
-                        getView().loadError();
+                    public void onError(Throwable t) {
                     }
-                });
+                })
+        );
     }
 
     @Override
