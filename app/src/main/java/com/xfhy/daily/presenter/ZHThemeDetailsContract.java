@@ -18,16 +18,6 @@ public interface ZHThemeDetailsContract {
         void reqDataFromNet(String number);
 
         /**
-         * 从数据库请求主题列表
-         */
-        void reqDataFromDB();
-
-        /**
-         * 保存主题列表到数据库
-         */
-        void saveDataToDB(ThemeDailyDetailsBean themeDailyDetailsBean);
-
-        /**
          * 获取主题列表数据
          */
         ThemeDailyDetailsBean getData();

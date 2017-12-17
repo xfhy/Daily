@@ -3,19 +3,10 @@ package com.xfhy.daily.presenter.impl;
 import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 
-import com.alibaba.fastjson.JSON;
-import com.xfhy.androidbasiclibs.BaseApplication;
 import com.xfhy.androidbasiclibs.basekit.presenter.RxPresenter;
 import com.xfhy.androidbasiclibs.common.CommonSubscriber;
-import com.xfhy.androidbasiclibs.db.CacheBean;
-import com.xfhy.androidbasiclibs.db.CacheDao;
-import com.xfhy.androidbasiclibs.db.DBConstants;
 import com.xfhy.androidbasiclibs.util.Constants;
 import com.xfhy.androidbasiclibs.util.DateUtils;
-import com.xfhy.androidbasiclibs.util.DevicesUtils;
-import com.xfhy.androidbasiclibs.util.LogUtils;
-import com.xfhy.androidbasiclibs.util.StringUtils;
-import com.xfhy.daily.R;
 import com.xfhy.daily.model.ZHDataManager;
 import com.xfhy.daily.model.bean.LatestDailyListBean;
 import com.xfhy.daily.model.bean.PastNewsBean;
@@ -24,13 +15,7 @@ import com.xfhy.daily.presenter.ZHDailyLatestContract;
 import java.util.Date;
 import java.util.List;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -74,98 +59,28 @@ public class ZHDailyLatestPresenter extends RxPresenter<ZHDailyLatestContract.Vi
         mStep = Constants.STATE_LOADING;
         getView().onLoading();
 
-        //判断当前是否有网络   再决定走网络还是数据库缓存
-        if (DevicesUtils.hasNetworkConnected()) {
-            addSubscribe(mZHDataManager.getLatestDailyList()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnNext(new Consumer<LatestDailyListBean>() {
-                        @Override
-                        public void accept(LatestDailyListBean latestDailyListBean) throws Exception {
-                            LogUtils.e("保存网络数据到数据库");
-                            //保存网络数据到数据库
-                            saveDailyDataToDB(latestDailyListBean);
-                        }
-                    })
-                    .subscribeWith(new CommonSubscriber<LatestDailyListBean>(getView()) {
-                        @Override
-                        public void onNext(LatestDailyListBean latestDailyListBean) {
-                            mData = latestDailyListBean;
-                            //显示最新数据
-                            getView().showLatestData(mData);
-
-                            LatestDailyListBean.StoriesBean header = new LatestDailyListBean
-                                    .StoriesBean(true);
-                            header.header = "今日热闻";
-                            mData.getStories().add(0, header);
-
-                            //显示内容区域
-                            getView().showContent();
-                            mStep = Constants.STATE_NORMAL;
-                        }
-                    })
-            );
-        } else {
-            LogUtils.e("目前没有网络,接下来从缓存获取知乎首页数据");
-            reqDailyDataFromDB();
-        }
-
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void reqDailyDataFromDB() {
-        //把访问数据库的操作放到子线程中
-        addSubscribe(Flowable.create(new FlowableOnSubscribe<CacheBean>() {
-            @Override
-            public void subscribe(@NonNull FlowableEmitter<CacheBean> e) throws Exception {
-                List<CacheBean> cacheBeen = CacheDao.queryCacheByKey(DBConstants
-                        .ZHIHU_LATEST_DAILY_KEY);
-                if (cacheBeen != null && cacheBeen.size() > 0 && cacheBeen.get(0) != null) {
-                    CacheBean cacheBean = cacheBeen.get(0);
-                    e.onNext(cacheBean);
-                } else {
-                    e.onError(new Exception(StringUtils.getStringByResId(BaseApplication
-                            .getApplication(), R.string.devices_offline)));
-                }
-            }
-        }, BackpressureStrategy.BUFFER)
+        addSubscribe(mZHDataManager.getLatestDailyList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new CommonSubscriber<CacheBean>(getView(), "网络不给力~╭(╯^╰)╮") {
+                .subscribeWith(new CommonSubscriber<LatestDailyListBean>(getView()) {
                     @Override
-                    public void onNext(CacheBean cacheBean) {
-                        //解析json数据
-                        mData = JSON.parseObject(cacheBean.getJson(), LatestDailyListBean.class);
-                        //判断数据是否为空
-                        if (mData != null) {
-                            getView().showContent();
+                    public void onNext(LatestDailyListBean latestDailyListBean) {
+                        mData = latestDailyListBean;
+                        //显示最新数据
+                        getView().showLatestData(mData);
 
-                            //刷新界面
-                            getView().showLatestData(mData);
-                            mStep = Constants.STATE_NORMAL;
-                        } else {
-                            //无数据   显示空布局
-                            getView().showEmptyView();
-                        }
+                        LatestDailyListBean.StoriesBean header = new LatestDailyListBean
+                                .StoriesBean(true);
+                        header.header = "今日热闻";
+                        mData.getStories().add(0, header);
+
+                        //显示内容区域
+                        getView().showContent();
+                        mStep = Constants.STATE_NORMAL;
                     }
+                })
+        );
 
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                        getView().showOffline();
-                        mStep = Constants.STATE_ERROR;
-                    }
-                }));
-
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void saveDailyDataToDB(@android.support.annotation.NonNull final LatestDailyListBean
-                                          latestDailyListBean) {
-        CacheDao.saveTextToDB(DBConstants.ZHIHU_LATEST_DAILY_KEY, JSON.toJSONString
-                (latestDailyListBean));
     }
 
     @SuppressWarnings("unchecked")
@@ -211,6 +126,13 @@ public class ZHDailyLatestPresenter extends RxPresenter<ZHDailyLatestContract.Vi
                                     getView().showErrorMsg("无更多数据~");
                                     getView().loadMoreFailed();
                                 }
+                                mStep = Constants.STATE_NORMAL;
+                            }
+
+                            @Override
+                            public void onError(Throwable t) {
+                                super.onError(t);
+                                getView().loadMoreFailed();
                                 mStep = Constants.STATE_NORMAL;
                             }
                         })

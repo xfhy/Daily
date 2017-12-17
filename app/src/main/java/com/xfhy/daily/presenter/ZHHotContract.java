@@ -21,16 +21,6 @@ public interface ZHHotContract {
         void reqDataFromNet();
 
         /**
-         * 从数据库请求主题列表
-         */
-        void reqDataFromDB();
-
-        /**
-         * 保存专栏详情列表到数据库
-         */
-        void saveDataToDB(List<HotDailyBean.RecentBean> dataBeans);
-
-        /**
          * 获取专栏详情列表数据
          */
         List<HotDailyBean.RecentBean> getData();

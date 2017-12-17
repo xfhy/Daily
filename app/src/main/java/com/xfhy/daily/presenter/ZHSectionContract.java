@@ -21,16 +21,6 @@ public interface ZHSectionContract {
         void reqDataFromNet();
 
         /**
-         * 从数据库请求主题列表
-         */
-        void reqDataFromDB();
-
-        /**
-         * 保存专栏列表到数据库
-         */
-        void saveDataToDB(List<ColumnDailyBean.DataBean> dataBeans);
-
-        /**
          * 获取专栏列表数据
          */
         List<ColumnDailyBean.DataBean> getData();

@@ -21,7 +21,6 @@ import okhttp3.Response;
  */
 public class RewriteCacheControlInterceptor implements Interceptor {
 
-    private Context mContext;
     /**
      * 无网络,设缓存有效期为两周
      */
@@ -30,10 +29,6 @@ public class RewriteCacheControlInterceptor implements Interceptor {
      * 有网 缓存60s
      */
     private static final long MAX_AGE = 60;
-
-    public RewriteCacheControlInterceptor(Context context) {
-        this.mContext = context;
-    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {

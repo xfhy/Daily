@@ -45,6 +45,9 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
             //数据加载失败
             mView.showErrorMsg(StringUtils.getStringByResId(BaseApplication.getApplication(), R
                     .string.data_loading_failed));
+        } else if (t instanceof com.jakewharton.retrofit2.adapter.rxjava2.HttpException) {
+            mView.showErrorMsg(StringUtils.getStringByResId(BaseApplication.getApplication(), R
+                    .string.data_loading_failed));
         } else {
             //未知错误
             mView.showErrorMsg(StringUtils.getStringByResId(BaseApplication.getApplication(), R

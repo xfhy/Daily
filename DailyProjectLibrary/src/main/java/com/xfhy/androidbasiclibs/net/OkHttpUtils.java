@@ -49,8 +49,7 @@ public class OkHttpUtils {
      */
     public static void initOkHttp(Context context) {
         //拦截器
-        RewriteCacheControlInterceptor mRewriteCacheControlInterceptor = new
-                RewriteCacheControlInterceptor(context);
+        RewriteCacheControlInterceptor mRewriteCacheControlInterceptor = new RewriteCacheControlInterceptor();
 
         //缓存文件
         File cacheFile = context.getCacheDir();

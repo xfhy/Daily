@@ -30,16 +30,6 @@ public interface ZHDailyLatestContract {
         void reqDailyDataFromNet();
 
         /**
-         * 从数据库获取日报数据(在断网情况下使用)
-         */
-        void reqDailyDataFromDB();
-
-        /**
-         * 保存日报数据到数据库中
-         */
-        void saveDailyDataToDB(@NonNull LatestDailyListBean latestDailyListBean);
-
-        /**
          * 加载更多数据
          *
          * @param pastDays 这里传入RecyclerView的分组个数,代表离今天过去了多少天  至少过去了1天
